@@ -1,6 +1,6 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
+ * by anton pastukhov
+ * andm1793@gmail.com
  *
  * @format
  * @flow strict-local

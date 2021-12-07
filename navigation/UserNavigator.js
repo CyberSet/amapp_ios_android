@@ -23,6 +23,17 @@ export const UserNavigator = () => {
     const navigation = useNavigation();
     const loadData = (payload) => dispatch({type: 'LOAD_DATA', payload});
 
+    async function requestUserPermission() {
+        const authStatus = await messaging().requestPermission();
+        const enabled =
+          authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+          authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+      
+        if (enabled) {
+          console.log('Authorization status:', authStatus);
+        }
+    };
+
     const _sendToken = async (token) => {
         const data = {
             'push_token': token,
@@ -44,21 +55,30 @@ export const UserNavigator = () => {
     const _handleNotifiaction = (message) => {
         console.log(message);
 
-        fetch(`https://${ip}/articles/`, {
-            method: 'GET'
-        })
-        .then(response => response.json())
-        .then(response =>
-            loadData(response)
-        )
-        .then(() => {
-            navigation.navigate('Гимназист', {
+        if (message.data.nav === 'Гимназист')
+            fetch(`https://${ip}/articles/`, {
+                method: 'GET'
+            })
+            .then(response => response.json())
+            .then(response =>
+                loadData(response)
+            )
+            .then(() => {
+                navigation.navigate(message.data.nav, {
+                    screen: message.data.screen,
+                    params: { title: message.notification.title },
+                });
+            })
+            .catch(error => console.log(error));
+        else
+            navigation.navigate(message.data.nav, {
                 screen: message.data.screen,
-                params: { title: message.notification.title },
             });
-        })
-        .catch(error => console.log(error));
     };
+
+    useEffect(() => {
+        requestUserPermission();
+    });
 
     useEffect(() => {
         messaging().getToken().then(token => {

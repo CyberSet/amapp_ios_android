@@ -29,7 +29,7 @@ const MarksScreen = () => {
         .catch(error => console.log(error));
     }, [user]);
 
-    const Item = ({ title, marks, allMarks, final }) => (
+    const Item = ({ title, marks, allMarks, average, final }) => (
         <View 
             style={
                 {
@@ -39,18 +39,45 @@ const MarksScreen = () => {
                 }
             }
         >
-            <Text
+            <View
                 style={
                     {
-                        color: darkTheme ? '#fff' : '#000',
-                        fontSize: 16,
-                        paddingHorizontal: 15,
-                        fontWeight: 'bold'
+                        flexDirection: 'row',
+                        justifyContent: 'space-between'
                     }
                 }
             >
-                {title}
-            </Text>
+                <Text
+                    style={
+                        {
+                            color: darkTheme ? '#fff' : '#000',
+                            fontSize: 16,
+                            paddingHorizontal: 15,
+                            fontWeight: 'bold'
+                        }
+                    }
+                >
+                    {title}
+                </Text>
+                <Text
+                    style={
+                        {
+                            fontSize: 14, 
+                            color: average === '5' 
+                            ? '#008040' 
+                            : Number(average) >= Number('4')
+                            ? '#e1e100' 
+                            : Number(average) >= Number('3')
+                            ? '#FFBB56' 
+                            : Number(average) >= Number('2') 
+                            ? '#ff0000' 
+                            : '#000'
+                        }
+                    }
+                >
+                    {average}
+                </Text>
+            </View>
             <View 
                 style={
                     {
@@ -59,35 +86,37 @@ const MarksScreen = () => {
                     }
                 }
             >
-            <Text
-                style={
-                    {
-                        color: '#0080ff',
-                        paddingHorizontal: 15,
-                        fontSize: 16
+                <Text
+                    style={
+                        {
+                            color: '#0080ff',
+                            paddingHorizontal: 15,
+                            fontSize: 16
+                        }
                     }
-                }
-            >
-                {
-                    showAll === true ? allMarks : marks
-                }
-            </Text>
-            <Text 
-                style={
-                    {
-                        fontSize: 16, 
-                        color: final === '5' 
-                        ? '#008040' 
-                        : final === '4' 
-                        ? '#e1e100' 
-                        : final === '2' 
-                        ? '#ff0000' 
-                        : '#000'
-                    }
-                }
                 >
-                {final}
-            </Text>
+                    {
+                        showAll === true ? allMarks : marks
+                    }
+                </Text>
+                <Text 
+                    style={
+                        {
+                            fontSize: 16, 
+                            color: final === '5' 
+                            ? '#008040' 
+                            : final === '4' 
+                            ? '#e1e100' 
+                            : final >= '3'
+                            ? '#FFBB56' 
+                            : final === '2' 
+                            ? '#ff0000' 
+                            : '#000'
+                        }
+                    }
+                    >
+                    {final}
+                </Text>
             </View>
         </View>
     );
@@ -124,6 +153,21 @@ const MarksScreen = () => {
                 ? item.itogoMarks[4]
                 : item.itogoMarks[5] != 0 && term === 'II'
                 ? item.itogoMarks[5]
+                : ''
+            }
+            average={
+                item.averageMarks[0] != 0 && term === '1'
+                ? item.averageMarks[0]
+                : item.averageMarks[1] != 0 && term === '2'
+                ? item.averageMarks[1]
+                : item.averageMarks[2] != 0 && term === 'I'
+                ? item.averageMarks[2]
+                : item.averageMarks[3] != 0 && term === '3'
+                ? item.averageMarks[3]
+                : item.averageMarks[4] != 0 && term === '4'
+                ? item.averageMarks[4]
+                : item.averageMarks[5] != 0 && term === 'II'
+                ? item.averageMarks[5]
                 : ''
             }
         />
