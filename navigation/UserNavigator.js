@@ -22,6 +22,7 @@ export const UserNavigator = () => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
     const loadData = (payload) => dispatch({type: 'LOAD_DATA', payload});
+    const setToken = (payload) => dispatch({type: 'SET_TOKEN', payload})
 
     async function requestUserPermission() {
         const authStatus = await messaging().requestPermission();
@@ -83,6 +84,7 @@ export const UserNavigator = () => {
     useEffect(() => {
         messaging().getToken().then(token => {
             console.log(token);
+            setToken(token);
             _sendToken(token);
         });
     }, []);

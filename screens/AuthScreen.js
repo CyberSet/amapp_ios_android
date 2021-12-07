@@ -20,7 +20,7 @@ const AuthScreen = ({navigation}) => {
     const log_in = (students, user, user_type, user_data) => dispatch({type: 'LOG_IN', students, user, user_type, user_data});
     const [login, onChangeLogin] = useState('');
     const [password, onChangePassword] = useState('');
-    const pushToken = useSelector(state => state.note.expoPushToken);
+    const pushToken = useSelector(state => state.note.pushToken);
 
     const getAuthorized = (data) => {
         if (data != null) {
@@ -66,6 +66,7 @@ const AuthScreen = ({navigation}) => {
                 storeData(response);
                 getAuthorized(response);
                 console.log(response);
+                console.log(pushToken);
             } else if (login === '' || password === '') {
                 Alert.alert('Введите логин и пароль');
             } else {

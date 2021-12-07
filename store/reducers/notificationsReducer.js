@@ -1,5 +1,5 @@
 const initialState = {
-    expoPushToken: '',
+    pushToken: '',
     message: '',
     status: ''
 };
@@ -10,7 +10,7 @@ export const notificationsReducer = (state=initialState, action) => {
 
             return {
                 ...state,
-                expoPushToken: action.payload
+                pushToken: action.payload
             };
 
         case 'SET_MESSAGE':
