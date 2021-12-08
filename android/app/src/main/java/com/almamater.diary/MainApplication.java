@@ -1,4 +1,4 @@
-package com.new_amapp;
+package com.almamater.diary;
 
 import android.app.Application;
 import android.content.Context;
