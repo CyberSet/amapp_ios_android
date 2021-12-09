@@ -30,6 +30,7 @@ const MarksScreen = () => {
         .then(response => response.json())
         .then(response => {
             setSubjects(response.marks);
+            console.log(response.marks);
         })
         .catch(error => console.log(error));
     }, [user]);
@@ -40,39 +41,47 @@ const MarksScreen = () => {
                 <Text style={{ color: darkTheme ? '#fff' : '#000', fontSize: 16, paddingHorizontal: 15, fontWeight: 'bold' }}>
                     {title}
                 </Text>
-                <Text style={{
-                            fontSize: 14, 
-                            color: average === '5' 
-                            ? '#008040' 
-                            : Number(average) >= Number('4')
-                            ? '#e1e100' 
-                            : Number(average) >= Number('3')
-                            ? '#FFBB56' 
-                            : Number(average) >= Number('2') 
-                            ? '#ff0000' 
-                            : '#000'
-                        }}>
-                    {average}
-                </Text>
+                {
+                    showAll ?
+                    <Text style={{
+                        fontSize: 14, 
+                        color: average === '5' 
+                        ? '#008040' 
+                        : Number(average) >= Number('4')
+                        ? '#e1e100' 
+                        : Number(average) >= Number('3')
+                        ? '#FFBB56' 
+                        : Number(average) >= Number('2') 
+                        ? '#ff0000' 
+                        : '#000'
+                    }}>
+                        {average}
+                    </Text>
+                    : <></>
+                }
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Text style={{ color: '#0080ff', paddingHorizontal: 15, fontSize: 16 }}>
                     {showAll ? allMarks : marks}
                 </Text>
-                <Text style={{
-                            fontSize: 16, 
-                            color: final === '5' 
-                            ? '#008040' 
-                            : final === '4' 
-                            ? '#e1e100' 
-                            : final >= '3'
-                            ? '#FFBB56' 
-                            : final === '2' 
-                            ? '#ff0000' 
-                            : '#000'
-                        }}>
-                    {final}
-                </Text>
+                {
+                    showAll ?
+                    <Text style={{
+                        fontSize: 18, 
+                        color: final === '5' 
+                        ? '#008040' 
+                        : final === '4' 
+                        ? '#e1e100' 
+                        : final >= '3'
+                        ? '#FFBB56' 
+                        : final === '2' 
+                        ? '#ff0000' 
+                        : '#000'
+                    }}>
+                        {final}
+                    </Text>
+                    : <></>
+                }
             </View>
         </View>
     );
@@ -101,28 +110,24 @@ const MarksScreen = () => {
                 ? item.itogoMarks[0]
                 : item.itogoMarks[1] != 0 && term === '2'
                 ? item.itogoMarks[1]
-                : item.itogoMarks[2] != 0 && term === 'I'
+                : item.itogoMarks[2] != 0 && term === '5'
                 ? item.itogoMarks[2]
                 : item.itogoMarks[3] != 0 && term === '3'
                 ? item.itogoMarks[3]
                 : item.itogoMarks[4] != 0 && term === '4'
                 ? item.itogoMarks[4]
-                : item.itogoMarks[5] != 0 && term === 'II'
+                : item.itogoMarks[5] != 0 && term === '6'
                 ? item.itogoMarks[5]
                 : ''
             }
             average={
                 item.averageMarks[0] != 0 && term === '1'
                 ? item.averageMarks[0]
-                : item.averageMarks[1] != 0 && term === '2'
-                ? item.averageMarks[1]
-                : item.averageMarks[2] != 0 && term === 'I'
-                ? item.averageMarks[2]
-                : item.averageMarks[3] != 0 && term === '3'
-                ? item.averageMarks[3]
-                : item.averageMarks[4] != 0 && term === '4'
+                : item.averageMarks[4] != 0 && term === '5'
                 ? item.averageMarks[4]
-                : item.averageMarks[5] != 0 && term === 'II'
+                : item.averageMarks[2] != 0 && term === '3'
+                ? item.averageMarks[2]
+                : item.averageMarks[5] != 0 && term === '6'
                 ? item.averageMarks[5]
                 : ''
             }
@@ -191,7 +196,7 @@ const MarksScreen = () => {
                         : <></>
                     }
                     ListFooterComponent={
-                        <Text style={{paddingVertical: 25}}></Text>
+                        <Text style={{paddingVertical: 55}}></Text>
                     }
                 />
             }
