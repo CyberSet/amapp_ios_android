@@ -98,7 +98,7 @@ const TimetableScreen = ({navigation}) => {
                     number={item.number_lesson}
                     time={
                         item.number_lesson === '0'
-                        ? '8:45 - 9:25'
+                        ? '8:40 - 9:20'
                         : item.number_lesson === '1'
                         ? '9:30 - 10:10'
                         : item.number_lesson === '2'

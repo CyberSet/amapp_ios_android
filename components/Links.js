@@ -37,7 +37,6 @@ const Links = ({col, navigation}) => {
                                     ?  navigation.navigate('Гимназист')
                                     : 
                                     _handleLink(item.url)
-                                    // Linking.openURL('exp://127.0.0.1:19000/--/gym')
                                 }
                             />
                         </View>
