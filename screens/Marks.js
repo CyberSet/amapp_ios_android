@@ -45,13 +45,13 @@ const MarksScreen = () => {
                     showAll ?
                     <Text style={{
                         fontSize: 14, 
-                        color: average === '5' 
+                        color: Number(average) >= Number('4.5') 
                         ? '#008040' 
-                        : Number(average) >= Number('4')
+                        : Number(average) >= Number('3.5')
                         ? '#e1e100' 
-                        : Number(average) >= Number('3')
+                        : Number(average) >= Number('2.5')
                         ? '#FFBB56' 
-                        : Number(average) >= Number('2') 
+                        : Number(average) < Number('2.5') 
                         ? '#ff0000' 
                         : '#000'
                     }}>
