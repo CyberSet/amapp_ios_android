@@ -14,6 +14,7 @@ import AuthScreen from '../screens/AuthScreen';
 import ActsScreen from "../screens/Acts";
 import { HomeToDetailsNav } from './Navs';
 import { ip } from '../screens/gimnazist/RegForm';
+import { JournalNavigator } from './journal/JournalNavigator';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,7 +23,8 @@ export const UserNavigator = () => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
     const loadData = (payload) => dispatch({type: 'LOAD_DATA', payload});
-    const setToken = (payload) => dispatch({type: 'SET_TOKEN', payload})
+    const setToken = (payload) => dispatch({type: 'SET_TOKEN', payload});
+    const userType = useSelector(state => state.auth.userType);
 
     async function requestUserPermission() {
         const authStatus = await messaging().requestPermission();
@@ -182,8 +184,12 @@ export const UserNavigator = () => {
 
     return (
         isSignedIn ? (
-            <Nav />
-        ) : (
+            <JournalNavigator />
+        ) : 
+        // isSignedIn && userType === 1 ? (
+        //     <JournalNavigator />
+        // ) : 
+        (
             <NonAuthorized />
         )
     )
