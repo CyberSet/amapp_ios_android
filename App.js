@@ -12,6 +12,7 @@ import { Provider } from 'react-redux';
 import { UserNavigator } from './navigation/UserNavigator';
 import { NavigationContainer } from '@react-navigation/native';
 import SplashScreen from 'react-native-splash-screen';
+import { StatusBar } from 'react-native';
 
 const App = () => {
   SplashScreen.hide();
@@ -19,6 +20,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <NavigationContainer>
+        <StatusBar backgroundColor='#002e2f' />
         <UserNavigator />
       </NavigationContainer>
     </Provider>

@@ -123,10 +123,14 @@ const MarksScreen = () => {
             average={
                 item.averageMarks[0] != 0 && term === '1'
                 ? item.averageMarks[0]
+                : item.averageMarks[4] != 0 && term === '2'
+                ? item.averageMarks[4]
                 : item.averageMarks[4] != 0 && term === '5'
                 ? item.averageMarks[4]
                 : item.averageMarks[2] != 0 && term === '3'
                 ? item.averageMarks[2]
+                : item.averageMarks[5] != 0 && term === '4'
+                ? item.averageMarks[5]
                 : item.averageMarks[5] != 0 && term === '6'
                 ? item.averageMarks[5]
                 : ''
