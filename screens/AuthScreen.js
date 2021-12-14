@@ -33,6 +33,17 @@ const AuthScreen = ({navigation}) => {
         }
     };
 
+    const getTeacherAuthorized = (data) => {
+        if (data != null) {
+            let obj = {
+                'clue': data.clue,
+                'user_id': data.user_id
+            }
+            log_in(data.teacher_name, data.teacher_name[0], data.type, obj)
+            console.log(data.teacher_name, data.teacher_name[0], data.type, obj)
+        }
+    };
+
     const storeData = async (value) => {
         try {
             const jsonValue = JSON.stringify(value)
@@ -62,13 +73,16 @@ const AuthScreen = ({navigation}) => {
         })
         .then(response => response.json())
         .then(response => {
-            if (response.status === 0) {
+            if (response.status === 0 && response.type != 3) {
                 storeData(response);
                 getAuthorized(response);
                 console.log(response);
+                console.log('TYPE = ', response.type)
                 console.log(pushToken);
             } else if (login === '' || password === '') {
                 Alert.alert('Введите логин и пароль');
+            }   else if (response.status === 0 && response.type === 3) {
+                getTeacherAuthorized(response);
             } else {
                 Alert.alert('Вы ввели неверный логин или пароль');
             }

@@ -12,11 +12,11 @@ const MenuScreen = ({navigation}) => {
     const userType = useSelector(state => state.auth.userType);
 
     const menu = [
-        {name: 'Объявления', icon: 'mail-outline', type: [1, 2]},
+        {name: 'Объявления', icon: 'mail-outline', type: [1, 2, 3]},
         {name: 'Акты', icon: 'print-outline', type: [2]},
         // {name: 'Настройки', icon: 'contrast', type: [1, 2]},
-        {name: 'Профиль', icon: 'person-outline', type: [1, 2]},
-        {name: 'Выход', icon: 'log-out-outline', type: [1, 2]}
+        {name: 'Профиль', icon: 'person-outline', type: [1, 2, 3]},
+        {name: 'Выход', icon: 'log-out-outline', type: [1, 2, 3]}
     ];
 
     const Item = ({name, icon}) => (

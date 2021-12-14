@@ -17,7 +17,7 @@ const AccountScreen = () => {
             style={{...styles.account_role, color: '#000'}}
         >
             {
-                userType === 1 ? 'Ученик' : 'Родитель'
+                userType === 1 ? 'Ученик' : userType === 2 ? 'Родитель' : 'Учитель'
             }
         </Text>
     );

@@ -104,6 +104,7 @@ export const UserNavigator = () => {
       }, []);
 
     useEffect(() => {
+        console.log(userType);
         messaging().onNotificationOpenedApp(remoteMessage => {
            _handleNotifiaction(remoteMessage);
         });
@@ -183,13 +184,13 @@ export const UserNavigator = () => {
     );
 
     return (
-        isSignedIn ? (
-            <JournalNavigator />
+        isSignedIn && userType != 3 ? (
+            <Nav />
         ) : 
-        // isSignedIn && userType === 1 ? (
-        //     <JournalNavigator />
-        // ) : 
-        (
+        isSignedIn && userType === 3 ? (
+            <JournalNavigator />
+        ) 
+        : (
             <NonAuthorized />
         )
     )
