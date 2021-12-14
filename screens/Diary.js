@@ -190,11 +190,11 @@ const DiaryScreen = ({navigation}) => {
                             }
                         >
                             <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                                <Text style={{fontWeight: 'bold'}}>{lesson.subject_name}</Text>
+                                <Text style={{color: '#000', fontWeight: 'bold'}}>{lesson.subject_name}</Text>
                                 <Text style={{color: 'green', paddingHorizontal: 15, fontSize: 16}}>{lesson.value}</Text>
                             </View>
 
-                            <Text>
+                            <Text style={{color: '#000',}}>
                                 {lesson.homework}
                             </Text>
 

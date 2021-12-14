@@ -74,13 +74,14 @@ const TimetableScreen = ({navigation}) => {
                 >
                     {number}.
                 </Text>
-                <Text style={{fontSize: 15, fontStyle: 'italic'}}>
+                <Text style={{color: '#000', fontSize: 15, fontStyle: 'italic'}}>
                     {time}
                 </Text>
             </View>
             <Text 
                 style={
                     {
+                        color: '#000',
                         paddingHorizontal: 15,
                         fontSize: 15
                     }
@@ -135,6 +136,9 @@ const TimetableScreen = ({navigation}) => {
                 data={schedule}
                 renderItem={renderItem}
                 keyExtractor={item => item.number_lesson + item.week_day}
+                ListFooterComponent={
+                    <Text style={{paddingVertical: 8}}></Text>
+                }
             />
         </SafeAreaView>
     );
