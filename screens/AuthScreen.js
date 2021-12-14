@@ -83,6 +83,7 @@ const AuthScreen = ({navigation}) => {
                 Alert.alert('Введите логин и пароль');
             }   else if (response.status === 0 && response.type === 3) {
                 getTeacherAuthorized(response);
+                storeData(response);
             } else {
                 Alert.alert('Вы ввели неверный логин или пароль');
             }
