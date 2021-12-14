@@ -17,9 +17,20 @@ import { StatusBar } from 'react-native';
 const App = () => {
   SplashScreen.hide();
 
+  const config = {
+    screens: {
+      Гимназист: 'gym',
+    },
+  };
+  
+  const linking = {
+    prefixes: ['https://ediary.com', 'ediary://'],
+    config,
+  };
+
   return (
     <Provider store={store}>
-      <NavigationContainer>
+      <NavigationContainer linking={linking}>
         <StatusBar backgroundColor='#002e2f' />
         <UserNavigator />
       </NavigationContainer>
