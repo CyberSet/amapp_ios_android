@@ -10,7 +10,7 @@ class LessonsList extends Component {
         navigation = this.props.navigation;
         userData = this.props.userData;
         subjects = this.props.subjects;
-        ({pk, group, item, ind} = this.props.route.params);
+        ({pk, group, numclass} = this.props.route.params);
         this.state = ({
             lesson: '',
             list: ''
@@ -41,8 +41,8 @@ class LessonsList extends Component {
             <SafeAreaView style={styles.journalContainer}>
                 <Text>
                     {this.state.lesson.subject_name}, 
-                    {' ' + item.numclass} класс,
-                    {ind ? ' ' + ind.nick : ' ' + group + ' группа'}
+                    {' ' + numclass} класс,
+                    {' ' + group}
                     </Text>
                 <JournalButton 
                     title='Открыть журнал'

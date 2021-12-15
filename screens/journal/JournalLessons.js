@@ -5,39 +5,45 @@ import { bindActionCreators } from "redux";
 import Title from '../../components/Title';
 import { setSubjects } from "../../store/reducers/jLessonsReducer";
 
-const Item = ({pk, lesson, groups, navigation}) => (
-    <View  key={pk} style={styles.listItem}>
-        <Title key={lesson} line={lesson} />
-        {
-            !groups ? <Text> - </Text> : groups.map(item => (
-                <View key={item.numclass + pk}>
-                    <Text style={styles.numclass}>{!item.numclass.includes('-') ?  item.numclass + ' класс' : item.numclass}</Text>
-                    {
-                        item.class_group_array.map(group => (
-                            group != '4' ?
-                            <TouchableOpacity onPress={() => navigation.navigate('Список уроков', {pk, group, item})} style={{ borderBottomWidth: 1 }}>
-                                <Text key={item} style={styles.subItem}>
-                                    {group} группа
-                                </Text>
-                            </TouchableOpacity> :
-                            <></>
-                        ))
-                    }
-                    {
-                        item.ind_array ?
-                        item.ind_array.map(ind => (
-                            <TouchableOpacity onPress={() => navigation.navigate('Список уроков', {pk, ind, item})} style={{ borderBottomWidth: 1 }}>
-                                <Text key={item} style={styles.subItem}>
-                                    {ind.nick}
-                                </Text>
-                            </TouchableOpacity>
-                        )) : <></>
-                    }
-                </View>
-            ))
-        }
-    </View>
-);
+const Item = ({pk, lesson, groups, navigation}) => {
+    const _openNextTab = (pk, group, numclass) => {
+        navigation.navigate('Список уроков', {pk: pk, group: group, numclass: numclass});
+    };
+
+    return (
+        <View  key={pk} style={styles.listItem}>
+            <Title key={lesson} line={lesson} />
+            {
+                !groups ? <Text> - </Text> : groups.map(item => (
+                    <View key={item.numclass + pk}>
+                        <Text style={styles.numclass}>{!item.numclass.includes('-') ?  item.numclass + ' класс' : item.numclass}</Text>
+                        {
+                            item.class_group_array.map(group => (
+                                group != '4' ?
+                                <TouchableOpacity onPress={() => _openNextTab(pk, group + ' группа', item.numclass)} style={{ borderBottomWidth: 1 }}>
+                                    <Text key={item} style={styles.subItem}>
+                                        {group} группа
+                                    </Text>
+                                </TouchableOpacity> :
+                                <></>
+                            ))
+                        }
+                        {
+                            item.ind_array ?
+                            item.ind_array.map(ind => (
+                                <TouchableOpacity onPress={() => _openNextTab(pk, ind.nick, item.numclass)} style={{ borderBottomWidth: 1 }}>
+                                    <Text key={item} style={styles.subItem}>
+                                        {ind.nick}
+                                    </Text>
+                                </TouchableOpacity>
+                            )) : <></>
+                        }
+                    </View>
+                ))
+            }
+        </View>
+    );
+};
 
 class JournalLessons extends Component {
     constructor(props) {
@@ -63,18 +69,6 @@ class JournalLessons extends Component {
             })
         })
     }
-
-    // _openNextTab = (lesson_id, class_id, group, numclass) => {
-    //     navigation.navigate(
-    //         'Список уроков', 
-    //         {
-    //             lesson_id,
-    //             class_id, 
-    //             group, 
-    //             numclass
-    //         }
-    //     );
-    // }
 
     _renderItem = ({item}) => {
 
