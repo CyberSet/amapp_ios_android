@@ -2,33 +2,24 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-class JournalButton extends Component {
-    constructor(props) {
-        super(props);
-        title = this.props.title;
-        iconName = this.props.iconName;
-        onPress = this.props.onPress;
-    };
-
-    render() {
-        return(
-            <TouchableOpacity onPress={onPress} style={styles.button}>
-                <Text style={styles.buttonText}>
-                    {title}
-                </Text>
-                {
-                    iconName ?
-                    <Icon
-                        name={iconName}
-                        size={25}
-                        color='#fff'
-                    /> :
-                    <></>
-                }
-            </TouchableOpacity> 
-        );
-    };
-}
+const JournalButton = ({title, iconName, onPress}) => {
+    return(
+        <TouchableOpacity onPress={onPress} style={styles.button}>
+            <Text style={styles.buttonText}>
+                {title}
+            </Text>
+            {
+                iconName ?
+                <Icon
+                    name={iconName}
+                    size={25}
+                    color='#fff'
+                /> :
+                <></>
+            }
+        </TouchableOpacity> 
+    );
+};
 
 const styles = StyleSheet.create({
     button: {
