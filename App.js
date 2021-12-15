@@ -20,6 +20,12 @@ const App = () => {
   const config = {
     screens: {
       Гимназист: 'gym',
+      Меню: {
+        screens: {
+          DiaryNavigator: 'diary',
+          Отметки: 'marks'
+        }
+      }
     },
   };
   
