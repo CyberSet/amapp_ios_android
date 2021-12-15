@@ -1,9 +1,12 @@
 import React from 'react';
-import { Text, FlatList, TouchableOpacity, SafeAreaView } from 'react-native';
+import { Text, FlatList, TouchableOpacity, SafeAreaView, StyleSheet } from 'react-native';
 // import { useSelector } from 'react-redux';
 import { styles } from '../../components/Style';
 // import Links from "../components/Links";
 import Button from '../../components/Button';
+import { Dimensions } from 'react-native';
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const JournalMenu = ({navigation}) => {
     // const userType = useSelector(state => state.auth.userType);
@@ -38,5 +41,16 @@ const JournalMenu = ({navigation}) => {
         </SafeAreaView>
     );
 };
+
+const menuStyle = StyleSheet.create({
+    container: {
+        // marginTop: windowHeight/4,
+        padding: 20,
+        margin: 5,
+        backgroundColor: '#F8EEDF',
+        borderRadius: 35,
+        shadowOpacity: .2
+    }
+})
 
 export default JournalMenu;

@@ -1,24 +1,37 @@
 import React, { Component } from "react";
 import { SafeAreaView, FlatList, Text, View, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import Title from '../../components/Title';
-import { fetchLessonsList } from "../../store/asyncActions/fetchJLessons";
+import { setSubjects } from "../../store/reducers/jLessonsReducer";
 
-const Item = ({pk, lesson, groups, onPress}) => (
+const Item = ({pk, lesson, groups, navigation}) => (
     <View  key={pk} style={styles.listItem}>
         <Title key={lesson} line={lesson} />
         {
             !groups ? <Text> - </Text> : groups.map(item => (
-                <View key={item + pk} style={{ borderBottomWidth: 1 }}>
+                <View key={item.numclass + pk}>
                     <Text style={styles.numclass}>{!item.numclass.includes('-') ?  item.numclass + ' класс' : item.numclass}</Text>
                     {
                         item.class_group_array.map(group => (
-                            <TouchableOpacity onPress={onPress} style={{ borderBottomWidth: 1 }}>
-                                <Text key={item} style={{ paddingLeft: 40, marginVertical: 5, fontSize: 16, }}>
+                            group != '4' ?
+                            <TouchableOpacity onPress={() => navigation.navigate('Список уроков', {pk, group, item})} style={{ borderBottomWidth: 1 }}>
+                                <Text key={item} style={styles.subItem}>
                                     {group} группа
                                 </Text>
-                            </TouchableOpacity>
+                            </TouchableOpacity> :
+                            <></>
                         ))
+                    }
+                    {
+                        item.ind_array ?
+                        item.ind_array.map(ind => (
+                            <TouchableOpacity onPress={() => navigation.navigate('Список уроков', {pk, ind, item})} style={{ borderBottomWidth: 1 }}>
+                                <Text key={item} style={styles.subItem}>
+                                    {ind.nick}
+                                </Text>
+                            </TouchableOpacity>
+                        )) : <></>
                     }
                 </View>
             ))
@@ -31,44 +44,49 @@ class JournalLessons extends Component {
         super(props);
         navigation = this.props.navigation;
         userData = this.props.userData;
-        // subjects = this.props.subjects;
         this.state = ({
-            // loading: true,
-            data: ''
+            data: '',
         });
     };
 
     async componentDidMount() {
-        // this.props.dispatch(fetchLessonsList());
         const url = `https://diary.alma-mater-spb.ru/e-journal/api/open_class_group.php?clue=${userData.clue}&user_id=${userData.user_id}`;
         const response = await fetch(url);
         const data = await response.json();
         this.setState({
             data: data.subject_class_group,
-            // loading: false
         });
-        // console.log(`subjects IS --  ${subjects.status}`);
-        console.log(this.state.data)
+        this.props.setSubjects(data.subject_class_group);
+        this.state.data.map(item => {
+            item.class_array.map(i => {
+                console.log(i.ind_array)
+            })
+        })
     }
 
-    _openNextTab = (lesson, classNumber) => {
-        navigation.navigate(
-            'Список уроков', 
-            {
-                lesson: lesson,
-                classNumber: classNumber
-            }
+    // _openNextTab = (lesson_id, class_id, group, numclass) => {
+    //     navigation.navigate(
+    //         'Список уроков', 
+    //         {
+    //             lesson_id,
+    //             class_id, 
+    //             group, 
+    //             numclass
+    //         }
+    //     );
+    // }
+
+    _renderItem = ({item}) => {
+
+        return (
+            <Item 
+                pk={item.subject_id} 
+                lesson={item.subject_name} 
+                groups={item.class_array} 
+                navigation={navigation} 
+            />
         );
-    }
-
-    _renderItem = ({item}) => (
-        <Item 
-            pk={item.subject_id} 
-            lesson={item.subject_name} 
-            groups={item.class_array} 
-            onPress={() => this._openNextTab(item.lesson, item.classNumber)} 
-        />
-    );
+    };
 
     render() {
         return(
@@ -90,13 +108,12 @@ class JournalLessons extends Component {
 const mapStateToProps = (state) => {
     return {
         userData: state.auth.userData,
-        // subjects: state.jlr.subjects
     };
 };
 
-// const mapDispatchToProps = (dispatch) => {
-//     return bindActionCreators({setSubjects: setSubjects}, dispatch);
-// };
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({setSubjects: setSubjects}, dispatch);
+};
 
 const styles = ({
     listContaner: {
@@ -109,11 +126,16 @@ const styles = ({
         borderRadius: 35,
         shadowOpacity: .2
     },
+    subItem: { 
+        paddingLeft: 40, 
+        marginVertical: 5, 
+        fontSize: 16, 
+    },
     numclass: {
         marginVertical: 4,
         fontSize: 16,
         fontWeight: 'bold'
     }
-})
+});
 
-export default connect(mapStateToProps)(JournalLessons)
+export default connect(mapStateToProps, mapDispatchToProps)(JournalLessons)

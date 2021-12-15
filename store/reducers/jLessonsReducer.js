@@ -1,8 +1,10 @@
 const initialState = {
-    subjects: ''
+    subjects: '',
+    lesson: ''
 };
 
 const SET_SUBJECTS = 'SET_SUBJECTS';
+const PICK_SUBJECT = 'PICK_SUBJECT';
 
 export const setSubjects = (subjects) => {
     return {
@@ -11,6 +13,13 @@ export const setSubjects = (subjects) => {
     };
 };
 
+export const pickSubject = (lesson) => {
+    return {
+        type: PICK_SUBJECT,
+        payload: lesson
+    }
+}
+
 export const jLessonsReducer = (state=initialState, action) => {
     switch(action.type) {
         case SET_SUBJECTS:
@@ -18,6 +27,13 @@ export const jLessonsReducer = (state=initialState, action) => {
             return {
                 ...state,
                 subjects: action.payload
+            }
+
+        case PICK_SUBJECT:
+
+            return {
+                ...state,
+                lesson: action.payload
             }
 
         default:
