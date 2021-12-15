@@ -103,9 +103,14 @@ const styles = ({
         flex: 1
     },
     listItem: {
-        padding: 10
+        padding: 20,
+        margin: 5,
+        backgroundColor: '#F8EEDF',
+        borderRadius: 35,
+        shadowOpacity: .2
     },
     numclass: {
+        marginVertical: 4,
         fontSize: 16,
         fontWeight: 'bold'
     }

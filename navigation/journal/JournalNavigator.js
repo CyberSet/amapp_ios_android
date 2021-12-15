@@ -33,7 +33,7 @@ export const JournalNavigator = () => (
             // You can return any component that you like here!
             return <Ionicons name={iconName} size={size} color={color} />;
             },
-            tabBarActiveTintColor: 'tomato',
+            tabBarActiveTintColor: '#00656D',
             tabBarInactiveTintColor: 'gray',
         })}
     >

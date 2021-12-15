@@ -1,9 +1,9 @@
 import React from 'react';
 import { Text, FlatList, TouchableOpacity, SafeAreaView } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 // import { useSelector } from 'react-redux';
 import { styles } from '../../components/Style';
 // import Links from "../components/Links";
+import Button from '../../components/Button';
 
 const JournalMenu = ({navigation}) => {
     // const userType = useSelector(state => state.auth.userType);
@@ -16,19 +16,8 @@ const JournalMenu = ({navigation}) => {
         {name: 'Выход', icon: 'log-out-outline', type: [1, 2]}
     ];
 
-    const Item = ({name, icon}) => (
-        <TouchableOpacity
-            style={styles.listItemContainer}
-            onPress={() =>
-                navigation.navigate({name})
-            }>
-            <Icon
-                name={icon}
-                size={25}
-                color='#000'
-            />
-            <Text style={styles.listItem}>{name}</Text>
-        </TouchableOpacity>
+    const Item = ({name, icon}) => ( 
+        <Button title={name} iconName={icon} onPress={() => console.log('button')} />
     );
 
     const renderItem = ({item}) => {
