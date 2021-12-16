@@ -1,41 +1,52 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { SafeAreaView, FlatList, Text, View, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import Title from '../../components/Title';
+import JournalButton from "../../components/Button";
 import { setSubjects } from "../../store/reducers/jLessonsReducer";
 
 const Item = ({pk, lesson, groups, navigation}) => {
-    const _openNextTab = (pk, group, numclass) => {
-        navigation.navigate('Список уроков', {pk: pk, group: group, numclass: numclass});
+    const [expanded, setExpanded] = useState(false);
+
+    const _openNextTab = (pk, class_id, group, numclass, ind) => {
+        navigation.navigate(
+            'Список уроков', 
+            {
+                pk: pk, 
+                class_id: class_id, 
+                group: group, 
+                numclass: numclass,
+                ind: ind ? ind : ''
+            }
+        );
     };
 
+    const RenderGroups = ({item, onPress}) => (
+        <TouchableOpacity onPress={onPress} style={{ borderBottomWidth: 1 }}>
+            <Text key={item} style={styles.subItem}>
+                {item}
+            </Text>
+        </TouchableOpacity>
+    )
+
     return (
-        <View  key={pk} style={styles.listItem}>
-            <Title key={lesson} line={lesson} />
+        <View key={pk} style={styles.listContaner}>
+            <JournalButton key={lesson} title={lesson} onPress={() => setExpanded(!expanded)} />
             {
-                !groups ? <Text> - </Text> : groups.map(item => (
-                    <View key={item.numclass + pk}>
+                expanded && !groups ? <Text> - </Text> : expanded && groups.map(item => (
+                    <View style={styles.listItem} key={item.numclass + pk}>
                         <Text style={styles.numclass}>{!item.numclass.includes('-') ?  item.numclass + ' класс' : item.numclass}</Text>
                         {
                             item.class_group_array.map(group => (
                                 group != '4' ?
-                                <TouchableOpacity onPress={() => _openNextTab(pk, group + ' группа', item.numclass)} style={{ borderBottomWidth: 1 }}>
-                                    <Text key={item} style={styles.subItem}>
-                                        {group} группа
-                                    </Text>
-                                </TouchableOpacity> :
+                                <RenderGroups item={group} onPress={() => _openNextTab(pk, item.class_id, group, item.numclass)} /> :
                                 <></>
                             ))
                         }
                         {
                             item.ind_array ?
                             item.ind_array.map(ind => (
-                                <TouchableOpacity onPress={() => _openNextTab(pk, ind.nick, item.numclass)} style={{ borderBottomWidth: 1 }}>
-                                    <Text key={item} style={styles.subItem}>
-                                        {ind.nick}
-                                    </Text>
-                                </TouchableOpacity>
+                                <RenderGroups item={ind.nick} onPress={() => _openNextTab(pk, item.class_id, '4', item.numclass, ind.nick)} />
                             )) : <></>
                         }
                     </View>
@@ -55,8 +66,8 @@ class JournalLessons extends Component {
         });
     };
 
-    async componentDidMount() {
-        await fetch(`https://diary.alma-mater-spb.ru/e-journal/api/open_class_group.php?clue=${userData.clue}&user_id=${userData.user_id}`)
+    componentDidMount() {
+        fetch(`https://diary.alma-mater-spb.ru/e-journal/api/open_class_group.php?clue=${userData.clue}&user_id=${userData.user_id}`)
         .then(res => res.json())
         .then(res => {
             console.log(res);
@@ -109,7 +120,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const styles = ({
     listContaner: {
-        flex: 1
+        marginHorizontal: 5
     },
     listItem: {
         padding: 20,

@@ -22,10 +22,6 @@ export const theme_text = StyleSheet.create({
 });
 
 export const styles = StyleSheet.create({
-    journalContainer: {
-        flex: 1,
-        alignItems: 'center'
-    },
     safeArea: {
         paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0
     },  

@@ -9,7 +9,7 @@ const Stack = createNativeStackNavigator();
 
 export const LessonNavigator = () => (
     <Stack.Navigator>
-        <Stack.Screen name='Уроки' component={JournalLessons} options={{ headerShown: false }} />
+        <Stack.Screen name='Lessons' component={JournalLessons} options={{ headerShown: false }} />
         <Stack.Screen name='Список уроков' component={LessonsList} />
         <Stack.Screen name='Добавление урока' component={AddLessonScreen} />
         <Stack.Screen name='Журнал' component={Journal} />

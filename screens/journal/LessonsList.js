@@ -1,25 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, Text, FlatList } from 'react-native';
+import { SafeAreaView, Text, FlatList, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import JournalButton from '../../components/Button';
-import { styles } from '../../components/Style';
+import QuartersHeader from '../../components/QuartersHeader';
 
 const LessonsList = (props) => {
-    const {navigation, userData, subjects} = props;
-    const {pk, group, numclass} = props.route.params;
+    const {navigation, userData, subjects, term} = props;
+    const {pk, class_id, group, numclass, ind} = props.route.params;
     const [lesson, setLesson] = useState('');
     const [list, setList] = useState('');
 
-    useEffect( async () => {
-       await fetch(`https://diary.alma-mater-spb.ru/e-journal/api/open_lesson.php?clue=${userData.clue}&user_id=${userData.user_id}subject_id=${pk}&class_id=22&class_group=1&period=1`)
+    useEffect(() => {
+        console.log(props.route.params)
+        fetch(`https://diary.alma-mater-spb.ru/e-journal/api/open_lesson.php?clue=${userData.clue}&user_id=${userData.user_id}&subject_id=${pk}&class_id=${class_id}&class_group=${group}&period=${term}`)
         .then(res => res.json())
-        .then(res => console.log(res))
+        .then(res => {
+            console.log(res);
+            setList(res.lessons_array);
+        })
         .catch(err => console.log(err));
         subjects.map(lesson => {
             if (lesson.subject_id === pk)
                 setLesson(lesson);
         });
-    }, []);
+    }, [term]);
 
     const buttons = [
         {title: 'Открыть журнал', screen: 'Журнал'},
@@ -34,11 +38,12 @@ const LessonsList = (props) => {
         <JournalButton title={item.title} onPress={() => _handlePress(item.screen)} />
     );
     return(
-        <SafeAreaView style={styles.journalContainer}>
+        <SafeAreaView style={styles.container}>
+            <QuartersHeader term={term} />
             <Text>
                 {lesson.subject_name}, 
                 {' ' + numclass} класс,
-                {' ' + group}
+                {ind ? ' ' + ind : ' ' + group + ' группа'}
                 </Text>
                 <FlatList 
                     data={buttons}
@@ -49,10 +54,18 @@ const LessonsList = (props) => {
     );
 };
 
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center'
+    },
+})
+
 const mapStateToProps = (state) => {
     return {
         userData: state.auth.userData,
-        subjects: state.jlr.subjects
+        subjects: state.jlr.subjects,
+        term: state.marks.term
     };
 };
 
