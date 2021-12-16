@@ -56,18 +56,16 @@ class JournalLessons extends Component {
     };
 
     async componentDidMount() {
-        const url = `https://diary.alma-mater-spb.ru/e-journal/api/open_class_group.php?clue=${userData.clue}&user_id=${userData.user_id}`;
-        const response = await fetch(url);
-        const data = await response.json();
-        this.setState({
-            data: data.subject_class_group,
-        });
-        this.props.setSubjects(data.subject_class_group);
-        this.state.data.map(item => {
-            item.class_array.map(i => {
-                console.log(i.ind_array)
-            })
+        await fetch(`https://diary.alma-mater-spb.ru/e-journal/api/open_class_group.php?clue=${userData.clue}&user_id=${userData.user_id}`)
+        .then(res => res.json())
+        .then(res => {
+            console.log(res);
+            this.setState({
+                data: res.subject_class_group,
+            });
+            this.props.setSubjects(res.subject_class_group);
         })
+        .catch(err => console.log(err));
     }
 
     _renderItem = ({item}) => {
