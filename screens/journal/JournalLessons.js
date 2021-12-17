@@ -8,7 +8,11 @@ import { setSubjects } from "../../store/reducers/jLessonsReducer";
 const Item = ({pk, lesson, groups, navigation}) => {
     const [expanded, setExpanded] = useState(false);
 
-    const _openNextTab = (pk, class_id, group, numclass, ind) => {
+    function keyGenerator(key) {
+        return Math.random() + key;
+    }
+
+    const openNextTab = (pk, class_id, group, numclass, ind, lesson) => {
         navigation.navigate(
             'Список уроков', 
             {
@@ -16,37 +20,38 @@ const Item = ({pk, lesson, groups, navigation}) => {
                 class_id: class_id, 
                 group: group, 
                 numclass: numclass,
-                ind: ind ? ind : ''
+                ind: ind ? ind : '',
+                lesson: lesson
             }
         );
     };
 
-    const RenderGroups = ({item, onPress}) => (
-        <TouchableOpacity onPress={onPress} style={{ borderBottomWidth: 1 }}>
-            <Text key={item} style={styles.subItem}>
+    const RenderGroups = ({pk, item, onPress}) => (
+        <TouchableOpacity key={() => keyGenerator(pk)} onPress={onPress} style={{ borderBottomWidth: 1 }}>
+            <Text key={() => keyGenerator(pk)} style={styles.subItem}>
                 {item}
             </Text>
         </TouchableOpacity>
     )
 
     return (
-        <View key={pk} style={styles.listContaner}>
-            <JournalButton key={lesson} title={lesson} onPress={() => setExpanded(!expanded)} />
+        <View key={() => keyGenerator(pk)} style={styles.listContaner}>
+            <JournalButton key={() => keyGenerator(pk)} title={lesson} onPress={() => setExpanded(!expanded)} />
             {
-                expanded && !groups ? <Text> - </Text> : expanded && groups.map(item => (
-                    <View style={styles.listItem} key={item.numclass + pk}>
-                        <Text style={styles.numclass}>{!item.numclass.includes('-') ?  item.numclass + ' класс' : item.numclass}</Text>
+                expanded && !groups ? <Text key={() => keyGenerator(pk)}> - </Text> : expanded && groups.map(item => (
+                    <View key={() => keyGenerator(pk)} style={styles.listItem}>
+                        <Text key={() => keyGenerator(pk)} style={styles.numclass}>{!item.numclass.includes('-') ?  item.numclass + ' класс' : item.numclass}</Text>
                         {
                             item.class_group_array.map(group => (
                                 group != '4' ?
-                                <RenderGroups item={group} onPress={() => _openNextTab(pk, item.class_id, group, item.numclass)} /> :
+                                <RenderGroups pk={pk} item={group} onPress={() => openNextTab(pk, item.class_id, group, item.numclass, '', lesson)} /> :
                                 <></>
                             ))
                         }
                         {
                             item.ind_array ?
                             item.ind_array.map(ind => (
-                                <RenderGroups item={ind.nick} onPress={() => _openNextTab(pk, item.class_id, '4', item.numclass, ind.nick)} />
+                                <RenderGroups pk={pk} item={ind.nick} onPress={() => openNextTab(pk, item.class_id, '4', item.numclass, ind.nick, lesson)} />
                             )) : <></>
                         }
                     </View>
@@ -79,7 +84,7 @@ class JournalLessons extends Component {
         .catch(err => console.log(err));
     }
 
-    _renderItem = ({item}) => {
+    renderItem = ({item}) => {
 
         return (
             <Item 
@@ -99,7 +104,7 @@ class JournalLessons extends Component {
                     <Text>Загрузка...</Text> :
                     <FlatList 
                         data={this.state.data}
-                        renderItem={this._renderItem}
+                        renderItem={this.renderItem}
                         keyExtractor={item => item.lesson}
                     />
                 }
@@ -118,7 +123,7 @@ const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({setSubjects: setSubjects}, dispatch);
 };
 
-const styles = ({
+export const styles = ({
     listContaner: {
         marginHorizontal: 5
     },
