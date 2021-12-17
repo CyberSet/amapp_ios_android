@@ -22,7 +22,7 @@ export const UserNavigator = () => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
     const loadData = (payload) => dispatch({type: 'LOAD_DATA', payload});
-    const setToken = (payload) => dispatch({type: 'SET_TOKEN', payload})
+    const setToken = (payload) => dispatch({type: 'SET_TOKEN', payload});
 
     async function requestUserPermission() {
         const authStatus = await messaging().requestPermission();
@@ -35,7 +35,7 @@ export const UserNavigator = () => {
         }
     };
 
-    const _sendToken = async (token) => {
+    const sendToken = async (token) => {
         const data = {
             'push_token': token,
             'owner': ''
@@ -53,7 +53,7 @@ export const UserNavigator = () => {
         .catch(error => console.log(error))
     };
 
-    const _handleNotifiaction = (message) => {
+    const handleNotifiaction = (message) => {
         console.log(message);
 
         if (message.data.nav === 'Гимназист')
@@ -85,7 +85,7 @@ export const UserNavigator = () => {
         messaging().getToken().then(token => {
             console.log(token);
             setToken(token);
-            _sendToken(token);
+            sendToken(token);
         });
     }, []);
 
@@ -94,7 +94,7 @@ export const UserNavigator = () => {
           Alert.alert(
               'Новое уведомление:', 
               `${remoteMessage.notification.title}\n\n${remoteMessage.notification.body}`, 
-              [{text: 'ПОСМОТРЕТЬ', onPress: () => _handleNotifiaction(remoteMessage)}, {text: 'ВЕРНУТЬСЯ'}]
+              [{text: 'ПОСМОТРЕТЬ', onPress: () => handleNotifiaction(remoteMessage)}, {text: 'ВЕРНУТЬСЯ'}]
           );
         });
     
@@ -103,14 +103,14 @@ export const UserNavigator = () => {
 
     useEffect(() => {
         messaging().onNotificationOpenedApp(remoteMessage => {
-           _handleNotifiaction(remoteMessage);
+           handleNotifiaction(remoteMessage);
         });
 
         messaging()
         .getInitialNotification()
         .then(remoteMessage => {
             if (remoteMessage) {
-                _handleNotifiaction(remoteMessage);
+                handleNotifiaction(remoteMessage);
             }
         });
     }, []);
