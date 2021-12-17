@@ -40,18 +40,29 @@ const Item = ({pk, lesson, groups, navigation}) => {
             {
                 expanded && !groups ? <Text key={() => keyGenerator(pk)}> - </Text> : expanded && groups.map(item => (
                     <View key={() => keyGenerator(pk)} style={styles.listItem}>
-                        <Text key={() => keyGenerator(pk)} style={styles.numclass}>{!item.numclass.includes('-') ?  item.numclass + ' класс' : item.numclass}</Text>
+                        <Text 
+                            key={() => keyGenerator(pk)} 
+                            style={styles.numclass}>{!item.numclass.includes('-') ?  item.numclass + ' класс' : item.numclass}
+                        </Text>
                         {
                             item.class_group_array.map(group => (
                                 group != '4' ?
-                                <RenderGroups pk={pk} item={group} onPress={() => openNextTab(pk, item.class_id, group, item.numclass, '', lesson)} /> :
+                                <RenderGroups 
+                                    pk={pk} 
+                                    item={group} 
+                                    onPress={() => openNextTab(pk, item.class_id, group, item.numclass, '', lesson)} 
+                                /> :
                                 <></>
                             ))
                         }
                         {
                             item.ind_array ?
                             item.ind_array.map(ind => (
-                                <RenderGroups pk={pk} item={ind.nick} onPress={() => openNextTab(pk, item.class_id, '4', item.numclass, ind.nick, lesson)} />
+                                <RenderGroups 
+                                    pk={pk} 
+                                    item={ind.nick} 
+                                    onPress={() => openNextTab(pk, item.class_id, '4', item.numclass, ind.nick, lesson)} 
+                                />
                             )) : <></>
                         }
                     </View>
@@ -69,7 +80,7 @@ class JournalLessons extends Component {
         this.state = ({
             data: '',
         });
-    };
+    }
 
     componentDidMount() {
         fetch(`https://diary.alma-mater-spb.ru/e-journal/api/open_class_group.php?clue=${userData.clue}&user_id=${userData.user_id}`)
@@ -94,7 +105,7 @@ class JournalLessons extends Component {
                 navigation={navigation} 
             />
         );
-    };
+    }
 
     render() {
         return(

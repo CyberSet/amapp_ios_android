@@ -37,7 +37,7 @@ export const UserNavigator = () => {
         }
     };
 
-    const _sendToken = async (token) => {
+    const sendToken = async (token) => {
         const data = {
             'push_token': token,
             'owner': ''
@@ -87,7 +87,7 @@ export const UserNavigator = () => {
         messaging().getToken().then(token => {
             console.log(token);
             setToken(token);
-            _sendToken(token);
+            sendToken(token);
         });
     }, []);
 

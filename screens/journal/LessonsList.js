@@ -94,7 +94,7 @@ const style = StyleSheet.create({
     container: {
         margin: 5,
     },
-})
+});
 
 const mapStateToProps = (state) => {
     return {
