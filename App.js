@@ -13,6 +13,7 @@ import { UserNavigator } from './navigation/UserNavigator';
 import { NavigationContainer } from '@react-navigation/native';
 import SplashScreen from 'react-native-splash-screen';
 import { StatusBar } from 'react-native';
+import codePush from "react-native-code-push";
 
 const App = () => {
   SplashScreen.hide();
@@ -43,4 +44,4 @@ const App = () => {
     </Provider>
   );
 }
-export default App;
+export default codePush(App);
