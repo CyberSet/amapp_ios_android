@@ -15,6 +15,8 @@ import SplashScreen from 'react-native-splash-screen';
 import { StatusBar } from 'react-native';
 import codePush from "react-native-code-push";
 
+let codePushOptions = { checkFrequency: codePush.CheckFrequency.ON_APP_RESUME };
+
 const App = () => {
   SplashScreen.hide();
 
@@ -44,4 +46,4 @@ const App = () => {
     </Provider>
   );
 }
-export default codePush(App);
+export default codePush(codePushOptions)(App);
