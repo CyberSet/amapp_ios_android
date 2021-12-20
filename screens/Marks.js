@@ -110,11 +110,11 @@ const MarksScreen = () => {
                 ? item.itogoMarks[0]
                 : item.itogoMarks[1] != 0 && term === '2'
                 ? item.itogoMarks[1]
-                : item.itogoMarks[2] != 0 && term === '5'
+                : item.itogoMarks[2] != 0 && term === '3'
                 ? item.itogoMarks[2]
-                : item.itogoMarks[3] != 0 && term === '3'
+                : item.itogoMarks[3] != 0 && term === '4'
                 ? item.itogoMarks[3]
-                : item.itogoMarks[4] != 0 && term === '4'
+                : item.itogoMarks[4] != 0 && term === '5'
                 ? item.itogoMarks[4]
                 : item.itogoMarks[5] != 0 && term === '6'
                 ? item.itogoMarks[5]
