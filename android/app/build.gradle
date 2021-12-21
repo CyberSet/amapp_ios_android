@@ -137,8 +137,8 @@ android {
         applicationId "com.almamater.diary"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 16
-        versionName "2.3.4"
+        versionCode 18
+        versionName "2.3.5"
     }
     splits {
         abi {
