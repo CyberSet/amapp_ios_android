@@ -72,8 +72,8 @@ export const UserNavigator = () => {
             })
             .catch(error => console.log(error));
         else
-            navigation.navigate(message.data.nav, {
-                screen: message.data.screen,
+            navigation.navigate('Меню', {
+                screen: 'Дневник',
             });
     };
 
