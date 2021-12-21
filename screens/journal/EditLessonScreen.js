@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { SafeAreaView, View, FlatList } from "react-native";
+import { SafeAreaView, ScrollView, FlatList } from "react-native";
 import InputField from "../../components/Input";
 import { styles } from "./JournalLessons";
 import JournalButton from "../../components/Button";
@@ -45,7 +45,7 @@ const EditLesson = (props) => {
         <SafeAreaView style={{ margin: 5 }}>
             {
                 objectLesson ?
-                <View style={styles.listItem}>
+                <ScrollView style={styles.listItem}>
                     {
                         fields.map(field => (
                             <InputField
@@ -57,7 +57,7 @@ const EditLesson = (props) => {
                             />
                         ))
                     }
-                </View> :
+                </ScrollView> :
                 <></>
             }
             <FlatList 

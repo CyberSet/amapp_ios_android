@@ -60,23 +60,33 @@ const LessonsList = (props) => {
         <JournalButton title={item.title} onPress={() => handlePress(item.screen, item.params)} />
     );
 
+    const Panel = () => (
+        buttons.map(button => (
+            <JournalButton key={button.title} title={button.title} onPress={() => handlePress(button.screen, button.params)} />
+        ))
+    );
+
+    const Header = () => {
+        return(
+            <View>
+                <QuartersHeader term={term} />
+                <Panel />
+            </View>
+        )
+    }
+
     return(
         <SafeAreaView style={styles.container}>
-            <QuartersHeader term={term} />
             {/* <Text>
                 {lesson.subject_name}, 
                 {' ' + numclass} класс,
                 {ind ? ' ' + ind : ' ' + group + ' группа'}
             </Text> */}
             <View style={style.container}>
-                <FlatList 
-                    data={buttons}
-                    renderItem={renderItem}
-                    keyExtractor={item => item.title}
-                />
                 {
                     list ?
                     <FlatList 
+                        ListHeaderComponent={Header}
                         data={list}
                         renderItem={renderList}
                         keyExtractor={item => item.lesson_id}
