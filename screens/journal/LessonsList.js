@@ -38,11 +38,11 @@ const LessonsList = (props) => {
 
     const buttons = [
         {title: 'Открыть журнал', screen: 'Журнал', params: {}},
-        {title: '+ Добавить урок', screen: 'Редактирование урока', params: {date: null, lesson: null, lesson_id: null}}
+        {title: '+ Добавить урок', screen: 'Редактирование урока', params: {date: null, lesson: null, lesson_id: null}},
     ];
 
     const Item = ({date, lesson, lesson_id}) => (
-        <TouchableOpacity onPress={() => navigation.navigate('Редактирование урока', {date, lesson, lesson_id})} style={{ ...styles.listItem, flexDirection: 'row', justifyContent: 'space-between' }}>
+        <TouchableOpacity onPress={() => navigation.navigate('Редактирование урока', {lesson_id})} style={{ ...styles.listItem, flexDirection: 'row', justifyContent: 'space-between' }}>
             <Text style={{ fontStyle: 'italic' }}>{date}</Text>
             <Text>{lesson}</Text>
         </TouchableOpacity>
@@ -69,6 +69,11 @@ const LessonsList = (props) => {
                 {ind ? ' ' + ind : ' ' + group + ' группа'}
             </Text> */}
             <View style={style.container}>
+                <FlatList 
+                    data={buttons}
+                    renderItem={renderItem}
+                    keyExtractor={item => item.title}
+                />
                 {
                     list ?
                     <FlatList 
@@ -80,11 +85,6 @@ const LessonsList = (props) => {
                         <Text style={{ textAlign: 'center' }}>Нет добавленных уроков</Text>
                     </View>
                 }
-                <FlatList 
-                    data={buttons}
-                    renderItem={renderItem}
-                    keyExtractor={item => item.title}
-                />
             </View>
         </SafeAreaView>
     );

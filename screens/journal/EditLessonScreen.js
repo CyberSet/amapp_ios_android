@@ -7,56 +7,59 @@ import { connect } from "react-redux";
 
 const EditLesson = (props) => {
     const {navigation, userData} = props;
-    const {date, lesson, lesson_id} = props.route.params;
-    const [theme, setTheme] = useState(lesson ? lesson : 'Тема урока');
-    const [lessonDate, setLessonDate] = useState(date ? date : 'Дата');
+    const {lesson_id} = props.route.params;
     const buttons = [
         {title: 'Удалить'},
         {title: 'Сохранить'}
     ];
-
-    // const sendChanges = () => {
-    //     console.log(props.route.params)
-    //     fetch(`https://diary.alma-mater-spb.ru/e-journal/api/open_lesson_edit.php?clue=${userData.clue}&user_id=${userData.user_id}&lesson_id${lesson_id}`)
-    //     .then(res => res.json())
-    //     .then(res => {
-    //         console.log(res);
-    //     })
-    //     .catch(err => console.log(err));
-    // };
+    const [objectLesson, setObjectLesson] = useState(null);
 
     useEffect(() => {
-        console.log(userData)
-        fetch(`https://diary.alma-mater-spb.ru/e-journal/api/open_lesson_edit.php?clue=${userData.clue}&user_id=${userData.user_id}&lesson_id${lesson_id}`)
+        fetch(`https://diary.alma-mater-spb.ru/e-journal/api/open_lesson_edit.php?clue=${userData.clue}&user_id=${userData.user_id}&lesson_id=${lesson_id}`)
         .then(res => res.json())
         .then(res => {
             console.log(res);
+            setObjectLesson(res.lessons_array);
         })
         .catch(err => console.log(err));
     }, []);
 
     useLayoutEffect(() => {
         navigation.setOptions({
-          title: date != null ? 'Редактирование урока' : 'Добавление урока',
+          title: lesson_id ? 'Редактирование урока' : 'Добавление урока',
         });
-    }, [navigation, date]);
+    }, [navigation, lesson_id]);
 
     const renderItem = ({item}) => (
         <JournalButton title={item.title} onPress={() => navigation.goBack()} />
     );
 
+    const fields = [
+        {title: 'Дата', value: 'data_lesson'}, 
+        {title: 'Тема урока', value: 'name_lesson'}, 
+        {title: 'Домашнее задание', value: 'homework'}, 
+        {title: 'Домашнее задание', value: 'title_of_lesson'},
+    ];
+
     return (
         <SafeAreaView style={{ margin: 5 }}>
-            <View style={styles.listItem}>
-                <InputField 
-                    value={lessonDate}
-                    onChangeText={setLessonDate}
-                />
-                <InputField 
-                    value={theme}
-                    onChangeText={setTheme}
-                />
-            </View>
+            {
+                objectLesson ?
+                <View style={styles.listItem}>
+                    {
+                        fields.map(field => (
+                            <InputField
+                                title={field.title}
+                                value={objectLesson[field.value]}
+                                onChangeText={text => 
+                                    setObjectLesson({ ...objectLesson, [field.value] : text })
+                                }
+                            />
+                        ))
+                    }
+                </View> :
+                <></>
+            }
             <FlatList 
                 data={buttons}
                 renderItem={renderItem}
@@ -69,6 +72,7 @@ const EditLesson = (props) => {
 const mapStateToProps = (state) => {
     return {
         userData: state.auth.userData,
+        user: state.auth.user,
     };
 };
 
