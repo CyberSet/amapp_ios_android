@@ -56,7 +56,7 @@ export const UserNavigator = () => {
     const handleNotifiaction = (message) => {
         console.log(message);
 
-        if (message.data.nav === 'Гимназист')
+        if (message.data.nav === 'Гимназист') {
             fetch(`https://${ip}/articles/`, {
                 method: 'GET'
             })
@@ -71,10 +71,11 @@ export const UserNavigator = () => {
                 });
             })
             .catch(error => console.log(error));
-        else
-            navigation.navigate('Меню', {
-                screen: 'Дневник',
-            });
+        }
+        
+        navigation.navigate('Меню', {
+            screen: 'DiaryNavigator',
+        });
     };
 
     useEffect(() => {
