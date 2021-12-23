@@ -15,7 +15,7 @@ const Tab = createBottomTabNavigator();
 
 const myStyles = {
     title: "Гимназист",
-    headerTintColor: "gray"
+    // headerTintColor: "gray"
 }
 
 export const HomeToDetailsNav = ({navigation}) => {
@@ -29,14 +29,6 @@ export const HomeToDetailsNav = ({navigation}) => {
                     component={HomeOrCatNav}
                     options={{
                         ...myStyles,
-                        headerLeft: () => (
-                            <Icon
-                                name='chevron-back' 
-                                size={30}
-                                color='gray'
-                                onPress={() => navigation.goBack()}
-                            />
-                        )
                     }}
                 />
                 <Stack.Screen 

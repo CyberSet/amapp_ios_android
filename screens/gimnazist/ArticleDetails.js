@@ -26,11 +26,11 @@ const ArticleDetails = (props) => {
     return (
         <ScrollView>
             <View style={styles.viewStyle}>
-                <Text style={{fontSize: 25, fontWeight: 'bold'}}>
+                <Text style={{color: '#000', fontSize: 25, fontWeight: 'bold'}}>
                     {dataItem.title}
                 </Text>
 
-                <Text style={{fontSize: 18, fontStyle: 'italic'}}>
+                <Text style={{color: '#000', fontSize: 18, fontStyle: 'italic'}}>
                     {dataItem.author}
                 </Text>
 
@@ -47,19 +47,19 @@ const ArticleDetails = (props) => {
                     <></>
                 }
 
-                <Text style={{fontSize: 16, fontStyle: 'italic'}}>
+                <Text style={{color: '#000', fontSize: 16, fontStyle: 'italic'}}>
                     {dataItem.photographer}
                 </Text>
 
-                <Text style={{fontSize: 20, marginTop: 15, fontWeight: 'bold'}}>
+                <Text style={{color: '#000', fontSize: 20, marginTop: 15, fontWeight: 'bold'}}>
                     {dataItem.description}
                 </Text>
 
-                <Text style={{fontSize: 20, marginTop: 15}}>
+                <Text style={{color: '#000', fontSize: 20, marginTop: 15}}>
                     {dataItem.content}
                 </Text>
 
-                <Text style={{fontSize: 18, fontStyle: 'italic'}}>
+                <Text style={{color: 'gray', fontSize: 18, fontStyle: 'italic'}}>
                     {dataItem.sign}
                 </Text>
             </View>
@@ -80,9 +80,16 @@ const ArticleDetails = (props) => {
 }
 
 const styles = StyleSheet.create ({
+    conatiner: {
+        backgroundColor: '#fff',
+        margin: 2,
+        borderRadius: 15,
+    },
     viewStyle: {
         padding: 10,
-        margin: 10
+        margin: 5,
+        backgroundColor: '#fff',
+        borderRadius: 15,
     },
     btnStyle: {
         flexDirection: "row",
