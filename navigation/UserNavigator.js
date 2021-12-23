@@ -55,10 +55,10 @@ export const UserNavigator = () => {
         .catch(error => console.log(error))
     };
 
-    const _handleNotifiaction = (message) => {
+    const handleNotifiaction = (message) => {
         console.log(message);
 
-        if (message.data.nav === 'Гимназист')
+        if (message.data.nav === 'Гимназист') {
             fetch(`https://${ip}/articles/`, {
                 method: 'GET'
             })
@@ -73,10 +73,11 @@ export const UserNavigator = () => {
                 });
             })
             .catch(error => console.log(error));
-        else
-            navigation.navigate(message.data.nav, {
-                screen: message.data.screen,
-            });
+        }
+        
+        navigation.navigate('Меню', {
+            screen: 'DiaryNavigator',
+        });
     };
 
     useEffect(() => {
@@ -96,7 +97,7 @@ export const UserNavigator = () => {
           Alert.alert(
               'Новое уведомление:', 
               `${remoteMessage.notification.title}\n\n${remoteMessage.notification.body}`, 
-              [{text: 'ПОСМОТРЕТЬ', onPress: () => _handleNotifiaction(remoteMessage)}, {text: 'ВЕРНУТЬСЯ'}]
+              [{text: 'ПОСМОТРЕТЬ', onPress: () => handleNotifiaction(remoteMessage)}, {text: 'ВЕРНУТЬСЯ'}]
           );
         });
     
@@ -106,14 +107,14 @@ export const UserNavigator = () => {
     useEffect(() => {
         console.log(userType);
         messaging().onNotificationOpenedApp(remoteMessage => {
-           _handleNotifiaction(remoteMessage);
+           handleNotifiaction(remoteMessage);
         });
 
         messaging()
         .getInitialNotification()
         .then(remoteMessage => {
             if (remoteMessage) {
-                _handleNotifiaction(remoteMessage);
+                handleNotifiaction(remoteMessage);
             }
         });
     }, []);

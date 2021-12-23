@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Альма-Матер</string>
+        <string moduleConfig="true" name="CodePushDeploymentKey">ujTbFIETFBym7aGXQ8GRgc1MUU22XJJptgfJP</string>
 </resources>

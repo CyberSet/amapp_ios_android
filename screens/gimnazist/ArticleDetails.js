@@ -34,14 +34,18 @@ const ArticleDetails = (props) => {
                     {dataItem.author}
                 </Text>
 
-                <View>
-                    <Image
-                        style={{flex: 1, alignSelf: 'center', margin: 10, width: 360, height: 360}}
-                        source={{
-                            uri: `${dataItem.imgPath}`,
-                        }}
-                    />
-                </View>
+                {
+                    dataItem.imgPath ?
+                    <View>
+                        <Image
+                            style={{flex: 1, alignSelf: 'center', margin: 10, width: 360, height: 360}}
+                            source={{
+                                uri: `${dataItem.imgPath}`,
+                            }}
+                        />
+                    </View> :
+                    <></>
+                }
 
                 <Text style={{fontSize: 16, fontStyle: 'italic'}}>
                     {dataItem.photographer}

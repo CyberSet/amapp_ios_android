@@ -34,14 +34,18 @@ const Home = (props) => {
                 <Text style={{color: 'gray', fontSize: 15}}>{item.category.toUpperCase()}</Text>
                 <Text style={{fontSize: 22, fontWeight: 'bold'}}>{item.title}</Text>
                 <Text style={{fontSize: 16, fontStyle: 'italic'}}>{item.author}</Text>
-                <View>
-                    <Image
-                        style={{flex: 1, alignSelf: 'center', margin: 10, width: 360, height: 360}}
-                        source={{
-                            uri: `${item.imgPath}`,
-                        }}
-                    />
-                </View>
+                {
+                    item.imgPath ?
+                    <View>
+                        <Image
+                            style={{flex: 1, alignSelf: 'center', margin: 10, width: 360, height: 360}}
+                            source={{
+                                uri: `${item.imgPath}`,
+                            }}
+                        />
+                    </View> :
+                    <Text style={{paddingVertical: 3}}></Text>
+                }
                 <Text style={{fontSize: 18}}>{item.description}</Text>
                 <UserPanel 
                     ip={ip}  

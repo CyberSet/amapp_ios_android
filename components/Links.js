@@ -20,7 +20,7 @@ const Links = ({col, navigation}) => {
 
     return (
         <View>
-            <Text style={{fontSize: 16, color: col, textAlign: 'center', marginBottom: 15}}>
+            <Text style={{fontSize: 16, color: col, textAlign: 'center', marginBottom: 15, fontStyle: 'italic'}}>
                 Ссылки на социальные сети гимназии:
             </Text>
             <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
