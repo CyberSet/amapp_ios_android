@@ -3,13 +3,13 @@ import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const JournalButton = ({title, iconName, onPress}) => {
-    const [isIcon, setIcon] = useState(iconName);
+    // const [isIcon, setIcon] = useState(iconName);
 
     return(
         <TouchableOpacity 
             onPress={onPress} 
             style={
-                isIcon ? { ...styles.button, flexDirection: 'row', justifyContent: 'space-between' } : styles.button
+                iconName ? { ...styles.button, flexDirection: 'row', justifyContent: 'space-between' } : styles.button
         }>
             <Text style={styles.buttonText}>
                 {title}

@@ -10,6 +10,16 @@ const LessonsList = (props) => {
     const {pk, class_id, group, numclass, ind, lesson} = props.route.params;
     const [list, setList] = useState('');
     const [value, setValue] = useState('');
+    const buttons = [
+        {title: 'Открыть журнал', screen: 'Журнал', params: {}},
+        {title: '+ Добавить урок', screen: 'Редактирование урока', params: {date: null, lesson: null, lesson_id: null}},
+    ];
+
+    useLayoutEffect(() => {
+        navigation.setOptions({
+          title: value === '' ? 'Список уроков' : value,
+        });
+      }, [navigation, value]);
 
     useEffect(() => {
         const groupName = ind ? ' ' + ind : ' ' + group + ' группа';
@@ -18,12 +28,6 @@ const LessonsList = (props) => {
             lesson + ', ' + classNum + groupName
         )
     }, []);
-
-    useLayoutEffect(() => {
-        navigation.setOptions({
-          title: value === '' ? 'Список уроков' : value,
-        });
-      }, [navigation, value]);
 
     useEffect(() => {
         console.log(props.route.params)
@@ -36,11 +40,6 @@ const LessonsList = (props) => {
         .catch(err => console.log(err));
     }, [term]);
 
-    const buttons = [
-        {title: 'Открыть журнал', screen: 'Журнал', params: {}},
-        {title: '+ Добавить урок', screen: 'Редактирование урока', params: {date: null, lesson: null, lesson_id: null}},
-    ];
-
     const Item = ({date, lesson, lesson_id}) => (
         <TouchableOpacity onPress={() => navigation.navigate('Редактирование урока', {lesson_id})} style={{ ...styles.listItem, flexDirection: 'row', justifyContent: 'space-between' }}>
             <Text style={{ fontStyle: 'italic' }}>{date}</Text>
@@ -48,7 +47,7 @@ const LessonsList = (props) => {
         </TouchableOpacity>
     );
 
-    const renderList = ({item}) => (
+    const renderLessonsList = ({item}) => (
         <Item date={item.data_lesson} lesson={item.name_lesson} lesson_id={item.lesson_id} />
     );
 
@@ -56,11 +55,7 @@ const LessonsList = (props) => {
         navigation.navigate(screen, params);
     };
 
-    const renderItem = ({item}) => (
-        <JournalButton title={item.title} onPress={() => handlePress(item.screen, item.params)} />
-    );
-
-    const Panel = () => (
+    const OptionsPanel = () => (
         buttons.map(button => (
             <JournalButton key={button.title} title={button.title} onPress={() => handlePress(button.screen, button.params)} />
         ))
@@ -70,7 +65,7 @@ const LessonsList = (props) => {
         return(
             <View>
                 <QuartersHeader term={term} />
-                <Panel />
+                <OptionsPanel />
             </View>
         )
     }
@@ -83,12 +78,11 @@ const LessonsList = (props) => {
                 {ind ? ' ' + ind : ' ' + group + ' группа'}
             </Text> */}
             <View style={style.container}>
-                {
-                    list ?
+                {list ?
                     <FlatList 
                         ListHeaderComponent={Header}
                         data={list}
-                        renderItem={renderList}
+                        renderItem={renderLessonsList}
                         keyExtractor={item => item.lesson_id}
                     /> :
                     <View style={styles.listItem}>

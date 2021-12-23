@@ -14,8 +14,7 @@ const Item = ({pk, lesson, groups, navigation}) => {
 
     const openNextTab = (pk, class_id, group, numclass, ind, lesson) => {
         navigation.navigate(
-            'Список уроков', 
-            {
+            'Список уроков', {
                 pk: pk, 
                 class_id: class_id, 
                 group: group, 
@@ -37,15 +36,13 @@ const Item = ({pk, lesson, groups, navigation}) => {
     return (
         <View key={() => keyGenerator(pk)} style={styles.listContaner}>
             <JournalButton key={() => keyGenerator(pk)} title={lesson} onPress={() => setExpanded(!expanded)} />
-            {
-                expanded && !groups ? <Text key={() => keyGenerator(pk)}> - </Text> : expanded && groups.map(item => (
+            {expanded && !groups ? <Text key={() => keyGenerator(pk)}> - </Text> : expanded && groups.map(item => (
                     <View key={() => keyGenerator(pk)} style={styles.listItem}>
                         <Text 
                             key={() => keyGenerator(pk)} 
                             style={styles.numclass}>{!item.numclass.includes('-') ?  item.numclass + ' класс' : item.numclass}
                         </Text>
-                        {
-                            item.class_group_array.map(group => (
+                        {item.class_group_array.map(group => (
                                 group != '4' ?
                                 <RenderGroups 
                                     pk={pk} 
@@ -55,8 +52,7 @@ const Item = ({pk, lesson, groups, navigation}) => {
                                 <></>
                             ))
                         }
-                        {
-                            item.ind_array ?
+                        {item.ind_array ?
                             item.ind_array.map(ind => (
                                 <RenderGroups 
                                     pk={pk} 
@@ -110,8 +106,7 @@ class JournalLessons extends Component {
     render() {
         return(
             <SafeAreaView style={styles.listContaner}>
-                {
-                    !this.state.data ?
+                {!this.state.data ?
                     <Text>Загрузка...</Text> :
                     <FlatList 
                         data={this.state.data}
@@ -142,7 +137,7 @@ export const styles = ({
         padding: 20,
         margin: 5,
         backgroundColor: '#F8EEDF',
-        borderRadius: 35,
+        borderRadius: 15,
         shadowOpacity: .2
     },
     subItem: { 
