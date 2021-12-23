@@ -40,7 +40,7 @@ const Home = (props) => {
                         <Image
                             style={{flex: 1, alignSelf: 'center', margin: 10, width: 360, height: 360}}
                             source={{
-                                uri: `${item.imgPath}`,
+                                uri: `${item.imgPath.split(',')[0]}`,
                             }}
                         />
                     </View> :
