@@ -95,7 +95,7 @@ export const UserNavigator = () => {
           Alert.alert(
               'Новое уведомление:', 
               `${remoteMessage.notification.title}\n\n${remoteMessage.notification.body}`, 
-              [{text: 'ПОСМОТРЕТЬ', onPress: () => handleNotifiaction(remoteMessage)}, {text: 'ВЕРНУТЬСЯ'}]
+              [{text: 'OK', onPress: () => handleNotifiaction(remoteMessage)}]
           );
         });
     
