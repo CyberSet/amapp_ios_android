@@ -32,14 +32,14 @@ const ArticleDetails = (props) => {
         }
     }, [dataItem]);
 
-    const onchange = (nativeEvent) => {
-        console.log(nativeEvent.contentOffset.x);
-        console.log(nativeEvent.layoutMeasurement.width);
-        const slide = Math.ceil((nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width) / 2);
-        if (slide !== active) {
-            setActive(slide);
-        }
-    }
+    // const onchange = (nativeEvent) => {
+    //     console.log(nativeEvent.contentOffset.x);
+    //     console.log(nativeEvent.layoutMeasurement.width);
+    //     const slide = Math.ceil(nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width);
+    //     if (slide !== active) {
+    //         setActive(slide);
+    //     }
+    // }
 
     return (
         <ScrollView>
@@ -56,8 +56,8 @@ const ArticleDetails = (props) => {
                     <ScrollView 
                         style={{marginVertical: 5,}}
                         decelerationRate="fast"
-                        snapToInterval={WIDTH / .5}
-                        onScroll={({nativeEvent}) => onchange(nativeEvent)}
+                        snapToInterval={WIDTH }
+                        // onScroll={({nativeEvent}) => onchange(nativeEvent)}
                         horizontal 
                         showsHorizontalScrollIndicator={false}
                     >
@@ -73,11 +73,11 @@ const ArticleDetails = (props) => {
                             ))
                         }
                         </ScrollView>
-                        <View style={styles.pagination}>
+                        {/* <View style={styles.pagination}>
                             {images?.map((image, i) => (
                                 <Text key={i} style={i == active ? styles.dotActive : styles.dot}>⬤</Text>
                             ))}
-                        </View>
+                        </View> */}
                     </View>
 
                 <Text style={{color: '#000', fontSize: 16, fontStyle: 'italic'}}>
