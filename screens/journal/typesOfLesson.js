@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text } from "react-native";
+import { ScrollView, View, Text } from "react-native";
 import JournalButton from "../../components/Button";
 import { styles } from "../../components/Style";
 import { connect } from "react-redux";
@@ -20,13 +20,13 @@ const typesOfLesson = (props) => {
     }, []);
 
     return(
-        <View style={styles.list}>
+        <ScrollView style={styles.list}>
             {
                 types ? types.map(type => (
                     <JournalButton key={type.id} title={type.title} onPress={() => navigation.goBack()} />
                 )) : <View><Text>Loading...</Text></View>
             }
-        </View>
+        </ScrollView>
     );
 };
 
