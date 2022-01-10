@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useSelector, useDispatch } from 'react-redux';
 import messaging from '@react-native-firebase/messaging';
 import { useNavigation } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import { MainNavigator } from './MainNavigator';
 import AdsScreen from '../screens/Ads';
@@ -97,7 +98,7 @@ export const UserNavigator = () => {
           Alert.alert(
               'Новое уведомление:', 
               `${remoteMessage.notification.title}\n\n${remoteMessage.notification.body}`, 
-              [{text: 'ПОСМОТРЕТЬ', onPress: () => handleNotifiaction(remoteMessage)}, {text: 'ВЕРНУТЬСЯ'}]
+              [{text: 'OK', onPress: () => handleNotifiaction(remoteMessage)}]
           );
         });
     

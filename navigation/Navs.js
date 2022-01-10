@@ -8,14 +8,13 @@ import Home from '../screens/gimnazist/Home';
 import UserSettings from '../screens/gimnazist/UserSettings';
 import Categories from '../screens/gimnazist/Categories';
 import ArticleDetails from '../screens/gimnazist/ArticleDetails';
-import { Button } from 'react-native';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const myStyles = {
     title: "Гимназист",
-    headerTintColor: "gray"
+    // headerTintColor: "gray"
 }
 
 export const HomeToDetailsNav = ({navigation}) => {
@@ -28,15 +27,15 @@ export const HomeToDetailsNav = ({navigation}) => {
                     name="Home" 
                     component={HomeOrCatNav}
                     options={{
-                        ...myStyles,
                         headerLeft: () => (
                             <Icon
-                                name='chevron-back' 
-                                size={30}
+                                name='chevron-back'
+                                size={25}
                                 color='gray'
                                 onPress={() => navigation.goBack()}
                             />
-                        )
+                          ),
+                          ...myStyles
                     }}
                 />
                 <Stack.Screen 

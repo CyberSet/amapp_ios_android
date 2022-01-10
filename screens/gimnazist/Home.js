@@ -32,28 +32,28 @@ const Home = (props) => {
         return (
             <Card style={styles.cardStyle} onPress = {() => clickedItem(item.title)}>
                 <Text style={{color: 'gray', fontSize: 15}}>{item.category.toUpperCase()}</Text>
-                <Text style={{fontSize: 22, fontWeight: 'bold'}}>{item.title}</Text>
-                <Text style={{fontSize: 16, fontStyle: 'italic'}}>{item.author}</Text>
+                <Text style={{color: '#000', fontSize: 22, fontWeight: 'bold'}}>{item.title}</Text>
+                <Text style={{color: '#000', fontSize: 16, fontStyle: 'italic'}}>{item.author}</Text>
                 {
                     item.imgPath ?
                     <View>
                         <Image
                             style={{flex: 1, alignSelf: 'center', margin: 10, width: 360, height: 360}}
                             source={{
-                                uri: `${item.imgPath}`,
+                                uri: `${item.imgPath.split(',')[0]}`,
                             }}
                         />
                     </View> :
                     <Text style={{paddingVertical: 3}}></Text>
                 }
-                <Text style={{fontSize: 18}}>{item.description}</Text>
+                <Text style={{color: '#000', fontSize: 18}}>{item.description}</Text>
                 <UserPanel 
                     ip={ip}  
                     title={item.id}
                     name={item.title}
-                    description = {item.description}
-                    content = {item.content}
-                    uri = {item.web_uri}
+                    description={item.description}
+                    content={item.content}
+                    uri={item.web_uri}
                     datetime={item.published} 
                     comment={() => clickedItem(item)}
                 />
@@ -77,7 +77,8 @@ const Home = (props) => {
 export const styles = StyleSheet.create({
     cardStyle: {
         padding: 10,
-        margin: 10
+        margin: 5,
+        borderRadius: 15,
     },
     fabStyle: {
         position: 'absolute',
