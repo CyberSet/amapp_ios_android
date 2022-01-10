@@ -12,7 +12,7 @@ const LessonsList = (props) => {
     const [value, setValue] = useState('');
     const buttons = [
         {title: 'Открыть журнал', screen: 'Журнал', params: {}},
-        {title: '+ Добавить урок', screen: 'Редактирование урока', params: {date: null, lesson: null, lesson_id: null}},
+        {title: '+ Добавить урок', screen: 'Редактирование урока', params: {date: null, lesson: null, lesson_id: pk, class_id: class_id}},
     ];
 
     useLayoutEffect(() => {
@@ -40,15 +40,15 @@ const LessonsList = (props) => {
         .catch(err => console.log(err));
     }, [term]);
 
-    const Item = ({date, lesson, lesson_id}) => (
-        <TouchableOpacity onPress={() => navigation.navigate('Редактирование урока', {lesson_id})} style={{ ...styles.listItem, flexDirection: 'row', justifyContent: 'space-between' }}>
+    const Item = ({date, lesson, lesson_id, class_id}) => (
+        <TouchableOpacity onPress={() => navigation.navigate('Редактирование урока', {lesson, lesson_id, class_id})} style={{ ...styles.listItem, flexDirection: 'row', justifyContent: 'space-between' }}>
             <Text style={{ fontStyle: 'italic' }}>{date}</Text>
             <Text>{lesson}</Text>
         </TouchableOpacity>
     );
 
     const renderLessonsList = ({item}) => (
-        <Item date={item.data_lesson} lesson={item.name_lesson} lesson_id={item.lesson_id} />
+        <Item date={item.data_lesson} lesson={item.name_lesson} lesson_id={pk} class_id={class_id} />
     );
 
     const handlePress = (screen, params) => {
@@ -85,9 +85,12 @@ const LessonsList = (props) => {
                         renderItem={renderLessonsList}
                         keyExtractor={item => item.lesson_id}
                     /> :
-                    <View style={styles.listItem}>
-                        <Text style={{ textAlign: 'center' }}>Нет добавленных уроков</Text>
-                    </View>
+                    <>
+                        <Header />
+                        <View style={styles.listItem}>
+                            <Text style={{ textAlign: 'center' }}>Нет добавленных уроков</Text>
+                        </View>
+                    </>
                 }
             </View>
         </SafeAreaView>
@@ -103,7 +106,6 @@ const style = StyleSheet.create({
 const mapStateToProps = (state) => {
     return {
         userData: state.auth.userData,
-        subjects: state.jlr.subjects,
         term: state.marks.term
     };
 };

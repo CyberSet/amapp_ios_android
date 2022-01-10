@@ -1,6 +1,6 @@
 const initialState = {
     marks: '',
-    term: '2',
+    term: '3',
     weekMarks: []
 };
 

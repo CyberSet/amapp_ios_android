@@ -3,7 +3,7 @@ import { Text, FlatList, TouchableOpacity, SafeAreaView, StyleSheet } from 'reac
 // import { useSelector } from 'react-redux';
 import { styles } from '../../components/Style';
 // import Links from "../components/Links";
-import Button from '../../components/Button';
+import JournalButton from '../../components/Button';
 import { Dimensions } from 'react-native';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -20,7 +20,7 @@ const JournalMenu = ({navigation}) => {
     ];
 
     const Item = ({name, icon}) => ( 
-        <Button title={name} iconName={icon} onPress={() => console.log('button')} />
+        <JournalButton title={name} iconName={icon} onPress={() => console.log('button')} />
     );
 
     const renderItem = ({item}) => {

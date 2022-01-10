@@ -4,6 +4,7 @@ import LessonsList from '../../screens/journal/LessonsList';
 import JournalLessons from '../../screens/journal/JournalLessons';
 import Journal from '../../screens/journal/Journal';
 import EditLesson from '../../screens/journal/EditLessonScreen';
+import typesOfLesson from '../../screens/journal/typesOfLesson';
 
 const Stack = createNativeStackNavigator();
 
@@ -13,5 +14,6 @@ export const LessonNavigator = () => (
         <Stack.Screen name='Список уроков' component={LessonsList} />
         <Stack.Screen name='Журнал' component={Journal} />
         <Stack.Screen name='Редактирование урока' component={EditLesson} />
+        <Stack.Screen name='Типы уроков' component={typesOfLesson} />
     </Stack.Navigator>
 );

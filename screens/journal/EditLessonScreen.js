@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 
 const EditLesson = (props) => {
     const {navigation, userData} = props;
-    const {lesson_id} = props.route.params;
+    const {lesson, lesson_id} = props.route.params;
     const buttons = [
         {title: 'Удалить'},
         {title: 'Сохранить'}
@@ -16,13 +16,18 @@ const EditLesson = (props) => {
         {title: 'Дата', value: 'data_lesson'}, 
         {title: 'Тема урока', value: 'name_lesson'}, 
         {title: 'Домашнее задание', value: 'homework'}, 
-        {title: 'Домашнее задание', value: 'title_of_lesson'},
+        {title: 'Описание урока', value: 'title_of_lesson'},
+        {title: 'Тип урока', value: 'type_of_lesson'},
+        {title: 'Файлы', value: 'general_file'},
+        {title: 'Замечания', value: 'number_of_comments'},
+        {title: 'Индивидуальные файлы', value: 'files'},
+        {title: 'Ответ ученика', value: 'number_of_student_files'},
     ];
     const [objectLesson, setObjectLesson] = useState(null);
 
     useLayoutEffect(() => {
         navigation.setOptions({
-          title: lesson_id ? 'Редактирование урока' : 'Добавление урока',
+          title: lesson ? 'Редактирование урока' : 'Добавление урока',
         });
     }, [navigation, lesson_id]);
 
@@ -44,21 +49,34 @@ const EditLesson = (props) => {
 
     return (
         <SafeAreaView style={{ margin: 5 }}> 
-            {objectLesson ?
-                <ScrollView style={styles.listItem}> 
-                {fields.map(field => (
-                        <InputField
-                            title={field.title}
-                            value={objectLesson[field.value]}
-                            onChangeText={text => 
-                                setObjectLesson({ ...objectLesson, [field.value] : text })
-                            }
-                        />
-                    ))
+            <ScrollView>
+                {objectLesson ?
+                    <ScrollView style={styles.listItem}> 
+                    {fields.map(field => (
+                        field.value === 'type_of_lesson' ?
+                            <JournalButton 
+                                key={field.title} 
+                                title={objectLesson[field.value] === 0 ? 'Обычный урок' : 'Контроль'} 
+                                onPress={() => navigation.navigate('Типы уроков', {lesson_id})} 
+                            /> : field.value === 'general_file' ?
+                            <JournalButton 
+                                key={field.title} 
+                                title={'+ Добавить файл'} 
+                                onPress={() => console.log('files')} 
+                            />  : 
+                            <InputField
+                                title={field.title}
+                                value={objectLesson[field.value]}
+                                onChangeText={text => 
+                                    setObjectLesson({ ...objectLesson, [field.value]: text })
+                                }
+                            />
+                        ))
+                    }
+                    </ScrollView> : <></>
                 }
-                </ScrollView> : <></>
-            }
-            <AcceptChangesPanel />
+                <AcceptChangesPanel />
+            </ScrollView>
         </SafeAreaView>
     );
 };
