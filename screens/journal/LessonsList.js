@@ -12,7 +12,18 @@ const LessonsList = (props) => {
     const [value, setValue] = useState('');
     const buttons = [
         {title: 'Открыть журнал', screen: 'Журнал', params: {}},
-        {title: '+ Добавить урок', screen: 'Редактирование урока', params: {date: null, lesson: null, lesson_id: pk, class_id: class_id}},
+        {
+            title: '+ Добавить урок', 
+            screen: 'Редактирование урока', 
+            params: {
+                // date: null, 
+                // lesson: null, 
+                // lesson_id: null, 
+                subject_id: pk, 
+                class_id: class_id, 
+                group: group,
+            }
+        },
     ];
 
     useLayoutEffect(() => {
@@ -38,17 +49,30 @@ const LessonsList = (props) => {
             setList(res.lessons_array);
         })
         .catch(err => console.log(err));
-    }, [term]);
+    }, [term, navigation]);
 
-    const Item = ({date, lesson, lesson_id, class_id}) => (
-        <TouchableOpacity onPress={() => navigation.navigate('Редактирование урока', {lesson, lesson_id, class_id})} style={{ ...styles.listItem, flexDirection: 'row', justifyContent: 'space-between' }}>
+    const Item = ({date, lesson, lesson_id, subject_id, class_id, group}) => (
+        <TouchableOpacity 
+            onPress={() => 
+                navigation.navigate('Редактирование урока', 
+                {date, lesson, lesson_id, class_id, subject_id, group}
+            )} 
+            style={{ ...styles.listItem, flexDirection: 'row', justifyContent: 'space-between' }}
+        >
             <Text style={{ fontStyle: 'italic' }}>{date}</Text>
             <Text>{lesson}</Text>
         </TouchableOpacity>
     );
 
     const renderLessonsList = ({item}) => (
-        <Item date={item.data_lesson} lesson={item.name_lesson} lesson_id={pk} class_id={class_id} />
+        <Item 
+            date={item.data_lesson} 
+            lesson={item.name_lesson} 
+            lesson_id={item.lesson_id} 
+            subject_id={pk} 
+            class_id={class_id} 
+            group={group}
+        />
     );
 
     const handlePress = (screen, params) => {
