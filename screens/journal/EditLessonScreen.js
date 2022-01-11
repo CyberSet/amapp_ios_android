@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 
 const EditLesson = (props) => {
     const {navigation, userData} = props;
-    const {date, lesson_id, subject_id, class_id, group} = props.route.params;
+    const {lesson_id, pk, class_id, group, numclass, ind, lesson} = props.route.params;
     const buttons = [
         {title: 'Удалить'},
         {title: 'Сохранить'}
@@ -42,26 +42,26 @@ const EditLesson = (props) => {
     }, []);
 
     const makeURL = (...args) => {
-        const start = `https://diary.alma-mater-spb.ru/e-journal/api/save_lesson.php?clue=${userData.clue}&user_id=${userData.user_id}&class_id=${class_id}&subject_id=${subject_id}&class_group=${group}&`;
+        const start = `https://diary.alma-mater-spb.ru/e-journal/api/save_lesson.php?clue=${userData.clue}&user_id=${userData.user_id}&class_id=${class_id}&subject_id=${pk}&class_group=${group}`;
 
         let tail;
 
         let keys = [];
         fields.map(field => {
-                keys.push(field.value)
+            keys.push(field.value)
             console.log(keys);
         })
         let keysArgs = [];
         for (let arg of args) {
             keys.map(key => {
                 if (args.indexOf(arg) === keys.indexOf(key)) {
-                    keysArgs.push(`${key}=${arg}`);
+                    keysArgs.push(`&${key}=${arg}`);
                 }
             })
         }
         console.log(keysArgs);
 
-        tail = keysArgs.join('&');
+        tail = keysArgs.join('');
         console.log(tail);
 
         if (tail.includes('data_lesson')) {
@@ -85,7 +85,7 @@ const EditLesson = (props) => {
         .then(res => console.log(res))
         .catch(err => console.log(err));
 
-        // navigation.navigate('Список уроков');
+        navigation.navigate('Список уроков', {pk, class_id, group, numclass, ind, lesson});
     };
 
     const AcceptChangesPanel = () => (
@@ -115,21 +115,19 @@ const EditLesson = (props) => {
                     <ScrollView style={styles.listItem}> 
                     {fields.map(field => (
                         field.value === 'data_lesson' ?
-                        <InputField
-                            title={field.title}
-                            value={
-                                objectLesson[field.value] ?
-                                objectLesson[field.value].substring(5).split('-').reverse().join('.')
-                                : objectLesson[field.value]
-                            }
-                            onChangeText={text => 
-                                setObjectLesson({ ...objectLesson, [field.value]: text })
-                            }
-                        /> : field.value === 'type_of_lesson' ?
+                        <JournalButton 
+                                key={field.title} 
+                                title={
+                                    objectLesson[field.value] ?
+                                    objectLesson[field.value].substring(5).split('-').reverse().join('.')
+                                    : 'Выберите дату'
+                                } 
+                                onPress={() => navigation.navigate('Календарь')} 
+                            /> : field.value === 'type_of_lesson' ?
                             <JournalButton 
                                 key={field.title} 
                                 title={objectLesson[field.value] === 0 ? 'Обычный урок' : 'Контроль'} 
-                                onPress={() => navigation.navigate('Типы уроков', {subject_id})} 
+                                onPress={() => navigation.navigate('Типы уроков', {pk})} 
                             /> : field.value === 'general_file' ?
                             <JournalButton 
                                 key={field.title} 

@@ -19,9 +19,12 @@ const LessonsList = (props) => {
                 // date: null, 
                 // lesson: null, 
                 // lesson_id: null, 
-                subject_id: pk, 
+                pk: pk, 
                 class_id: class_id, 
                 group: group,
+                numclass: numclass,
+                ind: ind,
+                lesson: lesson
             }
         },
     ];
@@ -51,11 +54,11 @@ const LessonsList = (props) => {
         .catch(err => console.log(err));
     }, [term, navigation]);
 
-    const Item = ({date, lesson, lesson_id, subject_id, class_id, group}) => (
+    const Item = ({date, lesson, lesson_id, pk, class_id, group, numclass, ind}) => (
         <TouchableOpacity 
             onPress={() => 
                 navigation.navigate('Редактирование урока', 
-                {date, lesson, lesson_id, class_id, subject_id, group}
+                {date, lesson, lesson_id, pk, class_id, group, numclass, ind}
             )} 
             style={{ ...styles.listItem, flexDirection: 'row', justifyContent: 'space-between' }}
         >
@@ -69,9 +72,11 @@ const LessonsList = (props) => {
             date={item.data_lesson} 
             lesson={item.name_lesson} 
             lesson_id={item.lesson_id} 
-            subject_id={pk} 
+            pk={pk} 
             class_id={class_id} 
             group={group}
+            numclass={numclass}
+            ind={ind}
         />
     );
 
