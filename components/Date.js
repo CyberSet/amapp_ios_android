@@ -3,6 +3,21 @@ const month = full_date.getMonth();
 const day = full_date.getDay();
 let date = full_date.getDate();
 
+export const monthNames = [
+    'Январь',
+    'Февраль',
+    'Март',
+    'Апрель',
+    'Май',
+    'Июнь',
+    'Июль',
+    'Август',
+    'Сентябрь',
+    'Октябрь',
+    'Ноябрь',
+    'Декабрь'
+];
+
 export const months = [
     'января', 
     'февраля',
@@ -29,12 +44,13 @@ export const days = [
 ]
 
 let d;
-let m;
 
-const get_month = () => {
+
+export const get_month = (month) => {
+    let m;
     for (let i=0; i<12; i++) {
         if (month === i) {
-            m = months[i];
+            m = monthNames[i];
         }
     }
 
@@ -51,10 +67,10 @@ const get_day = () => {
     return d;
 }
 
-const getNextMonth = () => {
-    let i=months.indexOf(m);
+export const getNextMonth = () => {
+    let i = monthNames.indexOf(m);
     date = 1;
-    m === months[11] ? m = months[0] : m = months[i + 1];
+    m === monthNames[11] ? m = monthNames[0] : m = monthNames[i + 1];
 }
 
 const getNextDate = () => {

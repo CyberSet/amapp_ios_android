@@ -1,10 +1,10 @@
 const initialState = {
     subjects: '',
-    lesson: ''
+    day: '',
 };
 
 const SET_SUBJECTS = 'SET_SUBJECTS';
-const PICK_SUBJECT = 'PICK_SUBJECT';
+const PICK_DAY = 'PICK_DAY';
 
 export const setSubjects = (subjects) => {
     return {
@@ -13,10 +13,10 @@ export const setSubjects = (subjects) => {
     };
 };
 
-export const pickSubject = (lesson) => {
+export const pickDay = (day) => {
     return {
-        type: PICK_SUBJECT,
-        payload: lesson
+        type: PICK_DAY,
+        payload: day
     }
 }
 
@@ -29,11 +29,11 @@ export const jLessonsReducer = (state=initialState, action) => {
                 subjects: action.payload
             }
 
-        case PICK_SUBJECT:
+        case PICK_DAY:
 
             return {
                 ...state,
-                lesson: action.payload
+                day: action.payload
             }
 
         default:

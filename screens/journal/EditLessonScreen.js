@@ -4,10 +4,14 @@ import InputField from "../../components/Input";
 import { styles } from "./JournalLessons";
 import JournalButton from "../../components/Button";
 import { connect } from "react-redux";
+import { bindActionCreators } from 'redux';
+import { pickDay } from '../../store/reducers/jLessonsReducer';
+// import { pickSubject } from "../../store/reducers/jLessonsReducer";
+import ExpandedCalendar from '../../components/Calendar';
 
 const EditLesson = (props) => {
-    const {navigation, userData} = props;
-    const {lesson_id, pk, class_id, group, numclass, ind, lesson} = props.route.params;
+    const {navigation, userData, day, pickDay} = props;
+    const {date, lesson_id, pk, class_id, group, numclass, ind, lesson} = props.route.params;
     const buttons = [
         {title: 'Удалить'},
         {title: 'Сохранить'}
@@ -24,12 +28,24 @@ const EditLesson = (props) => {
         {title: 'Ответ ученика', value: 'number_of_student_files'},
     ];
     const [objectLesson, setObjectLesson] = useState(null);
+    const [calendarOpened, setCalendarOpened] = useState(false);
+    const [selectedDay, setSelectedDay] = useState('');
 
     useLayoutEffect(() => {
         navigation.setOptions({
           title: lesson_id ? 'Редактирование урока' : 'Добавление урока',
         });
     }, [navigation, lesson_id]);
+
+    useEffect(() => {
+        day ?
+        setSelectedDay(day.substring(5).split('-').reverse().join('.')) :
+        setSelectedDay(date);
+    }, [day]);
+
+    useEffect(() => {
+        pickDay('');
+    }, [navigation]);
 
     useEffect(() => {
         fetch(`https://diary.alma-mater-spb.ru/e-journal/api/open_lesson_edit.php?clue=${userData.clue}&user_id=${userData.user_id}&lesson_id=${lesson_id}`)
@@ -50,14 +66,14 @@ const EditLesson = (props) => {
         fields.map(field => {
             keys.push(field.value)
             console.log(keys);
-        })
+        });
         let keysArgs = [];
         for (let arg of args) {
             keys.map(key => {
                 if (args.indexOf(arg) === keys.indexOf(key)) {
                     keysArgs.push(`&${key}=${arg}`);
                 }
-            })
+            });
         }
         console.log(keysArgs);
 
@@ -75,17 +91,17 @@ const EditLesson = (props) => {
 
     const saveChanges = async (...args) => {
         const url = makeURL(...args);
-        await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(res => res.json())
-        .then(res => console.log(res))
-        .catch(err => console.log(err));
+        // await fetch(url, {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     }
+        // })
+        // .then(res => res.json())
+        // .then(res => console.log(res))
+        // .catch(err => console.log(err));
 
-        navigation.navigate('Список уроков', {pk, class_id, group, numclass, ind, lesson});
+        // navigation.navigate('Список уроков', {pk, class_id, group, numclass, ind, lesson});
     };
 
     const AcceptChangesPanel = () => (
@@ -94,7 +110,7 @@ const EditLesson = (props) => {
                 button.title === 'Удалить' ? 
                 navigation.goBack() : 
                 saveChanges(
-                    objectLesson.data_lesson, 
+                    selectedDay, 
                     objectLesson.name_lesson,
                     objectLesson.homework,
                     objectLesson.title_of_lesson,
@@ -111,18 +127,22 @@ const EditLesson = (props) => {
     return (
         <SafeAreaView style={{ margin: 5 }}> 
             <ScrollView>
+                {
+                    calendarOpened ?
+                    <ExpandedCalendar onPress={() => {
+                        console.log(day);
+                        setCalendarOpened(false);
+                    }
+                } /> : <></>
+                }
                 {objectLesson ?
                     <ScrollView style={styles.listItem}> 
                     {fields.map(field => (
                         field.value === 'data_lesson' ?
                         <JournalButton 
                                 key={field.title} 
-                                title={
-                                    objectLesson[field.value] ?
-                                    objectLesson[field.value].substring(5).split('-').reverse().join('.')
-                                    : 'Выберите дату'
-                                } 
-                                onPress={() => navigation.navigate('Календарь')} 
+                                title={selectedDay} 
+                                onPress={() => setCalendarOpened(!calendarOpened)} 
                             /> : field.value === 'type_of_lesson' ?
                             <JournalButton 
                                 key={field.title} 
@@ -135,6 +155,7 @@ const EditLesson = (props) => {
                                 onPress={() => console.log('files')} 
                             />  : 
                             <InputField
+                                key={field.title} 
                                 title={field.title}
                                 value={objectLesson[field.value]}
                                 onChangeText={text => 
@@ -155,7 +176,14 @@ const mapStateToProps = (state) => {
     return {
         userData: state.auth.userData,
         user: state.auth.user,
+        day: state.jlr.day
     };
 };
 
-export default connect(mapStateToProps)(EditLesson);
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+        pickDay
+    }, dispatch);
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditLesson);
