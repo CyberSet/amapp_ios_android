@@ -40,8 +40,8 @@ const Report = (props) => {
             <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 6 }}>{column.title}</Text>
             {
                 column.rows ? column.rows.map((row, i) => (
-                    <View>
-                        <Text style={{ fontSize: 16, marginBottom: 6 }} key={i}>{row}</Text>
+                    <View key={i}>
+                        <Text key={row} style={{ fontSize: 16, marginBottom: 6 }} key={i}>{row}</Text>
                     </View>
                 )) : <></>
             }
@@ -68,16 +68,18 @@ const Report = (props) => {
         setSubjects('');
         setFact('');
         let names = [], classes = [], subjects = [], fact = [];
-        students ? students.map((student, i) => {
-            names.push(`${i + 1}. ${student.surname} ${student.name.substring(0, 1)}`);
-            classes.push(student.class_name);
-            subjects.push(student.subject_name);
-            fact.push(student.fact);
-            setNames(names);
-            setClasses(classes);
-            setSubjects(subjects);
-            setFact(fact);
-        }) : console.log('no students');
+        if (students) {
+            students.map((student, i) => {
+                names.push(`${i + 1}. ${student.surname} ${student.name.substring(0, 1)}`);
+                classes.push(student.class_name);
+                subjects.push(student.subject_name);
+                fact.push(student.fact);
+                setNames(names);
+                setClasses(classes);
+                setSubjects(subjects);
+                setFact(fact);
+            })
+        }
     };
 
     const nextMonth = () => {
