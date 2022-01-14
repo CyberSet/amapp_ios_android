@@ -20,9 +20,9 @@ const Links = ({col, navigation}) => {
 
     return (
         <View>
-            <Text style={{fontSize: 16, color: col, textAlign: 'center', marginBottom: 15, fontStyle: 'italic'}}>
+            {/* <Text style={{fontSize: 16, color: col, textAlign: 'center', marginBottom: 15, fontStyle: 'italic'}}>
                 Ссылки на социальные сети гимназии:
-            </Text>
+            </Text> */}
             <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
                 {socialMedia.map(item =>
                         <View key={item.icon} style={{backgroundColor: '#fff', borderRadius: 50, padding: 5}}>

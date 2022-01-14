@@ -9,7 +9,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 const Replacements = (props) => {
     const {userData, month} = props;
     const [lessons, setLessons] = useState('');
-    // const [currentMonth, setCurrentMonth] = useState(month);
     const [start, setStart] = useState('');
     const [end, setEnd] = useState('');
 

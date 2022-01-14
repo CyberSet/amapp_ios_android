@@ -1,10 +1,8 @@
 import React from 'react';
-import { Text, FlatList, TouchableOpacity, SafeAreaView, StyleSheet } from 'react-native';
+import { Dimensions, ImageBackground, SafeAreaView, StyleSheet, View } from 'react-native';
 // import { useSelector } from 'react-redux';
-import { styles } from '../../components/Style';
-// import Links from "../components/Links";
-import JournalButton from '../../components/Button';
-import { Dimensions } from 'react-native';
+import Links from "../../components/Links";
+import MenuItem from '../../components/MenuItem';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
@@ -20,7 +18,7 @@ const JournalMenu = ({navigation}) => {
     ];
 
     const Item = ({name, icon}) => ( 
-        <JournalButton title={name} iconName={icon} onPress={() => console.log('button')} />
+        <MenuItem title={name} iconName={icon} onPress={() => console.log('button')} />
     );
 
     const renderItem = ({item}) => {
@@ -30,26 +28,33 @@ const JournalMenu = ({navigation}) => {
     };
 
     return (
-        <SafeAreaView>
-            <FlatList
-                style={styles.list}
-                data={menu}
-                renderItem={renderItem}
-                keyExtractor={item => item.name}
-            />
-            {/* <Links col='#000' navigation={navigation} /> */}
+        <SafeAreaView style={{ flex: 1 }}>
+            <ImageBackground source={require('../../assets/AM-app.png')} resizeMode="cover" style={styles.image}>
+                <View style={{ flex: .8, justifyContent: 'space-between' }}>
+                    <Links col='#000' navigation={navigation} />
+                    <View style={styles.container}>
+                        {
+                            menu.map(item => (
+                                <MenuItem key={item.name} title={item.name} iconName={item.icon} onPress={() => console.log('button')} />
+                            ))
+                        }
+                    </View>
+                </View>
+            </ImageBackground>
         </SafeAreaView>
     );
 };
 
-const menuStyle = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
-        // marginTop: windowHeight/4,
-        padding: 20,
-        margin: 5,
-        backgroundColor: '#F8EEDF',
-        borderRadius: 35,
-        shadowOpacity: .2
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        // justifyContent: 'center',
+    },
+    image: {
+        flex: 1,
+        backgroundColor: '#00656D',
+        padding: 10
     }
 })
 
