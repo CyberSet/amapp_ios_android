@@ -15,6 +15,13 @@ export const dateReducer = (state=initialState, action) => {
                 stringDate: action.date
             }
 
+        case 'SET_YEAR':
+
+            return {
+                ...state,
+                year: action.year,
+            }
+
         case 'SET_MONTH':
 
             return {

@@ -6,7 +6,7 @@ import JournalButton from "../../components/Button";
 import { setSubjects } from "../../store/reducers/jLessonsReducer";
 
 const Item = ({pk, lesson, groups, navigation}) => {
-    const [expanded, setExpanded] = useState(false);
+    const [expanded, setExpanded] = useState(true);
 
     function keyGenerator(key) {
         return Math.random() + key;
@@ -27,20 +27,20 @@ const Item = ({pk, lesson, groups, navigation}) => {
 
     const RenderGroups = ({pk, item, onPress}) => (
         <TouchableOpacity key={() => keyGenerator(pk)} onPress={onPress} style={{ borderBottomWidth: 1 }}>
-            <Text key={() => keyGenerator(pk)} style={styles.subItem}>
+            <Text key={() => keyGenerator(pk)} style={journalLessonsStyle.subItem}>
                 {item}
             </Text>
         </TouchableOpacity>
     )
 
     return (
-        <View key={() => keyGenerator(pk)} style={styles.listContaner}>
+        <View key={() => keyGenerator(pk)} style={journalLessonsStyle.listContaner}>
             <JournalButton key={() => keyGenerator(pk)} title={lesson} onPress={() => setExpanded(!expanded)} />
             {expanded && !groups ? <Text key={() => keyGenerator(pk)}> - </Text> : expanded && groups.map(item => (
-                    <View key={() => keyGenerator(pk)} style={styles.listItem}>
+                    <View key={() => keyGenerator(pk)} style={journalLessonsStyle.listItem}>
                         <Text 
                             key={() => keyGenerator(pk)} 
-                            style={styles.numclass}>{!item.numclass.includes('-') ?  item.numclass + ' класс' : item.numclass}
+                            style={journalLessonsStyle.numclass}>{!item.numclass.includes('-') ?  item.numclass + ' класс' : item.numclass}
                         </Text>
                         {item.class_group_array.map(group => (
                                 group != '4' ?
@@ -105,7 +105,7 @@ class JournalLessons extends Component {
 
     render() {
         return(
-            <SafeAreaView style={styles.listContaner}>
+            <SafeAreaView style={journalLessonsStyle.listContaner}>
                 {!this.state.data ?
                     <Text>Загрузка...</Text> :
                     <FlatList 
@@ -129,7 +129,7 @@ const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({setSubjects: setSubjects}, dispatch);
 };
 
-export const styles = ({
+export const journalLessonsStyle = ({
     listContaner: {
         marginHorizontal: 5
     },

@@ -57,7 +57,7 @@ export const get_month = (month) => {
     return m;
 }
 
-export const get_month_declination = (month) => {
+export const getMonthDeclination = (month) => {
     let m;
     for (let i=0; i<12; i++) {
         if (month === i) {

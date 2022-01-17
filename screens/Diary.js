@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View, ScrollView, Pressable, TouchableOpacity, SafeAreaView } from 'react-native';
 import { Button } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,7 +11,8 @@ import { days, months } from "../components/Date";
 const DiaryScreen = ({navigation}) => {
     const lessons = useSelector(state => state.lesson.lessons)
     const full_date = new Date(Date());
-    const year = useSelector(state => state.date.year);
+    const currentYear = useSelector(state => state.date.year);
+    const [year, setYear] = useState(currentYear);
     const month = useSelector(state => state.date.month);
     const day = full_date.getDay();
 
@@ -20,6 +21,7 @@ const DiaryScreen = ({navigation}) => {
     const setDate = (date) => dispatch({type: 'SET_DATE', date});
     const set_m = (month_num, month) => dispatch({type: 'SET_MONTH', month_num,  month});
     const set_d = (day) => dispatch({type: 'SET_DAY', day});
+    // const setYear = (year) => dispatch({type: 'SET_YEAR', year});
     // const toggleCalendar = () => dispatch({type: 'TOGGLE_CALENDAR'});
     const toggleLessonInfo = (lesson) => dispatch({type: 'TOGGLE_LESSON_INFO', lesson});
 
@@ -31,7 +33,7 @@ const DiaryScreen = ({navigation}) => {
     const userData = useSelector(state => state.auth.userData);
     const user = useSelector(state => state.auth.user);
 
-    const get_month = () => {
+    const getMonth = () => {
         for (let i=0; i<12; i++) {
             if (month === i) {
                 set_m(month, months[i]);
@@ -41,7 +43,7 @@ const DiaryScreen = ({navigation}) => {
         return m;
     };
 
-    const get_day = () => {
+    const getDay = () => {
         for (let i=0; i<7; i++) {
             if (day === i) {
                 set_d(days[i]);
@@ -51,12 +53,26 @@ const DiaryScreen = ({navigation}) => {
         return d;
     };
 
+    const prevYear = () => {
+        if (year === currentYear && month === 0 && date === 1) {
+            setYear(year - 1);
+        }
+        console.log(currentYear);
+        console.log(date);
+    };
+
+    const nextYear = () => {
+        if (year === currentYear - 1 && month === 11 && date === 31) {
+            setYear(year + 1);
+        }
+    };
+
     const date_lesson = `${year}-${month < 10 ? '0' + (month + 1).toString() : month + 1}-${date < 10 ? '0' + date.toString() : date}`;
 
     useEffect(() => {
         setDate(new Date(Date()).getDate());
-        get_day();
-        get_month();
+        getDay();
+        getMonth();
     }, []);
 
     useEffect(() => {
@@ -70,6 +86,7 @@ const DiaryScreen = ({navigation}) => {
             .then(response => {
                 setLessons(response.lessons)
                 console.log(response.lessons)
+                console.log(url);
             })
             .catch(error => console.log(error));
         };
@@ -79,13 +96,13 @@ const DiaryScreen = ({navigation}) => {
     }, [date, user]);
 
     const getNextMonth = () => {
-        let i=months.indexOf(m);
+        let i = months.indexOf(m);
         setDate(1);
         m === months[11] ? set_m(0, months[0]) : set_m(month + 1, months[i + 1]);
     };
 
     const getPrevMonth = () => {
-        let i=months.indexOf(m);
+        let i = months.indexOf(m);
 
         if (
             m === months[4]
@@ -104,7 +121,7 @@ const DiaryScreen = ({navigation}) => {
     };
 
     const getNextDate = () => {
-
+        nextYear();
         if (
             m === months[0]
             || m === months[2]
@@ -118,6 +135,8 @@ const DiaryScreen = ({navigation}) => {
             date === 31 ? getNextMonth() : setDate(date + 1)
         } else if (m === months[1]) {
             date === 28 || date === 29 ? getNextMonth() : setDate(date + 1)
+        } else if (year === currentYear && month === 11 && date === 31) {
+            console.log('end');
         } else {
             date === 30 ? getNextMonth() : setDate(date + 1)
         }
@@ -126,7 +145,10 @@ const DiaryScreen = ({navigation}) => {
     };
 
     const getPrevDate = () => {
-
+        if (year === currentYear - 1 && month === 11 && date === 31) {
+            console.log('end');
+        }
+        prevYear();
         date === 1 ? getPrevMonth() : setDate(date - 1);
         d === days[0] ? set_d(days[6]) : set_d(days[days.indexOf(d) - 1]);
     };
@@ -163,7 +185,7 @@ const DiaryScreen = ({navigation}) => {
             </ScrollView>
 
             <ScrollView>
-                {lessons.map(lesson =>
+                {lessons.length > 0 ? lessons.map(lesson =>
                     <TouchableOpacity
                         key={lesson.lesson_id}
                         style={
@@ -208,7 +230,10 @@ const DiaryScreen = ({navigation}) => {
                             }
                         </View>
                     </TouchableOpacity>
-                )}
+                ) : 
+                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                    <Text style={{ fontSize: 18, padding: 10 }}>Список уроков пуст</Text>
+                </View>}
                 <View style={{padding: 50}}>
                 </View>
             </ScrollView>

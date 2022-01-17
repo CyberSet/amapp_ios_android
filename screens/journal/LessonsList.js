@@ -3,7 +3,7 @@ import { SafeAreaView, Text, FlatList, StyleSheet, View, TouchableOpacity } from
 import { connect } from 'react-redux';
 import JournalButton from '../../components/Button';
 import QuartersHeader from '../../components/QuartersHeader';
-import { styles } from './JournalLessons';
+import { journalLessonsStyle } from './JournalLessons';
 
 const LessonsList = (props) => {
     const {navigation, userData, term} = props;
@@ -16,9 +16,6 @@ const LessonsList = (props) => {
             title: '+ Добавить урок', 
             screen: 'Редактирование урока', 
             params: {
-                // date: null, 
-                // lesson: null, 
-                // lesson_id: null, 
                 pk: pk, 
                 class_id: class_id, 
                 group: group,
@@ -60,7 +57,7 @@ const LessonsList = (props) => {
                 navigation.navigate('Редактирование урока', 
                 {date, lesson, lesson_id, pk, class_id, group, numclass, ind}
             )} 
-            style={{ ...styles.listItem, flexDirection: 'row', justifyContent: 'space-between' }}
+            style={{ ...journalLessonsStyle.listItem, flexDirection: 'row', justifyContent: 'space-between' }}
         >
             <Text style={{ fontStyle: 'italic' }}>{date}</Text>
             <Text>{lesson}</Text>
@@ -100,12 +97,7 @@ const LessonsList = (props) => {
     }
 
     return(
-        <SafeAreaView style={styles.container}>
-            {/* <Text>
-                {lesson.subject_name}, 
-                {' ' + numclass} класс,
-                {ind ? ' ' + ind : ' ' + group + ' группа'}
-            </Text> */}
+        <SafeAreaView style={journalLessonsStyle.container}>
             <View style={style.container}>
                 {list ?
                     <FlatList 
@@ -116,7 +108,7 @@ const LessonsList = (props) => {
                     /> :
                     <>
                         <Header />
-                        <View style={styles.listItem}>
+                        <View style={journalLessonsStyle.listItem}>
                             <Text style={{ textAlign: 'center' }}>Нет добавленных уроков</Text>
                         </View>
                     </>

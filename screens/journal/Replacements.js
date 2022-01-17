@@ -1,31 +1,36 @@
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, Text, ScrollView } from "react-native";
+import { SafeAreaView, Text, ScrollView, View, StyleSheet } from "react-native";
 import { Button } from 'react-native-paper';
 import { connect } from "react-redux";
 import { styles } from "../../components/Style";
-import { get_month_declination } from "../../components/Date";
+import { journalLessonsStyle } from "./JournalLessons";
+import { getMonthDeclination } from "../../components/Date";
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const Replacements = (props) => {
-    const {userData, month} = props;
-    const [lessons, setLessons] = useState('');
+    const {userData} = props;
+    const [lessons, setLessons] = useState([]);
     const [start, setStart] = useState('');
     const [end, setEnd] = useState('');
+    const [week, setWeek] = useState(0);
 
     useEffect(() => {
-        fetch(`https://diary.alma-mater-spb.ru/e-journal/api/open_replacement.php?clue=${userData.clue}&user_id=${userData.user_id}&week=2`)
-        .then(res => res.json())
-        .then(res => {
-            console.log(res);
-            setLessons(res.replacement_array);
-        })
-        .catch(err => console.log(err));
-    }, []);
+        fetch(`https://diary.alma-mater-spb.ru/e-journal/api/open_replacement.php?clue=${userData.clue}&user_id=${userData.user_id}&week=${week}`)
+            .then(res => res.json())
+            .then(res => {
+                console.log(res);
+                setLessons(res.replacement_array);
+                res.replacement_array.map(lesson => {
+                    console.log(lesson.replacement);
+                });
+            })
+            .catch(err => console.log(err));
+    }, [week]);
 
     useEffect(() => {
         let monthStart;
         let monthEnd;
-        if (lessons) {
+        if (lessons.length > 0) {
             let monthStartNumber = lessons[0].currentData.substring(5).split('-').reverse()[1];
             if (monthStartNumber[0] === '0') {
                 monthStartNumber = monthStartNumber.substring(1);
@@ -34,8 +39,8 @@ const Replacements = (props) => {
             if (monthEndNumber[0] === '0') {
                 monthEndNumber = monthEndNumber.substring(1);
             }
-            monthStart = get_month_declination(monthStartNumber - 1);
-            monthEnd = get_month_declination(monthEndNumber - 1);
+            monthStart = getMonthDeclination(monthStartNumber - 1);
+            monthEnd = getMonthDeclination(monthEndNumber - 1);
             setStart(lessons[0].currentData.substring(5).split('-').reverse()[0] + ' ' + monthStart);
             setEnd(lessons[lessons.length - 1].currentData.substring(5).split('-').reverse()[0] + ' ' + monthEnd);
         }
@@ -43,40 +48,80 @@ const Replacements = (props) => {
 
     const Header = () => (
         <ScrollView contentContainerStyle={styles.adsScreen}>
-                <Button
-                    onPress={() => setWeek(week + 1)}
-                >
-                    <Icon
-                        name='chevron-back-outline'
-                        size={25}
-                        color='#000'
-                    />
-                </Button>
-                <Text style={{ fontSize: 20 }}>
+            <Button
+                onPress={() => setWeek(week + 1)}
+            >
+                <Icon
+                    name='chevron-back-outline'
+                    size={25}
+                    color='#000'
+                />
+            </Button>
+            <Text style={{ fontSize: 20 }}>
                 {start} - {end}
-                </Text>
-                <Button
-                    onPress={() => setWeek(week - 1)}
-                >
-                    <Icon
-                        name='chevron-forward-outline'
-                        size={25}
-                        color='#000'
-                    />
-                </Button>
-            </ScrollView>
-    )
+            </Text>
+            <Button
+                onPress={() => setWeek(week - 1)}
+            >
+                <Icon
+                    name='chevron-forward-outline'
+                    size={25}
+                    color='#000'
+                />
+            </Button>
+        </ScrollView>
+    );
 
-    return(
-        <SafeAreaView>
+    return (
+        <SafeAreaView style={replStyles.container}>
             {
                 lessons ?
-                <Header /> :
-                <Text>no lessons yet</Text>
+                <ScrollView>
+                    <Header />
+                    {
+                        lessons.map(lesson => (
+                            lesson.replacement.map(repl => (
+                                <View style={journalLessonsStyle.listItem}>
+                                    <View>
+                                        <Text style={{ paddingVertical: 10 }}>date</Text>
+                                    </View>
+                                    <View style={replStyles.replInfoContainer}>
+                                        <Text style={replStyles.lessonInfo}>
+                                            {repl.sub_name}, {repl.class_name}/{repl.group_id}, {repl.number_lesson} урок, {repl.reason}
+                                        </Text>
+                                        <Text style={replStyles.replInfo}>
+                                            {repl.user_replacement}, {repl.sub_replacement}
+                                        </Text>
+                                    </View>
+                                </View>
+                            ))
+                        ))
+                    }
+                </ScrollView>
+                : <Text>Нет замен</Text>
             }
         </SafeAreaView>
     );
 };
+
+const replStyles = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 10
+    },
+    lessonInfo: {
+        fontSize: 18,
+        lineHeight: 30
+    },
+    replInfo: {
+        fontSize: 18,
+        lineHeight: 30,
+        fontStyle: 'italic'
+    },
+    replInfoContainer: {
+        paddingLeft: 15
+    }
+});
 
 const mapStateToProps = (state) => {
     return {

@@ -4,7 +4,7 @@ import { Button } from 'react-native-paper';
 import { connect } from "react-redux";
 import { get_month } from "../../components/Date";
 import Icon from 'react-native-vector-icons/Ionicons';
-import { styles } from './JournalLessons';
+import { journalLessonsStyle } from './JournalLessons';
 
 const Report = (props) => {
     const {month, userData} = props;
@@ -129,18 +129,18 @@ const Report = (props) => {
             {
                 students ?
                 <>
-                    <View style={{ ...styles.listItem, justifyContent: 'space-between', flexDirection: 'row', padding: 15 }}>
+                    <View style={{ ...journalLessonsStyle.listItem, justifyContent: 'space-between', flexDirection: 'row', padding: 15 }}>
                         <Column column={studentsColumn} />
                         <Column column={classesColumn} />
                         <Column column={subjectsColumn} />
                         <Column column={factColumn} />
                     </View> 
-                    <View style={{ ...styles.listItem, justifyContent: 'space-between', flexDirection: 'row', padding: 20 }}>
+                    <View style={{ ...journalLessonsStyle.listItem, justifyContent: 'space-between', flexDirection: 'row', padding: 20 }}>
                         <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Итого:</Text>
                         <Text style={{ fontSize: 18 }}>{students[0].fact_view}</Text>
                     </View>
                 </> :
-                <View style={{ ...styles.listItem, alignItems: 'center', padding: 25 }}>
+                <View style={{ ...journalLessonsStyle.listItem, alignItems: 'center', padding: 25 }}>
                     <Text style={{ fontSize: 18 }}>Пока что нет уроков</Text>
                 </View>
             }
