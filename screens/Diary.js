@@ -197,8 +197,8 @@ const DiaryScreen = ({navigation}) => {
                             }
                         }
                         onPress={() => {
-                            toggleLessonInfo(lesson)
-                            navigation.navigate('Lesson')
+                            toggleLessonInfo(lesson);
+                            navigation.navigate('Lesson');
                         }}
                     >
 
