@@ -33,7 +33,7 @@ const DiaryScreen = ({navigation}) => {
     const userData = useSelector(state => state.auth.userData);
     const user = useSelector(state => state.auth.user);
 
-    const get_month = () => {
+    const getMonth = () => {
         for (let i=0; i<12; i++) {
             if (month === i) {
                 set_m(month, months[i]);
@@ -43,7 +43,7 @@ const DiaryScreen = ({navigation}) => {
         return m;
     };
 
-    const get_day = () => {
+    const getDay = () => {
         for (let i=0; i<7; i++) {
             if (day === i) {
                 set_d(days[i]);
@@ -71,8 +71,8 @@ const DiaryScreen = ({navigation}) => {
 
     useEffect(() => {
         setDate(new Date(Date()).getDate());
-        get_day();
-        get_month();
+        getDay();
+        getMonth();
     }, []);
 
     useEffect(() => {
@@ -135,6 +135,8 @@ const DiaryScreen = ({navigation}) => {
             date === 31 ? getNextMonth() : setDate(date + 1)
         } else if (m === months[1]) {
             date === 28 || date === 29 ? getNextMonth() : setDate(date + 1)
+        } else if (year === currentYear && month === 11 && date === 31) {
+            console.log('end');
         } else {
             date === 30 ? getNextMonth() : setDate(date + 1)
         }
@@ -143,6 +145,9 @@ const DiaryScreen = ({navigation}) => {
     };
 
     const getPrevDate = () => {
+        if (year === currentYear - 1 && month === 11 && date === 31) {
+            console.log('end');
+        }
         prevYear();
         date === 1 ? getPrevMonth() : setDate(date - 1);
         d === days[0] ? set_d(days[6]) : set_d(days[days.indexOf(d) - 1]);
