@@ -31,7 +31,7 @@ export const months = [
     'октября', 
     'ноября', 
     'декабря'
-]
+];
 
 export const days = [
     'воскресенье',
@@ -41,7 +41,7 @@ export const days = [
     'четверг',
     'пятница',
     'суббота'
-]
+];
 
 let d;
 
@@ -66,7 +66,7 @@ export const getMonthDeclination = (month) => {
     }
 
     return m;
-}
+};
 
 const get_day = () => {
     for (let i=0; i<7; i++) {
@@ -76,7 +76,7 @@ const get_day = () => {
     }
 
     return d;
-}
+};
 
 export const getNextMonth = () => {
     let i = monthNames.indexOf(m);
@@ -101,4 +101,4 @@ const getNextDate = () => {
     }
 
     d === days[6] ? d = days[0] : d = days[days.indexOf(d) + 1];
-}
+};

@@ -7,7 +7,7 @@ import { styles } from "../components/Style";
 const Lesson = ({navigation}) => {
     const lesson = useSelector(state => state.lesson.lesson);
     const homework = useSelector(state => state.lesson.homework);
-    const links = useSelector(state => state.lesson.link);
+    const links = useSelector(state => state.lesson.links);
     const date = useSelector(state => state.date.stringDate);
     const d = useSelector(state => state.date.stringDay);
     const m = useSelector(state => state.date.stringMonth);
@@ -16,7 +16,7 @@ const Lesson = ({navigation}) => {
         navigation.setOptions({ headerTitle: lesson.subject_name });
       }, []);
 
-    const _handleLink = async (url) => {
+    const handleLink = async (url) => {
         await Linking.openURL(encodeURI(url).replace(/[' ']/g, '%20'));
         console.log(url.replace(/[' ']/g, '%20'));
     };
@@ -33,7 +33,7 @@ const Lesson = ({navigation}) => {
 
     const handlePress = (uri) => {
         setSelectable(true);
-        _handleLink(uri);
+        handleLink(uri);
     }
 
     const Item = ({title, info, links, type}) => {
@@ -43,28 +43,36 @@ const Lesson = ({navigation}) => {
                     {title}
                 </Text>
                 {
-                    info
-                    ? <Text 
+                    info ? 
+                    <Text 
+                        key={info}
                         onPress={() => setSelectable(true)}
                         selectable={selectable}
-                        style={
-                            {
-                                ...styles.lessonInfo, 
-                                color: type === 0 
-                                ? 'red' 
-                                : type === 1 
-                                ? 'green' 
-                                : '#000'
-                            }
-                        }
+                        style={{
+                            ...styles.lessonInfo, 
+                            color: type === 0 
+                            ? 'red' 
+                            : type === 1 
+                            ? 'green' 
+                            : '#000'
+                        }}
                     >
                         {info.toString()}
                     </Text>
                     : <></>
                 }
                 {
-                    links
-                    ? <Text selectable={selectable} onPress={() => handlePress(links)} style={{ ...styles.lessonInfo, color: '#0080ff'}}>{links}</Text>
+                    links ? 
+                    links.map(link => (
+                        <Text 
+                            key={link}
+                            selectable={selectable} 
+                            onPress={() => handlePress(link)} 
+                            style={{ ...styles.lessonInfo, color: '#0080ff'}}
+                        >
+                            {link}
+                        </Text>
+                    ))
                     : <></>
                 }
             </View>
@@ -82,7 +90,7 @@ const Lesson = ({navigation}) => {
     };
 
     const Files = () => (
-        <View>
+        <View style={{ paddingBottom: 20 }}>
             <Text style={styles.lessonInfoTitle}>
                 Файлы
             </Text>
@@ -118,7 +126,7 @@ const Lesson = ({navigation}) => {
                         }
                         key={lesson.lesson_id}
                         onPress={
-                            () => _handleLink(item.url)
+                            () => handleLink(item.url)
                         }
                     >
                         {item.title}
@@ -134,9 +142,9 @@ const Lesson = ({navigation}) => {
                                 ...styles.lessonInfo, color: 'red'
                             }
                         }
-                        key={lesson.lesson_id}
+                        key={lesson.files_ind}
                         onPress={
-                            () => _handleLink(item.url)
+                            () => handleLink(item.url)
                         }
                     >
                         {item.title}

@@ -1,7 +1,7 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { SafeAreaView, ScrollView } from "react-native";
 import InputField from "../../components/Input";
-import { styles } from "./JournalLessons";
+import { journalLessonsStyle } from "./JournalLessons";
 import JournalButton from "../../components/Button";
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
@@ -89,7 +89,7 @@ const EditLesson = (props) => {
         return url;
     }
 
-    const saveChanges = async (...args) => {
+    const addLesson = async (...args) => {
         const url = makeURL(...args);
         // await fetch(url, {
         //     method: 'POST',
@@ -104,12 +104,20 @@ const EditLesson = (props) => {
         // navigation.navigate('Список уроков', {pk, class_id, group, numclass, ind, lesson});
     };
 
+    const saveChanges = (clue, param) => {
+        // fetch(`https://diary.alma-mater-spb.ru/e-journal/api/save_edit_lesson.php?clue=${userData.clue}&user_id=${userData.user_id}&lesson_id=${lesson_id}&${clue}=${param}`)
+        //     .then(res => res.json())
+        //     .then(res => console.log(res))
+        //     .catch(err => console.log(err));
+        console.log(`https://diary.alma-mater-spb.ru/e-journal/api/save_edit_lesson.php?clue=${userData.clue}&user_id=${userData.user_id}&lesson_id=${lesson_id}&${clue}=${param}`);
+    };
+
     const AcceptChangesPanel = () => (
         buttons.map(button => (
             <JournalButton key={button.title} title={button.title} onPress={() => {
                 button.title === 'Удалить' ? 
                 navigation.goBack() : 
-                saveChanges(
+                addLesson(
                     selectedDay, 
                     objectLesson.name_lesson,
                     objectLesson.homework,
@@ -136,7 +144,7 @@ const EditLesson = (props) => {
                 } /> : <></>
                 }
                 {objectLesson ?
-                    <ScrollView style={styles.listItem}> 
+                    <ScrollView style={journalLessonsStyle.listItem}> 
                     {fields.map(field => (
                         field.value === 'data_lesson' ?
                         <JournalButton 

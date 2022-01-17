@@ -81,16 +81,36 @@ const Replacements = (props) => {
                     {
                         lessons.map(lesson => (
                             lesson.replacement.map(repl => (
+                                repl.type === 1 ?
                                 <View style={journalLessonsStyle.listItem}>
                                     <View>
                                         <Text style={{ paddingVertical: 10 }}>date</Text>
                                     </View>
                                     <View style={replStyles.replInfoContainer}>
                                         <Text style={replStyles.lessonInfo}>
-                                            {repl.sub_name}, {repl.class_name}/{repl.group_id}, {repl.number_lesson} урок, {repl.reason}
+                                            {repl.sub_name}, 
+                                            {repl.class_name}/{repl.group_id}, 
+                                            {repl.number_lesson} урок, 
+                                            {repl.reason}
                                         </Text>
                                         <Text style={replStyles.replInfo}>
-                                            {repl.user_replacement}, {repl.sub_replacement}
+                                            {repl.user_replacement ? repl.user_replacement : ''}, 
+                                            {repl.sub_replacement}
+                                        </Text>
+                                    </View>
+                                </View> :
+                                <View style={journalLessonsStyle.listItem}>
+                                <View>
+                                    <Text style={{ paddingVertical: 10 }}>date</Text>
+                                </View>
+                                    <View style={replStyles.replInfoContainer}>
+                                        <Text style={replStyles.lessonInfo}>
+                                            {repl.class_name}, 
+                                            {repl.reason}
+                                        </Text>
+                                        <Text style={replStyles.replInfo}>
+                                            {repl.user_replacement}, 
+                                            {repl.add_field}
                                         </Text>
                                     </View>
                                 </View>
