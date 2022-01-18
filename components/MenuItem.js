@@ -13,7 +13,7 @@ const MenuItem = ({title, iconName, onPress}) => {
                     flexDirection: 'column', 
                     justifyContent: 'space-around', 
                     alignItems: 'center', 
-                    height: 180,
+                    height: 160,
                     width: '45%',
                 } : styles.button
         }>

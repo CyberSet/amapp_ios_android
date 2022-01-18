@@ -1,20 +1,20 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
-import { SafeAreaView, ScrollView } from "react-native";
-import InputField from "../../components/Input";
-import { journalLessonsStyle } from "./JournalLessons";
-import JournalButton from "../../components/Button";
-import { connect } from "react-redux";
+import React, { useEffect, useLayoutEffect, useState } from 'react';
+import { SafeAreaView, ScrollView } from 'react-native';
+import InputField from '../../components/Input';
+import { journalLessonsStyle } from './JournalLessons';
+import JournalButton from '../../components/Button';
+import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { pickDay } from '../../store/reducers/jLessonsReducer';
-// import { pickSubject } from "../../store/reducers/jLessonsReducer";
+import { pickDay, setObjectLesson, setLessonTypes } from '../../store/reducers/jLessonsReducer';
+// import { pickSubject } from '../../store/reducers/jLessonsReducer';
 import ExpandedCalendar from '../../components/Calendar';
 
 const EditLesson = (props) => {
-    const {navigation, userData, day, pickDay} = props;
+    const {navigation, userData, day, pickDay, objectLesson, setObjectLesson, lessonTypes, setLessonTypes} = props;
     const {date, lesson_id, pk, class_id, group, numclass, ind, lesson} = props.route.params;
     const buttons = [
         {title: 'Удалить'},
-        {title: 'Сохранить'}
+        // {title: 'Сохранить'}
     ];
     const fields = [
         {title: 'Дата', value: 'data_lesson'}, 
@@ -27,7 +27,6 @@ const EditLesson = (props) => {
         {title: 'Индивидуальные файлы', value: 'files'},
         {title: 'Ответ ученика', value: 'number_of_student_files'},
     ];
-    const [objectLesson, setObjectLesson] = useState(null);
     const [calendarOpened, setCalendarOpened] = useState(false);
     const [selectedDay, setSelectedDay] = useState('');
 
@@ -49,18 +48,26 @@ const EditLesson = (props) => {
 
     useEffect(() => {
         fetch(`https://diary.alma-mater-spb.ru/e-journal/api/open_lesson_edit.php?clue=${userData.clue}&user_id=${userData.user_id}&lesson_id=${lesson_id}`)
-        .then(res => res.json())
-        .then(res => {
-            console.log(res);
-            setObjectLesson(res.lessons_array);
-        })
-        .catch(err => console.log(err));
+            .then(res => res.json())
+            .then(res => {
+                console.log(res);
+                setObjectLesson(res.lessons_array);
+            })
+            .catch(err => console.log(err));
+    }, []);
+
+    useEffect(() => {
+        fetch(`https://diary.alma-mater-spb.ru/e-journal/api/open_types_lesson.php?clue=${userData.clue}&user_id=${userData.user_id}&class_id=${class_id}&subject_id=${pk}`)
+            .then(res => res.json())
+            .then(res => {
+                console.log(res);
+                setLessonTypes(res.select_type_of_lesson);
+            })
+            .catch(err => console.log(err));
     }, []);
 
     const makeURL = (...args) => {
         const start = `https://diary.alma-mater-spb.ru/e-journal/api/save_lesson.php?clue=${userData.clue}&user_id=${userData.user_id}&class_id=${class_id}&subject_id=${pk}&class_group=${group}`;
-
-        let tail;
 
         let keys = [];
         fields.map(field => {
@@ -77,7 +84,7 @@ const EditLesson = (props) => {
         }
         console.log(keysArgs);
 
-        tail = keysArgs.join('');
+        let tail = keysArgs.join('');
         console.log(tail);
 
         if (tail.includes('data_lesson')) {
@@ -87,7 +94,7 @@ const EditLesson = (props) => {
         const url = encodeURI(start + tail);
         console.log(url);
         return url;
-    }
+    };
 
     const addLesson = async (...args) => {
         const url = makeURL(...args);
@@ -105,10 +112,10 @@ const EditLesson = (props) => {
     };
 
     const saveChanges = (clue, param) => {
-        // fetch(`https://diary.alma-mater-spb.ru/e-journal/api/save_edit_lesson.php?clue=${userData.clue}&user_id=${userData.user_id}&lesson_id=${lesson_id}&${clue}=${param}`)
-        //     .then(res => res.json())
-        //     .then(res => console.log(res))
-        //     .catch(err => console.log(err));
+        fetch(`https://diary.alma-mater-spb.ru/e-journal/api/save_edit_lesson.php?clue=${userData.clue}&user_id=${userData.user_id}&lesson_id=${lesson_id}&${clue}=${param}`)
+            .then(res => res.json())
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
         console.log(`https://diary.alma-mater-spb.ru/e-journal/api/save_edit_lesson.php?clue=${userData.clue}&user_id=${userData.user_id}&lesson_id=${lesson_id}&${clue}=${param}`);
     };
 
@@ -127,7 +134,7 @@ const EditLesson = (props) => {
                     objectLesson.number_of_comments,
                     objectLesson.files,
                     objectLesson.number_of_student_files,
-                )
+                );
             }} />
         ))
     );
@@ -140,6 +147,7 @@ const EditLesson = (props) => {
                     <ExpandedCalendar onPress={() => {
                         console.log(day);
                         setCalendarOpened(false);
+                        saveChanges('date_lesson', day);
                     }
                 } /> : <></>
                 }
@@ -154,8 +162,20 @@ const EditLesson = (props) => {
                             /> : field.value === 'type_of_lesson' ?
                             <JournalButton 
                                 key={field.title} 
-                                title={objectLesson[field.value] === 0 ? 'Обычный урок' : 'Контроль'} 
-                                onPress={() => navigation.navigate('Типы уроков', {pk})} 
+                                title={
+                                    objectLesson[field.value] === 0 ?
+                                    'Обычный урок' :
+                                    lessonTypes?.map(type => (
+                                        type.id === objectLesson[field.value] ?
+                                        type.title :
+                                        ''
+                                    ))
+                                } 
+                                color={objectLesson[field.value] === 0 ? '#00656D' : 'red'}
+                                onPress={() => {
+                                    navigation.navigate('Типы уроков', {pk});
+                                    console.log(objectLesson[field.value]);
+                                }} 
                             /> : field.value === 'general_file' ?
                             <JournalButton 
                                 key={field.title} 
@@ -166,9 +186,13 @@ const EditLesson = (props) => {
                                 key={field.title} 
                                 title={field.title}
                                 value={objectLesson[field.value]}
-                                onChangeText={text => 
-                                    setObjectLesson({ ...objectLesson, [field.value]: text })
-                                }
+                                onChangeText={text => {
+                                    setObjectLesson({ ...objectLesson, [field.value]: text });
+                                }}
+                                onEndEditing={() => {
+                                    saveChanges(field.value, objectLesson[field.value]);
+                                    console.log(field.value, objectLesson[field.value]);
+                                }}
                             />
                         ))
                     }
@@ -184,13 +208,17 @@ const mapStateToProps = (state) => {
     return {
         userData: state.auth.userData,
         user: state.auth.user,
-        day: state.jlr.day
+        day: state.jlr.day,
+        objectLesson: state.jlr.objectLesson,
+        lessonTypes: state.jlr.lessonTypes
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
-        pickDay
+        pickDay,
+        setObjectLesson,
+        setLessonTypes
     }, dispatch);
 };
 

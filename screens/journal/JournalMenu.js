@@ -35,7 +35,12 @@ const JournalMenu = ({navigation}) => {
                     <View style={styles.container}>
                         {
                             menu.map(item => (
-                                <MenuItem key={item.name} title={item.name} iconName={item.icon} onPress={() => console.log('button')} />
+                                <MenuItem 
+                                    key={item.name} 
+                                    title={item.name} 
+                                    iconName={item.icon} 
+                                    onPress={() => console.log('button')} 
+                                />
                             ))
                         }
                     </View>
@@ -49,13 +54,12 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        // justifyContent: 'center',
     },
     image: {
         flex: 1,
         backgroundColor: '#00656D',
         padding: 10
     }
-})
+});
 
 export default JournalMenu;

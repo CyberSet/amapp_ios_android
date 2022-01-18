@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { Calendar } from 'react-native-calendars';
 import { LocaleConfig } from 'react-native-calendars';
 import JournalButton from "./Button";
-import { styles } from "../screens/journal/JournalLessons";
+import { journalLessonsStyle } from "../screens/journal/JournalLessons";
 import { pickDay } from '../store/reducers/jLessonsReducer';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -35,7 +35,7 @@ const ExpandedCalendar = (props) => {
     const {pickDay, day} = props;
 
     return (
-        <View style={styles.listContaner}>
+        <View style={journalLessonsStyle.listContaner}>
             <Calendar
                 markedDates={{
                     [day]: {selected: true, marked: true, selectedColor: 'blue'},

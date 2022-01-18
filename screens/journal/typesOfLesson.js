@@ -1,30 +1,30 @@
-import React, { useEffect, useState } from "react";
-import { ScrollView, View, Text } from "react-native";
-import JournalButton from "../../components/Button";
-import { styles } from "../../components/Style";
-import { connect } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { ScrollView, View, Text } from 'react-native';
+import JournalButton from '../../components/Button';
+import { styles } from '../../components/Style';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { setObjectLesson } from '../../store/reducers/jLessonsReducer';
 
 const typesOfLesson = (props) => {
-    const {navigation, userData} = props;
+    const {navigation, userData, setObjectLesson, objectLesson, lessonTypes} = props;
     const {class_id, pk} = props.route.params;
-    const [types, setTypes] = useState(null);
-    
-    useEffect(() => {
-        fetch(`https://diary.alma-mater-spb.ru/e-journal/api/open_types_lesson.php?clue=${userData.clue}&user_id=${userData.user_id}&class_id=${class_id}&subject_id=${pk}`)
-        .then(res => res.json())
-        .then(res => {
-            console.log(res);
-            setTypes(res.select_type_of_lesson);
-        })
-        .catch(err => console.log(err));
-    }, []);
+
+    const selectType = (type) => {
+        setObjectLesson({ ...objectLesson, ['type_of_lesson']: type });
+        console.log(type);
+        navigation.goBack();
+    };
 
     return(
         <ScrollView style={styles.list}>
             {
-                types ? types.map(type => (
-                    <JournalButton key={type.id} title={type.title} onPress={() => navigation.goBack()} />
-                )) : <View><Text>Loading...</Text></View>
+                lessonTypes ? lessonTypes.map(type => (
+                    <JournalButton key={type.id} title={type.title} onPress={() => selectType(type.id)} />
+                )) : 
+                <View>
+                    <Text>Loading...</Text>
+                </View>
             }
         </ScrollView>
     );
@@ -34,8 +34,16 @@ const mapStateToProps = (state) => {
     return {
         userData: state.auth.userData,
         subjects: state.jlr.subjects,
-        term: state.marks.term
+        term: state.marks.term,
+        objectLesson: state.jlr.objectLesson,
+        lessonTypes: state.jlr.lessonTypes
     };
 };
 
-export default connect(mapStateToProps)(typesOfLesson);
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+        setObjectLesson
+    }, dispatch);
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(typesOfLesson);
