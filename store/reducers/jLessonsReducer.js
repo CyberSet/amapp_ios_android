@@ -1,42 +1,12 @@
+import { SET_SUBJECTS, PICK_DAY, SET_OBJECT_LESSON, SET_LESSON_TYPES } from "../actions/actions";
+
 const initialState = {
     subjects: '',
     day: '',
     objectLesson: null,
-    lessonTypes: null
+    lessonTypes: null,
+    comments: null
 };
-
-const SET_SUBJECTS = 'SET_SUBJECTS';
-const PICK_DAY = 'PICK_DAY';
-const SET_OBJECT_LESSON = 'SET_OBJECT_LESSON';
-const SET_LESSON_TYPES = 'SET_LESSON_TYPES';
-
-export const setSubjects = (subjects) => {
-    return {
-        type: SET_SUBJECTS,
-        payload: subjects
-    };
-};
-
-export const pickDay = (day) => {
-    return {
-        type: PICK_DAY,
-        payload: day
-    }
-}
-
-export const setObjectLesson = (lesson) => {
-    return {
-        type: SET_OBJECT_LESSON,
-        payload: lesson
-    }
-}
-
-export const setLessonTypes = (types) => {
-    return {
-        type: SET_LESSON_TYPES,
-        payload: types
-    }
-}
 
 export const jLessonsReducer = (state=initialState, action) => {
     switch(action.type) {

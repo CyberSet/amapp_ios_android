@@ -39,7 +39,7 @@ const JournalMenu = ({navigation}) => {
                                     key={item.name} 
                                     title={item.name} 
                                     iconName={item.icon} 
-                                    onPress={() => console.log('button')} 
+                                    onPress={() => navigation.navigate(item.name)} 
                                 />
                             ))
                         }

@@ -3,14 +3,10 @@ import { SafeAreaView, FlatList, Text, View, TouchableOpacity } from "react-nati
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import JournalButton from "../../components/Button";
-import { setSubjects } from "../../store/reducers/jLessonsReducer";
+import { setSubjects } from "../../store/actions/actions";
 
 const Item = ({pk, lesson, groups, navigation}) => {
     const [expanded, setExpanded] = useState(true);
-
-    function keyGenerator(key) {
-        return Math.random() + key;
-    }
 
     const openNextTab = (pk, class_id, group, numclass, ind, lesson) => {
         navigation.navigate(
@@ -26,20 +22,20 @@ const Item = ({pk, lesson, groups, navigation}) => {
     };
 
     const RenderGroups = ({pk, item, onPress}) => (
-        <TouchableOpacity key={() => keyGenerator(pk)} onPress={onPress} style={{ borderBottomWidth: 1 }}>
-            <Text key={() => keyGenerator(pk)} style={journalLessonsStyle.subItem}>
+        <TouchableOpacity key={pk} onPress={onPress} style={{ borderBottomWidth: 1 }}>
+            <Text key={item} style={journalLessonsStyle.subItem}>
                 {item}
             </Text>
         </TouchableOpacity>
     )
 
     return (
-        <View key={() => keyGenerator(pk)} style={journalLessonsStyle.listContaner}>
-            <JournalButton key={() => keyGenerator(pk)} title={lesson} onPress={() => setExpanded(!expanded)} />
-            {expanded && !groups ? <Text key={() => keyGenerator(pk)}> - </Text> : expanded && groups.map(item => (
-                    <View key={() => keyGenerator(pk)} style={journalLessonsStyle.listItem}>
+        <View key={lesson + pk} style={journalLessonsStyle.listContaner}>
+            <JournalButton key={lesson} title={lesson} onPress={() => setExpanded(!expanded)} />
+            {expanded && !groups ? <Text key={groups}> - </Text> : expanded && groups.map(item => (
+                    <View key={item} style={journalLessonsStyle.listItem}>
                         <Text 
-                            key={() => keyGenerator(pk)} 
+                            key={item.numclass} 
                             style={journalLessonsStyle.numclass}>{!item.numclass.includes('-') ?  item.numclass + ' класс' : item.numclass}
                         </Text>
                         {item.class_group_array.map(group => (
@@ -138,7 +134,7 @@ export const journalLessonsStyle = ({
         margin: 5,
         backgroundColor: '#F8EEDF',
         borderRadius: 15,
-        shadowOpacity: .2
+        shadowOpacity: .4
     },
     subItem: { 
         paddingLeft: 40, 

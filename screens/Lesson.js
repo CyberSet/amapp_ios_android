@@ -14,7 +14,7 @@ const Lesson = ({navigation}) => {
 
     useLayoutEffect(() => {
         navigation.setOptions({ headerTitle: lesson.subject_name });
-      }, []);
+    }, []);
 
     const handleLink = async (url) => {
         await Linking.openURL(encodeURI(url).replace(/[' ']/g, '%20'));

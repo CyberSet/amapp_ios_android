@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { setObjectLesson } from '../../store/reducers/jLessonsReducer';
 
-const typesOfLesson = (props) => {
+const TypesOfLesson = (props) => {
     const {navigation, userData, setObjectLesson, objectLesson, lessonTypes} = props;
     const {class_id, pk} = props.route.params;
 
@@ -46,4 +46,4 @@ const mapDispatchToProps = (dispatch) => {
     }, dispatch);
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(typesOfLesson);
+export default connect(mapStateToProps, mapDispatchToProps)(TypesOfLesson);

@@ -5,7 +5,7 @@ import { journalLessonsStyle } from './JournalLessons';
 import JournalButton from '../../components/Button';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { pickDay, setObjectLesson, setLessonTypes } from '../../store/reducers/jLessonsReducer';
+import { pickDay, setObjectLesson, setLessonTypes } from '../../store/actions/actions';
 // import { pickSubject } from '../../store/reducers/jLessonsReducer';
 import ExpandedCalendar from '../../components/Calendar';
 
@@ -23,12 +23,13 @@ const EditLesson = (props) => {
         {title: 'Описание урока', value: 'title_of_lesson'},
         {title: 'Тип урока', value: 'type_of_lesson'},
         {title: 'Файлы', value: 'general_file'},
-        {title: 'Замечания', value: 'number_of_comments'},
+        {title: 'Замечания', value: 'list_of_comments'},
         {title: 'Индивидуальные файлы', value: 'files'},
-        {title: 'Ответ ученика', value: 'number_of_student_files'},
+        {title: 'Ответ ученика', value: 'list_of_files_students'},
     ];
     const [calendarOpened, setCalendarOpened] = useState(false);
     const [selectedDay, setSelectedDay] = useState('');
+    const [comments, setComments] = useState('');
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -52,6 +53,8 @@ const EditLesson = (props) => {
             .then(res => {
                 console.log(res);
                 setObjectLesson(res.lessons_array);
+                console.log(res.lessons_array.list_of_comments);
+                // res.lessons_array.list_of_files_students.map(file => console.log(file.files_array));
             })
             .catch(err => console.log(err));
     }, []);
@@ -65,6 +68,16 @@ const EditLesson = (props) => {
             })
             .catch(err => console.log(err));
     }, []);
+
+    useEffect(() => {
+        let arr = [];
+        objectLesson?.list_of_comments.map(item => {
+            if (item.comment) {
+                arr.push(item.comment);
+            }
+        });
+        setComments(arr.length);
+    }, [objectLesson]);
 
     const makeURL = (...args) => {
         const start = `https://diary.alma-mater-spb.ru/e-journal/api/save_lesson.php?clue=${userData.clue}&user_id=${userData.user_id}&class_id=${class_id}&subject_id=${pk}&class_group=${group}`;
@@ -181,7 +194,19 @@ const EditLesson = (props) => {
                                 key={field.title} 
                                 title={'+ Добавить файл'} 
                                 onPress={() => console.log('files')} 
-                            />  : 
+                            />  : field.value === 'list_of_files_students' ?
+                            objectLesson[field.value].length > 0 ?
+                            <JournalButton 
+                                key={field.title} 
+                                title={field.title + ' (' + objectLesson[field.value].length + ')'} 
+                                onPress={() => navigation.navigate('Ответ ученика')} 
+                            /> :
+                            <></> : field.value === 'list_of_comments' ?
+                            <JournalButton 
+                                key={field.title} 
+                                title={field.title + ' (' + comments + ')'} 
+                                onPress={() => navigation.navigate('Замечания')} 
+                            /> :
                             <InputField
                                 key={field.title} 
                                 title={field.title}

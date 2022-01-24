@@ -1,13 +1,13 @@
 import React from "react";
 import { StyleSheet, TextInput, View, Text } from "react-native";
 
-const InputField = ({title, value, onChangeText, onEndEditing, onChange}) => {
+const InputField = ({title, value, onChangeText, onEndEditing, onChange, color='#000'}) => {
     return (
-        <View style={styles.container}>
+        <View style={{ ...styles.container, marginVertical: 15 }}>
             {title ? <Text style={styles.title}>{title}</Text> : <></>}
             <TextInput 
                 multiline
-                style={{ borderBottomWidth: 1, fontSize: 20 }}
+                style={{ fontSize: 20, color: color }}
                 value={value}
                 onChangeText={onChangeText}
                 onEndEditing={onEndEditing}

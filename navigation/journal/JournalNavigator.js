@@ -1,11 +1,11 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import JournalMenu from '../../screens/journal/JournalMenu';
 import Replacements from '../../screens/journal/Replacements';
 import Report from '../../screens/journal/Report';
 import JournalTimetable from '../../screens/journal/JournalTimetable';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { LessonNavigator } from './LessonNavigator';
+import { JournalUserNavigator } from './JournalUserNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -37,7 +37,7 @@ export const JournalNavigator = () => (
             tabBarInactiveTintColor: 'gray',
         })}
     >
-        <Tab.Screen name="Меню" component={JournalMenu} />
+        <Tab.Screen name="Меню" component={JournalUserNavigator} />
         <Tab.Screen name="Уроки" component={LessonNavigator} />
         <Tab.Screen name="Замещения" component={Replacements} />
         <Tab.Screen name="Отчёт" component={Report} />

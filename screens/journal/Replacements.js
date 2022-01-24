@@ -7,6 +7,32 @@ import { journalLessonsStyle } from "./JournalLessons";
 import { getMonthDeclination } from "../../components/Date";
 import Icon from 'react-native-vector-icons/Ionicons';
 
+export const Header = ({week, setWeek, period}) => (
+    <ScrollView contentContainerStyle={styles.adsScreen}>
+        <Button
+            onPress={() => setWeek(week + 1)}
+        >
+            <Icon
+                name='chevron-back-outline'
+                size={25}
+                color='#000'
+            />
+        </Button>
+        <Text style={{ fontSize: 20 }}>
+            {period}
+        </Text>
+        <Button
+            onPress={() => setWeek(week - 1)}
+        >
+            <Icon
+                name='chevron-forward-outline'
+                size={25}
+                color='#000'
+            />
+        </Button>
+    </ScrollView>
+);
+
 const Replacements = (props) => {
     const {userData} = props;
     const [lessons, setLessons] = useState([]);
@@ -46,38 +72,12 @@ const Replacements = (props) => {
         }
     }, [lessons]);
 
-    const Header = () => (
-        <ScrollView contentContainerStyle={styles.adsScreen}>
-            <Button
-                onPress={() => setWeek(week + 1)}
-            >
-                <Icon
-                    name='chevron-back-outline'
-                    size={25}
-                    color='#000'
-                />
-            </Button>
-            <Text style={{ fontSize: 20 }}>
-                {start} - {end}
-            </Text>
-            <Button
-                onPress={() => setWeek(week - 1)}
-            >
-                <Icon
-                    name='chevron-forward-outline'
-                    size={25}
-                    color='#000'
-                />
-            </Button>
-        </ScrollView>
-    );
-
     return (
         <SafeAreaView style={replStyles.container}>
             {
                 lessons ?
                 <ScrollView>
-                    <Header />
+                    <Header week={week} setWeek={setWeek} period={`${start} - ${end}`} />
                     {
                         lessons.map(lesson => (
                             lesson.replacement.map(repl => (
