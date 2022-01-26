@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-const windowWidth = Dimensions.get('window').width;
+// const windowWidth = Dimensions.get('window').width;
 
 const MenuItem = ({title, iconName, onPress}) => {
     return (
@@ -17,9 +17,6 @@ const MenuItem = ({title, iconName, onPress}) => {
                     width: '45%',
                 } : styles.button
         }>
-            <Text style={styles.buttonText}>
-                {title}
-            </Text>
             {
                 iconName ?
                 <Icon
@@ -29,6 +26,9 @@ const MenuItem = ({title, iconName, onPress}) => {
                 /> :
                 <></>
             }
+            <Text style={styles.buttonText}>
+                {title}
+            </Text>
         </TouchableOpacity> 
     )
 };
