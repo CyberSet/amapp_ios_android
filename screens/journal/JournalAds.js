@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, Text, View, Linking } from 'react-native';
 import { connect } from 'react-redux';
-import { Header } from './Replacements';
-import { journalLessonsStyle } from "./JournalLessons";
-import JournalButton from '../../components/Button';
+import WeekHeader from '../../components/WeekHeader';
+import Title from '../../components/ui/Title';
+import ListItem from '../../components/ui/ListItem';
+import ListContainer from '../../components/ui/ListContainer';
 
 const JournalAds = (props) => {
     const { userData } = props;
@@ -42,65 +43,66 @@ const JournalAds = (props) => {
     }, [week]);
 
     return (
-        <SafeAreaView style={{ ...journalLessonsStyle.listContaner, flex: 1 }}>
+        <SafeAreaView style={{ flex: 1 }}>
             <ScrollView>
-                <Header week={week} setWeek={setWeek} period={period} />
-                {
-                    ads?.map((item, dayIndex) => (
-                        <View key={dayIndex}>
-                            <JournalButton 
-                                key={item.dayLesson} 
-                                title={
-                                    item.dayLesson.startsWith('0') ? item.dayLesson.replace('0', '') 
-                                    + ' ' +
-                                    item.monthLesson +
-                                    ' (' + item.dayOfWeek + ')'
-                                    : item.dayLesson + ' ' +
-                                    item.monthLesson +
-                                    ' (' + item.dayOfWeek + ')'
-                                } 
-                            />
-                            {
-                                item.ad.map((ad, adIndex) => (
-                                    <View key={adIndex} style={journalLessonsStyle.listItem}>
-                                        <View style={{ borderBottomWidth: 1, paddingBottom: 15, marginBottom: 15 }}>
-                                            <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                <ListContainer>
+                    <WeekHeader week={week} setWeek={setWeek} period={period} />
+                    {ads?.map((item, dayIndex) => (
+                            item.ad.length !== 0 ?
+                            <View key={dayIndex}>
+                                <Title 
+                                    key={item.dayLesson} 
+                                    title={
+                                        item.dayLesson.startsWith('0') ? item.dayLesson.replace('0', '') 
+                                        + ' ' +
+                                        item.monthLesson +
+                                        ' (' + item.dayOfWeek + ')'
+                                        : item.dayLesson + ' ' +
+                                        item.monthLesson +
+                                        ' (' + item.dayOfWeek + ')'
+                                    } 
+                                />
+                                {item.ad.map((ad, adIndex) => (
+                                        <ListItem key={adIndex} style={{ backgroundColor: '#fff', marginBottom: 15, padding: 15, shadowOpacity: .4, }}>
+                                            <View style={{ borderBottomWidth: 1, paddingBottom: 15, marginBottom: 15 }}>
+                                                <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                                                    {
+                                                        ad.ad_text.split(' ').map(text => (
+                                                            text.startsWith('http') ?
+                                                                <Text 
+                                                                    key={text} 
+                                                                    style={{ fontSize: 21, marginRight: 5, color: 'blue' }}
+                                                                    onPress={() => handleAdLink(text)}
+                                                                >
+                                                                    Ссылка
+                                                                </Text> :
+                                                                <Text key={text} style={{ fontSize: 21, marginRight: 5 }}>
+                                                                    {text.replace(/\r\n/, ' ')}
+                                                                </Text>
+                                                        ))
+                                                    }
+                                                </View>
                                                 {
-                                                    ad.ad_text.split(' ').map(text => (
-                                                        text.startsWith('http') ?
-                                                            <Text 
-                                                                key={text} 
-                                                                style={{ fontSize: 21, marginRight: 5, color: 'blue' }}
-                                                                onPress={() => handleAdLink(text)}
-                                                            >
-                                                                Ссылка
-                                                            </Text> :
-                                                            <Text key={text} style={{ fontSize: 21, marginRight: 5 }}>
-                                                                {text.replace(/\r\n/, ' ')}
-                                                            </Text>
-                                                    ))
+                                                    ad.url ?
+                                                    <Text 
+                                                        style={{ fontSize: 18, color: 'blue', textAlign: 'center', marginVertical: 5 }}
+                                                        onPress={() => handleFileLink(ad.url)}
+                                                    >
+                                                        Скачать файл
+                                                    </Text> :
+                                                    <></>
                                                 }
                                             </View>
-                                            {
-                                                ad.url ?
-                                                <Text 
-                                                    style={{ fontSize: 18, color: 'blue', textAlign: 'center', marginVertical: 5 }}
-                                                    onPress={() => handleFileLink(ad.url)}
-                                                >
-                                                    Скачать файл
-                                                </Text> :
-                                                <></>
-                                            }
-                                        </View>
-                                        <Text style={{ fontSize: 18, fontStyle: 'italic' }}>
-                                            {ad.name}, {ad.date_create}
-                                        </Text>
-                                    </View>
-                                ))
-                            }
-                        </View>
-                    ))
-                }
+                                            <Text style={{ fontSize: 18, fontStyle: 'italic' }}>
+                                                {ad.name}, {ad.date_create}
+                                            </Text>
+                                        </ListItem>
+                                    ))
+                                }
+                            </View> : <></>
+                        ))
+                    }
+                </ListContainer>
             </ScrollView>
         </SafeAreaView>
     )

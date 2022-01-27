@@ -1,7 +1,7 @@
 import React from "react";
 import { SafeAreaView, View, ScrollView, Text, Linking } from "react-native";
 import { connect } from "react-redux";
-import JournalButton from "../../components/Button";
+import JournalButton from "../../components/ui/Button";
 import { styles } from "../../components/Style";
 import { journalLessonsStyle } from './JournalLessons';
 

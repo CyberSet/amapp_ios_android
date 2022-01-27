@@ -2,7 +2,7 @@ import React from 'react';
 import { Dimensions, ImageBackground, SafeAreaView, StyleSheet, View } from 'react-native';
 // import { useSelector } from 'react-redux';
 import Links from "../../components/Links";
-import MenuItem from '../../components/MenuItem';
+import MenuItem from '../../components/ui/MenuItem';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 

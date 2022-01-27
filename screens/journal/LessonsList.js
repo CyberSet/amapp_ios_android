@@ -1,9 +1,10 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { SafeAreaView, Text, FlatList, StyleSheet, View, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
-import JournalButton from '../../components/Button';
+import JournalButton from '../../components/ui/Button';
 import QuartersHeader from '../../components/QuartersHeader';
-import { journalLessonsStyle } from './JournalLessons';
+import ListItem from '../../components/ui/ListItem';
+import ListContainer from '../../components/ui/ListContainer';
 
 const LessonsList = (props) => {
     const {navigation, userData, term} = props;
@@ -56,11 +57,12 @@ const LessonsList = (props) => {
             onPress={() => 
                 navigation.navigate('Редактирование урока', 
                 {date, lesson, lesson_id, pk, class_id, group, numclass, ind}
-            )} 
-            style={{ ...journalLessonsStyle.listItem, flexDirection: 'row', justifyContent: 'space-between' }}
+            )}
         >
-            <Text style={{ fontStyle: 'italic' }}>{date}</Text>
-            <Text>{lesson}</Text>
+            <ListItem>
+                <Text style={{ fontStyle: 'italic' }}>{date}</Text>
+                <Text>{lesson}</Text>
+            </ListItem>
         </TouchableOpacity>
     );
 
@@ -97,8 +99,8 @@ const LessonsList = (props) => {
     }
 
     return(
-        <SafeAreaView style={journalLessonsStyle.container}>
-            <View style={style.container}>
+        <SafeAreaView style={{ flex: 1 }}>
+            <ListContainer>
                 {list ?
                     <FlatList 
                         ListHeaderComponent={Header}
@@ -108,21 +110,15 @@ const LessonsList = (props) => {
                     /> :
                     <>
                         <Header />
-                        <View style={journalLessonsStyle.listItem}>
+                        <ListItem>
                             <Text style={{ textAlign: 'center' }}>Нет добавленных уроков</Text>
-                        </View>
+                        </ListItem>
                     </>
                 }
-            </View>
+            </ListContainer>
         </SafeAreaView>
     );
 };
-
-const style = StyleSheet.create({
-    container: {
-        margin: 5,
-    },
-});
 
 const mapStateToProps = (state) => {
     return {

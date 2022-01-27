@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View } from "react-native";
 import { Calendar } from 'react-native-calendars';
 import { LocaleConfig } from 'react-native-calendars';
-import JournalButton from "./Button";
+import JournalButton from "./ui/Button";
 import { journalLessonsStyle } from "../screens/journal/JournalLessons";
 import { pickDay } from '../store/reducers/jLessonsReducer';
 import { bindActionCreators } from 'redux';

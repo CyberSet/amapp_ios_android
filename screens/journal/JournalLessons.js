@@ -2,7 +2,9 @@ import React, { Component, useState } from "react";
 import { SafeAreaView, FlatList, Text, View, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import JournalButton from "../../components/Button";
+import JournalButton from "../../components/ui/Button";
+import ListContainer from "../../components/ui/ListContainer";
+import ListItem from "../../components/ui/ListItem";
 import { setSubjects } from "../../store/actions/actions";
 
 const Item = ({pk, lesson, groups, navigation}) => {
@@ -30,10 +32,10 @@ const Item = ({pk, lesson, groups, navigation}) => {
     )
 
     return (
-        <View key={lesson + pk} style={journalLessonsStyle.listContaner}>
+        <ListContainer key={lesson + pk}>
             <JournalButton key={lesson} title={lesson} onPress={() => setExpanded(!expanded)} />
             {expanded && !groups ? <Text key={groups}> - </Text> : expanded && groups.map(item => (
-                    <View key={item} style={journalLessonsStyle.listItem}>
+                    <ListItem key={item}>
                         <Text 
                             key={item.numclass} 
                             style={journalLessonsStyle.numclass}>{!item.numclass.includes('-') ?  item.numclass + ' класс' : item.numclass}
@@ -57,10 +59,10 @@ const Item = ({pk, lesson, groups, navigation}) => {
                                 />
                             )) : <></>
                         }
-                    </View>
+                    </ListItem>
                 ))
             }
-        </View>
+        </ListContainer>
     );
 };
 
@@ -127,14 +129,8 @@ const mapDispatchToProps = (dispatch) => {
 
 export const journalLessonsStyle = ({
     listContaner: {
+        flex: 1,
         marginHorizontal: 5
-    },
-    listItem: {
-        padding: 20,
-        margin: 5,
-        backgroundColor: '#F8EEDF',
-        borderRadius: 15,
-        shadowOpacity: .4
     },
     subItem: { 
         paddingLeft: 40, 

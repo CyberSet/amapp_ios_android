@@ -1,37 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { SafeAreaView, Text, ScrollView, View, StyleSheet } from "react-native";
-import { Button } from 'react-native-paper';
 import { connect } from "react-redux";
-import { styles } from "../../components/Style";
-import { journalLessonsStyle } from "./JournalLessons";
 import { getMonthDeclination } from "../../components/Date";
-import Icon from 'react-native-vector-icons/Ionicons';
-
-export const Header = ({week, setWeek, period}) => (
-    <ScrollView contentContainerStyle={styles.adsScreen}>
-        <Button
-            onPress={() => setWeek(week + 1)}
-        >
-            <Icon
-                name='chevron-back-outline'
-                size={25}
-                color='#000'
-            />
-        </Button>
-        <Text style={{ fontSize: 20 }}>
-            {period}
-        </Text>
-        <Button
-            onPress={() => setWeek(week - 1)}
-        >
-            <Icon
-                name='chevron-forward-outline'
-                size={25}
-                color='#000'
-            />
-        </Button>
-    </ScrollView>
-);
+import ListContainer from "../../components/ui/ListContainer";
+import ListItem from "../../components/ui/ListItem";
+import WeekHeader from "../../components/WeekHeader";
 
 const Replacements = (props) => {
     const {userData} = props;
@@ -73,50 +46,52 @@ const Replacements = (props) => {
     }, [lessons]);
 
     return (
-        <SafeAreaView style={replStyles.container}>
+        <SafeAreaView style={{ flex: 1 }}>
             {
                 lessons ?
                 <ScrollView>
-                    <Header week={week} setWeek={setWeek} period={`${start} - ${end}`} />
-                    {
-                        lessons.map(lesson => (
-                            lesson.replacement.map(repl => (
-                                repl.type === 1 ?
-                                <View style={journalLessonsStyle.listItem}>
-                                    <View>
-                                        <Text style={{ paddingVertical: 10 }}>date</Text>
-                                    </View>
-                                    <View style={replStyles.replInfoContainer}>
-                                        <Text style={replStyles.lessonInfo}>
-                                            {repl.sub_name}, 
-                                            {repl.class_name}/{repl.group_id}, 
-                                            {repl.number_lesson} урок, 
-                                            {repl.reason}
-                                        </Text>
-                                        <Text style={replStyles.replInfo}>
-                                            {repl.user_replacement ? repl.user_replacement : ''}, 
-                                            {repl.sub_replacement}
-                                        </Text>
-                                    </View>
-                                </View> :
-                                <View style={journalLessonsStyle.listItem}>
-                                <View>
-                                    <Text style={{ paddingVertical: 10 }}>date</Text>
-                                </View>
-                                    <View style={replStyles.replInfoContainer}>
-                                        <Text style={replStyles.lessonInfo}>
-                                            {repl.class_name}, 
-                                            {repl.reason}
-                                        </Text>
-                                        <Text style={replStyles.replInfo}>
-                                            {repl.user_replacement}, 
-                                            {repl.add_field}
-                                        </Text>
-                                    </View>
-                                </View>
+                    <ListContainer>
+                        <WeekHeader week={week} setWeek={setWeek} period={`${start} - ${end}`} />
+                        {
+                            lessons.map(lesson => (
+                                lesson.replacement.map(repl => (
+                                    repl.type === 1 ?
+                                    <ListItem>
+                                        <View>
+                                            <Text style={{ paddingVertical: 10 }}>date</Text>
+                                        </View>
+                                        <View style={replStyles.replInfoContainer}>
+                                            <Text style={replStyles.lessonInfo}>
+                                                {repl.sub_name}, 
+                                                {repl.class_name}/{repl.group_id}, 
+                                                {repl.number_lesson} урок, 
+                                                {repl.reason}
+                                            </Text>
+                                            <Text style={replStyles.replInfo}>
+                                                {repl.user_replacement ? repl.user_replacement : ''}, 
+                                                {repl.sub_replacement}
+                                            </Text>
+                                        </View>
+                                    </ListItem> :
+                                    <ListItem>
+                                        <View>
+                                            <Text style={{ paddingVertical: 10 }}>date</Text>
+                                        </View>
+                                        <View style={replStyles.replInfoContainer}>
+                                            <Text style={replStyles.lessonInfo}>
+                                                {repl.class_name}, 
+                                                {repl.reason}
+                                            </Text>
+                                            <Text style={replStyles.replInfo}>
+                                                {repl.user_replacement}, 
+                                                {repl.add_field}
+                                            </Text>
+                                        </View>
+                                    </ListItem>
+                                ))
                             ))
-                        ))
-                    }
+                        }
+                    </ListContainer>
                 </ScrollView>
                 : <Text>Нет замен</Text>
             }
@@ -125,10 +100,6 @@ const Replacements = (props) => {
 };
 
 const replStyles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 10
-    },
     lessonInfo: {
         fontSize: 18,
         lineHeight: 30

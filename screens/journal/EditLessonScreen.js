@@ -1,13 +1,13 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { SafeAreaView, ScrollView } from 'react-native';
-import InputField from '../../components/Input';
-import { journalLessonsStyle } from './JournalLessons';
-import JournalButton from '../../components/Button';
+import InputField from '../../components/ui/Input';
+import JournalButton from '../../components/ui/Button';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { pickDay, setObjectLesson, setLessonTypes } from '../../store/actions/actions';
 // import { pickSubject } from '../../store/reducers/jLessonsReducer';
 import ExpandedCalendar from '../../components/Calendar';
+import ListItem from '../../components/ui/ListItem';
 
 const EditLesson = (props) => {
     const {navigation, userData, day, pickDay, objectLesson, setObjectLesson, lessonTypes, setLessonTypes} = props;
@@ -165,7 +165,7 @@ const EditLesson = (props) => {
                 } /> : <></>
                 }
                 {objectLesson ?
-                    <ScrollView style={journalLessonsStyle.listItem}> 
+                    <ListItem> 
                     {fields.map(field => (
                         field.value === 'data_lesson' ?
                         <JournalButton 
@@ -221,7 +221,7 @@ const EditLesson = (props) => {
                             />
                         ))
                     }
-                    </ScrollView> : <></>
+                    </ListItem> : <></>
                 }
                 <AcceptChangesPanel />
             </ScrollView>

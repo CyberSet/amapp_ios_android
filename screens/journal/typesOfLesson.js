@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ScrollView, View, Text } from 'react-native';
-import JournalButton from '../../components/Button';
+import JournalButton from '../../components/ui/Button';
 import { styles } from '../../components/Style';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';

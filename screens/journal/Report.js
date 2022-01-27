@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { get_month } from "../../components/Date";
 import Icon from 'react-native-vector-icons/Ionicons';
 import { journalLessonsStyle } from './JournalLessons';
+import ListItem from "../../components/ui/ListItem";
 
 const Report = (props) => {
     const {month, userData} = props;
@@ -129,18 +130,42 @@ const Report = (props) => {
             {
                 students ?
                 <>
-                    <View style={{ ...journalLessonsStyle.listItem, justifyContent: 'space-between', flexDirection: 'row', padding: 15 }}>
+                    <View style={{
+                        justifyContent: 'space-between', 
+                        flexDirection: 'row', 
+                        padding: 15,
+                        margin: 5,
+                        backgroundColor: '#F8EEDF',
+                        borderRadius: 15,
+                        shadowOpacity: .4
+                    }}>
                         <Column column={studentsColumn} />
                         <Column column={classesColumn} />
                         <Column column={subjectsColumn} />
                         <Column column={factColumn} />
                     </View> 
-                    <View style={{ ...journalLessonsStyle.listItem, justifyContent: 'space-between', flexDirection: 'row', padding: 20 }}>
+                    <View style={{
+                        justifyContent: 'space-between', 
+                        flexDirection: 'row', 
+                        padding: 20,
+                        margin: 5,
+                        backgroundColor: '#F8EEDF',
+                        borderRadius: 15,
+                        shadowOpacity: .4
+                    }}>
                         <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Итого:</Text>
                         <Text style={{ fontSize: 18 }}>{students[0].fact_view}</Text>
                     </View>
                 </> :
-                <View style={{ ...journalLessonsStyle.listItem, alignItems: 'center', padding: 25 }}>
+                <View style={{
+                    justifyContent: 'space-between', 
+                    flexDirection: 'row', 
+                    padding: 15,
+                    margin: 5,
+                    backgroundColor: '#F8EEDF',
+                    borderRadius: 15,
+                    shadowOpacity: .4
+                }}>
                     <Text style={{ fontSize: 18 }}>Пока что нет уроков</Text>
                 </View>
             }
