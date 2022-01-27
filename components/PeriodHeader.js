@@ -3,12 +3,12 @@ import { Text, ScrollView, StyleSheet } from 'react-native'
 
 import JournalButton from './ui/Button'
 
-const WeekHeader = ({week, setWeek, period}) => {
+const PeriodHeader = ({handleBackChevron, handleForwardChevron, period}) => {
 
     return (
         <ScrollView contentContainerStyle={styles.weekHeader}>
             <JournalButton
-                onPress={() => setWeek(week + 1)}
+                onPress={handleBackChevron}
                 iconName='chevron-back-outline'
             >
             </JournalButton>
@@ -16,7 +16,7 @@ const WeekHeader = ({week, setWeek, period}) => {
                 {period}
             </Text>
             <JournalButton
-                onPress={() => setWeek(week - 1)}
+                onPress={handleForwardChevron}
                 iconName='chevron-forward-outline'
             >
             </JournalButton>
@@ -37,4 +37,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default WeekHeader
+export default PeriodHeader

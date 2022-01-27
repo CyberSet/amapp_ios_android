@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { getMonthDeclination } from "../../components/Date";
 import ListContainer from "../../components/ui/ListContainer";
 import ListItem from "../../components/ui/ListItem";
-import WeekHeader from "../../components/WeekHeader";
+import PeriodHeader from "../../components/PeriodHeader";
 
 const Replacements = (props) => {
     const {userData} = props;
@@ -51,7 +51,7 @@ const Replacements = (props) => {
                 lessons ?
                 <ScrollView>
                     <ListContainer>
-                        <WeekHeader week={week} setWeek={setWeek} period={`${start} - ${end}`} />
+                        <PeriodHeader week={week} setWeek={setWeek} period={`${start} - ${end}`} />
                         {
                             lessons.map(lesson => (
                                 lesson.replacement.map(repl => (

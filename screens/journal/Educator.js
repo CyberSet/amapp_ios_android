@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 import ListContainer from '../../components/ui/ListContainer'
 import ListItem from '../../components/ui/ListItem'
-import WeekHeader from '../../components/WeekHeader'
+import PeriodHeader from '../../components/PeriodHeader'
 
 const Educator = ({userData}) => {
     const [isEducator, setIsEducator] = useState(true)
@@ -28,7 +28,10 @@ const Educator = ({userData}) => {
         <SafeAreaView style={{ flex: 1 }}>
             <ScrollView>
                 <ListContainer>
-                    <WeekHeader setWeek={setWeek} />
+                    <PeriodHeader 
+                        handleBackChevron={() => setWeek(week + 1)} 
+                        handleForwardChevron={() => setWeek(week - 1)} 
+                    />
                     <ListItem>
                         {
                             isEducator

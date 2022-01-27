@@ -1,52 +1,56 @@
-import React, { useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, Text, View, Linking } from 'react-native';
-import { connect } from 'react-redux';
-import WeekHeader from '../../components/WeekHeader';
-import Title from '../../components/ui/Title';
-import ListItem from '../../components/ui/ListItem';
-import ListContainer from '../../components/ui/ListContainer';
+import React, { useEffect, useState } from 'react'
+import { SafeAreaView, ScrollView, Text, View, Linking } from 'react-native'
+import { connect } from 'react-redux'
+import PeriodHeader from '../../components/PeriodHeader'
+import Title from '../../components/ui/Title'
+import ListItem from '../../components/ui/ListItem'
+import ListContainer from '../../components/ui/ListContainer'
 
 const JournalAds = (props) => {
-    const { userData } = props;
-    const [week, setWeek] = useState(0);
-    const [period, setPeriod] = useState('');
-    const [ads, setAds] = useState(null);
+    const { userData } = props
+    const [week, setWeek] = useState(0)
+    const [period, setPeriod] = useState('')
+    const [ads, setAds] = useState(null)
 
     const handleFileLink = (url) => {
-        let reversedArr = url.split('/').reverse();
-        let str = reversedArr[0];
-        let uri = 'https://diary.alma-mater-spb.ru/e-journal/teachers/ads_files/' + encodeURIComponent(str);
-        // console.log(reversedArr, str);
-        Linking.openURL(uri);
-    };
+        let reversedArr = url.split('/').reverse()
+        let str = reversedArr[0]
+        let uri = 'https://diary.alma-mater-spb.ru/e-journal/teachers/ads_files/' + encodeURIComponent(str)
+        // console.log(reversedArr, str)
+        Linking.openURL(uri)
+    }
 
     const handleAdLink = (url) => {
-        Linking.openURL(encodeURI(url));
-    };
+        Linking.openURL(encodeURI(url))
+    }
 
     useEffect(() => {
-        setAds(null);
-        const url = `https://diary.alma-mater-spb.ru/e-journal/api/open_ad_teachers.php?clue=${userData.clue}&user_id=${userData.user_id}&week=${week}`;
+        setAds(null)
+        const url = `https://diary.alma-mater-spb.ru/e-journal/api/open_ad_teachers.php?clue=${userData.clue}&user_id=${userData.user_id}&week=${week}`
         fetch(url)
             .then(res => res.json())
             .then(res => {
-                console.log(res);
-                setAds(res.ads);
-                setPeriod(res.stringData);
+                console.log(res)
+                setAds(res.ads)
+                setPeriod(res.stringData)
                 res.ads.map(item => {
-                    console.log(item.ad);
+                    console.log(item.ad)
                 })
             })
-            .catch(err => console.log(err));
+            .catch(err => console.log(err))
 
-            console.log(url);
-    }, [week]);
+            console.log(url)
+    }, [week])
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <ScrollView>
                 <ListContainer>
-                    <WeekHeader week={week} setWeek={setWeek} period={period} />
+                    <PeriodHeader 
+                        handleBackChevron={() => setWeek(week + 1)} 
+                        handleForwardChevron={() => setWeek(week - 1)} 
+                        period={period} 
+                    />
                     {ads?.map((item, dayIndex) => (
                             item.ad.length !== 0 ?
                             <View key={dayIndex}>
@@ -106,12 +110,12 @@ const JournalAds = (props) => {
             </ScrollView>
         </SafeAreaView>
     )
-};
+}
 
 const mapStateToProps = (state) => {
     return {
         userData: state.auth.userData,
     }
-};
+}
 
-export default connect(mapStateToProps)(JournalAds);
+export default connect(mapStateToProps)(JournalAds)
