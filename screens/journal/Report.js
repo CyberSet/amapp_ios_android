@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Text, SafeAreaView, View, ScrollView } from 'react-native'
-import { connect } from "react-redux"
+import { connect } from 'react-redux'
 import { get_month } from '../../components/Date'
 import ListContainer from '../../components/ui/ListContainer'
 import PeriodHeader from '../../components/PeriodHeader'

@@ -1,54 +1,29 @@
-import React, { useEffect, useState } from 'react'
-import { SafeAreaView, ScrollView, Text } from 'react-native'
-import { connect } from 'react-redux'
-
+import React from 'react'
+import { SafeAreaView, ScrollView, Text, TouchableOpacity } from 'react-native'
 import ListContainer from '../../components/ui/ListContainer'
 import ListItem from '../../components/ui/ListItem'
-import PeriodHeader from '../../components/PeriodHeader'
 
-const Educator = ({userData}) => {
-    const [isEducator, setIsEducator] = useState(true)
-    const [week, setWeek] = useState(0);
-
-    useEffect(() => {
-        const url = `https://diary.alma-mater-spb.ru/e-journal/api/open_menu.php?clue=${userData.clue}&user_id=${userData.user_id}&week=${week}`
-        console.log(url)
-        fetch(url)
-            .then(res => res.json())
-            .then(res => {
-                console.log(res)
-                if (res.status === 3) {
-                    setIsEducator(false)
-                }
-            })
-            .catch(err => console.log(err))
-    }, [])
+const Educator = ({navigation}) => {
+    const educatorMenu = [
+        {id: 1, title: 'Посещение', },
+        {id: 2, title: 'Столовая'}
+    ]
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <ScrollView>
                 <ListContainer>
-                    <PeriodHeader 
-                        handleBackChevron={() => setWeek(week + 1)} 
-                        handleForwardChevron={() => setWeek(week - 1)} 
-                    />
-                    <ListItem>
-                        {
-                            isEducator
-                            ? <Text>educator</Text>
-                            : <Text>user is not educator</Text>
-                        }
-                    </ListItem>
+                    {educatorMenu.map(item => (
+                        <TouchableOpacity key={item.id + item.title} onPress={() => navigation.navigate(item.title)}>
+                            <ListItem key={item.id}>
+                                <Text>{item.title}</Text>
+                            </ListItem>
+                        </TouchableOpacity>
+                    ))}
                 </ListContainer>
             </ScrollView>
         </SafeAreaView>
     )
 }
 
-const mapStateToProps = state => {
-    return {
-        userData: state.auth.userData,
-    }
-}
-
-export default connect(mapStateToProps)(Educator)
+export default Educator

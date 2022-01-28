@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { View } from "react-native";
-import { Calendar } from 'react-native-calendars';
-import { LocaleConfig } from 'react-native-calendars';
-import JournalButton from "./ui/Button";
-import { journalLessonsStyle } from "../screens/journal/JournalLessons";
-import { pickDay } from '../store/reducers/jLessonsReducer';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import React from 'react'
+import { View } from 'react-native'
+import { Calendar } from 'react-native-calendars'
+import { LocaleConfig } from 'react-native-calendars'
+import JournalButton from './ui/Button'
+import { journalLessonsStyle } from '../screens/journal/JournalLessons'
+import { pickDay } from '../store/actions/actions'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 
 LocaleConfig.locales['ru'] = {
   monthNames: [
@@ -26,13 +26,12 @@ LocaleConfig.locales['ru'] = {
   monthNamesShort: ['Янв.', 'Фев.', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сен.', 'Окт.', 'Ноя.', 'Дек.'],
   dayNames: ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
   dayNamesShort: ['Вс.', 'Пн.', 'Вт.', 'Ср.', 'Чт.', 'Пт.', 'Сб.'],
-  today: "Сегодня"
-};
-LocaleConfig.defaultLocale = 'ru';
+  today: 'Сегодня'
+}
+LocaleConfig.defaultLocale = 'ru'
 
 const ExpandedCalendar = (props) => {
-    // const [day, setDay] = useState('');
-    const {pickDay, day} = props;
+    const {pickDay, day} = props
 
     return (
         <View style={journalLessonsStyle.listContaner}>
@@ -41,24 +40,24 @@ const ExpandedCalendar = (props) => {
                     [day]: {selected: true, marked: true, selectedColor: 'blue'},
                 }}
                 onDayPress={day => {
-                    pickDay(day.dateString);
+                    pickDay(day.dateString)
                 }}
             />
             <JournalButton key={day} title={'Выбрать день'} onPress={props.onPress} />
         </View>
-    );
-};
+    )
+}
 
 const mapStateToProps = (state) => {
     return {
         day: state.jlr.day
     }
-};
+}
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
         pickDay
-    }, dispatch);
-};
+    }, dispatch)
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(ExpandedCalendar);
+export default connect(mapStateToProps, mapDispatchToProps)(ExpandedCalendar)
