@@ -5,8 +5,8 @@ const TableSquare = ({children}) => {
 
     return (
         <View style={{
-            width: 35,
             height: 35,
+            paddingHorizontal: 10,
             borderWidth: 1,
             justifyContent: 'center',
             alignItems: 'center',

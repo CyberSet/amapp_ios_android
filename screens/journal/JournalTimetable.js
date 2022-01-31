@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { SafeAreaView, ScrollView } from 'react-native'
 import { connect } from 'react-redux'
+import ClassesList from '../../components/ClassesList'
+import ClassSchedule from '../../components/ClassSchedule'
 import TeacherSchedule from '../../components/TeacherSchedule'
 import TeachersList from '../../components/TeachersList'
 import JournalButton from '../../components/ui/Button'
@@ -10,14 +12,27 @@ const JournalTimetable = () => {
     const [teacher, setTeacher] = useState(null)
     const [teachersListExpanded, setTeachersListExpanded] = useState(false)
 
+    const [schoolClass, setSchoolClass] = useState(null)
+    const [classesListExpanded, setClassesListExpanded] = useState(false)
+
     const selectTeacher = (teacher) => {
         setTeacher(teacher)
         setTeachersListExpanded(false)
     }
 
-    const buttonHandler = () => {
+    const teacherButtonHandler = () => {
         setTeacher(null)
         setTeachersListExpanded(!teachersListExpanded)
+    }
+
+    const selectClass = (schoolClass) => {
+        setSchoolClass(schoolClass)
+        setClassesListExpanded(false)
+    }
+
+    const classButtonHandler = () => {
+        setSchoolClass(null)
+        setClassesListExpanded(!classesListExpanded)
     }
 
     return(
@@ -28,7 +43,13 @@ const JournalTimetable = () => {
                         title={
                             teacher ? `${teacher.surname} ${teacher.name} ${teacher.middlename}` : 'Выберите учителя'
                         } 
-                        onPress={() => buttonHandler()}
+                        onPress={() => teacherButtonHandler()}
+                    />
+                    <JournalButton 
+                        title={
+                           'Выберите класс'
+                        } 
+                        onPress={() => classButtonHandler()}
                     />
                     {teachersListExpanded 
                         ? <TeachersList onPress={selectTeacher} /> 
@@ -36,6 +57,14 @@ const JournalTimetable = () => {
                     }
                     {teacher 
                         ? <TeacherSchedule teacher={teacher} /> 
+                        : <></>
+                    }
+                    {classesListExpanded 
+                        ? <ClassesList onPress={selectClass} /> 
+                        : <></>
+                    }
+                    {schoolClass 
+                        ? <ClassSchedule class_id={schoolClass.class_id} /> 
                         : <></>
                     }
                 </ListContainer>

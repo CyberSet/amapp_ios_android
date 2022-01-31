@@ -3,7 +3,7 @@ import { Text, View } from 'react-native'
 
 import TableSquare from './TableSquare'
 
-const Schedule = () => {
+const DaysColumn = () => {
 
     const weekDays = [
         {dayNum: '1', dayName: 'Пн'},
@@ -33,4 +33,4 @@ const Schedule = () => {
     )
 }
 
-export default Schedule
+export default DaysColumn
