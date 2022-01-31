@@ -26,6 +26,9 @@ const Visit = ({userData, day, pickDay, navigation}) => {
             .then(res => {
                 console.log(res)
                 setStat(res.array_students_menu)
+                res.array_students_menu.map(item => {
+                    console.log(item.absence_array)
+                })
             })
             .catch(err => console.log(err))
     }, [day])
@@ -45,7 +48,10 @@ const Visit = ({userData, day, pickDay, navigation}) => {
                     />
                     {stat && stat.map(item => (
                         <ListItem key={item.student_id}>
-                            <Text key={item.name + item.surname}>{item.surname} {item.name}</Text>
+                            <Text key={item.name + item.surname} style={{ fontSize: 18 }}>{item.surname} {item.name}</Text>
+                            {item.absence_array.map(reason => (
+                                <Text key={reason.reason_id} style={{ fontSize: 16 }}>{reason.title}</Text>
+                            ))}
                         </ListItem>
                     ))}
                 </ListContainer>

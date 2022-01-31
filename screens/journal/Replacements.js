@@ -51,7 +51,11 @@ const Replacements = (props) => {
                 lessons ?
                 <ScrollView>
                     <ListContainer>
-                        <PeriodHeader week={week} setWeek={setWeek} period={`${start} - ${end}`} />
+                        <PeriodHeader 
+                            handleBackChevron={() => setWeek(week + 1)} 
+                            handleForwardChevron={() => setWeek(week - 1)} 
+                            period={`${start} - ${end}`} 
+                        />
                         {
                             lessons.map(lesson => (
                                 lesson.replacement.map(repl => (

@@ -1,5 +1,5 @@
 import React from 'react'
-import { ScrollView, View } from 'react-native'
+import { ScrollView, StyleSheet, View } from 'react-native'
 
 import ListItem from '../ListItem'
 import DaysColumn from './DaysColumn'
@@ -11,10 +11,7 @@ const Schedule = ({schedule}) => {
     return (
         <ListItem>
             <ScrollView horizontal>
-                <View style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between'
-                }}>
+                <View style={styles.container}>
                     <DaysColumn />
                     {lessonsNums.map(num => (
                         <LessonsColumn schedule={schedule} lessonNum={num} />
@@ -24,5 +21,12 @@ const Schedule = ({schedule}) => {
         </ListItem>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    }
+})
 
 export default Schedule

@@ -16,7 +16,6 @@ const JournalAds = (props) => {
         let reversedArr = url.split('/').reverse()
         let str = reversedArr[0]
         let uri = 'https://diary.alma-mater-spb.ru/e-journal/teachers/ads_files/' + encodeURIComponent(str)
-        // console.log(reversedArr, str)
         Linking.openURL(uri)
     }
 
@@ -68,19 +67,19 @@ const JournalAds = (props) => {
                                 />
                                 {item.ad.map((ad, adIndex) => (
                                         <ListItem key={adIndex} style={{ backgroundColor: '#fff', marginBottom: 15, padding: 15, shadowOpacity: .4, }}>
-                                            <View style={{ borderBottomWidth: 1, paddingBottom: 15, marginBottom: 15 }}>
-                                                <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                                            <View key={adIndex + ad.ad_text} style={{ borderBottomWidth: 1, paddingBottom: 15, marginBottom: 15 }}>
+                                                <View key={ad.ad_text} style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
                                                     {
-                                                        ad.ad_text.split(' ').map(text => (
+                                                        ad.ad_text.split(' ').map((text, i) => (
                                                             text.startsWith('http') ?
                                                                 <Text 
-                                                                    key={text} 
+                                                                    key={text + i} 
                                                                     style={{ fontSize: 21, marginRight: 5, color: 'blue' }}
                                                                     onPress={() => handleAdLink(text)}
                                                                 >
                                                                     Ссылка
                                                                 </Text> :
-                                                                <Text key={text} style={{ fontSize: 21, marginRight: 5 }}>
+                                                                <Text key={text + i} style={{ fontSize: 21, marginRight: 5 }}>
                                                                     {text.replace(/\r\n/, ' ')}
                                                                 </Text>
                                                         ))

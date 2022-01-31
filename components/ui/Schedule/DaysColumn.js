@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 
 import TableSquare from './TableSquare'
 
@@ -20,10 +20,7 @@ const DaysColumn = () => {
                 <TableSquare>
                     <Text 
                         key={day.dayName}
-                        style={{
-                            fontSize: 18,
-                            fontWeight: 'bold',
-                    }}
+                        style={styles.columnText}
                     >
                         {day.dayName}
                     </Text>
@@ -32,5 +29,12 @@ const DaysColumn = () => {
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    columnText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+    }
+})
 
 export default DaysColumn

@@ -45,12 +45,6 @@ const JournalTimetable = () => {
                         } 
                         onPress={() => teacherButtonHandler()}
                     />
-                    <JournalButton 
-                        title={
-                           'Выберите класс'
-                        } 
-                        onPress={() => classButtonHandler()}
-                    />
                     {teachersListExpanded 
                         ? <TeachersList onPress={selectTeacher} /> 
                         : <></>
@@ -59,6 +53,12 @@ const JournalTimetable = () => {
                         ? <TeacherSchedule teacher={teacher} /> 
                         : <></>
                     }
+                    <JournalButton 
+                        title={
+                           schoolClass ? schoolClass.class_name : 'Выберите класс'
+                        } 
+                        onPress={() => classButtonHandler()}
+                    />
                     {classesListExpanded 
                         ? <ClassesList onPress={selectClass} /> 
                         : <></>

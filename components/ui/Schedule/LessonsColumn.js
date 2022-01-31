@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import TableSquare from './TableSquare'
 
 const LessonsColumn = ({schedule, lessonNum}) => {
@@ -15,10 +15,10 @@ const LessonsColumn = ({schedule, lessonNum}) => {
                         <Text 
                             key={item.number_lesson}
                             style={{
-                                fontSize: 16,
+                                ...styles.columnText,
                                 color: item.individual == '1' ? '#51176C' : '',
                                 fontWeight: item.individual == '1' ? 'bold' : '',
-                        }}>
+                            }}>
                             {item.subject ? item.subject : item.student_field}
                         </Text>
                     </TableSquare> : <></>
@@ -26,5 +26,11 @@ const LessonsColumn = ({schedule, lessonNum}) => {
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    columnText: {
+        fontSize: 16
+    }
+})
 
 export default LessonsColumn

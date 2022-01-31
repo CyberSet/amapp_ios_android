@@ -1,19 +1,23 @@
 import React from 'react'
-import { View } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 
 const TableSquare = ({children}) => {
 
     return (
-        <View style={{
-            height: 35,
-            paddingHorizontal: 10,
-            borderWidth: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-        }}>
+        <View style={styles.square}>
             {children}
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    square: {
+        height: 35,
+        paddingHorizontal: 10,
+        borderWidth: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    }
+})
 
 export default TableSquare
