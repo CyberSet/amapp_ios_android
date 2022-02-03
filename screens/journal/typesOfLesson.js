@@ -4,7 +4,7 @@ import JournalButton from '../../components/ui/Button';
 import { styles } from '../../components/Style';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { setObjectLesson } from '../../store/reducers/jLessonsReducer';
+import { setObjectLesson } from '../../store/actions/actions';
 
 const TypesOfLesson = (props) => {
     const {navigation, userData, setObjectLesson, objectLesson, lessonTypes} = props;

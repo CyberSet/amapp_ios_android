@@ -51,7 +51,7 @@ const EditLesson = (props) => {
             .then(res => {
                 console.log(res)
                 setObjectLesson(res.lessons_array)
-                console.log(res.lessons_array.list_of_comments)
+                console.log(res.lessons_array.list_of_files_ind)
                 // res.lessons_array.list_of_files_students.map(file => console.log(file.files_array))
             })
             .catch(err => console.log(err))
@@ -164,9 +164,9 @@ const EditLesson = (props) => {
                     <ListItem> 
                     {fields.map(field => (
                         field.value === 'data_lesson' ?
-                        <JournalButton 
+                            <JournalButton 
                                 key={field.title} 
-                                title={selectedDay} 
+                                title={selectedDay ? selectedDay : 'Выберите дату'} 
                                 onPress={() => setCalendarOpened(!calendarOpened)} 
                             /> : field.value === 'type_of_lesson' ?
                             <JournalButton 

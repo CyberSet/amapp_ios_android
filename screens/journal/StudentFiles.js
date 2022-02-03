@@ -21,8 +21,7 @@ const StudentFiles = (props) => {
                         objectLesson?.name_lesson
                     } 
                 />
-                {
-                    objectLesson?.list_of_files_students.map((item, i) => (
+                {objectLesson?.list_of_files_students.map((item, i) => (
                         <View key={item} style={journalLessonsStyle.listItem}>
                             <Text key={item.student_id} style={{ fontSize: 20, fontWeight: 'bold' }}>
                                 {item.surname} {item.name}

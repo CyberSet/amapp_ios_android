@@ -26,7 +26,7 @@ const CommentsScreen = (props) => {
                 <ListContainer>
                     <JournalButton 
                         title={
-                            objectLesson.data_lesson.substring(5).split('-').reverse().join('.') + ', ' +
+                            objectLesson?.data_lesson.substring(5).split('-').reverse().join('.') + ', ' +
                             objectLesson?.name_lesson
                         } 
                     />
