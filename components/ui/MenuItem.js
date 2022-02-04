@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
         margin: 8,
         borderRadius: 15,
         shadowOpacity: .4,
-        opacity: .7
+        opacity: .8
     },
     buttonText: {
         color: '#fff',

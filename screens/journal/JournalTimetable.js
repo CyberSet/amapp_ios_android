@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { SafeAreaView, ScrollView } from 'react-native'
+import { SafeAreaView, ScrollView, Text, View } from 'react-native'
 import { connect } from 'react-redux'
 import ClassesList from '../../components/ClassesList'
 import ClassSchedule from '../../components/ClassSchedule'
@@ -7,6 +7,7 @@ import TeacherSchedule from '../../components/TeacherSchedule'
 import TeachersList from '../../components/TeachersList'
 import JournalButton from '../../components/ui/Button'
 import ListContainer from '../../components/ui/ListContainer'
+import ListItem from '../../components/ui/ListItem'
 
 const JournalTimetable = () => {
     const [teacher, setTeacher] = useState(null)

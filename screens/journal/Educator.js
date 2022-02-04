@@ -1,29 +1,34 @@
 import React from 'react'
-import { SafeAreaView, ScrollView, Text, TouchableOpacity } from 'react-native'
-import ListContainer from '../../components/ui/ListContainer'
-import ListItem from '../../components/ui/ListItem'
+import { SafeAreaView, ScrollView, Text, TouchableOpacity, View, StyleSheet } from 'react-native'
+import MenuItem from '../../components/ui/MenuItem'
 
 const Educator = ({navigation}) => {
     const educatorMenu = [
-        {id: 1, title: 'Посещение', },
-        {id: 2, title: 'Столовая'}
+        {id: 1, title: 'Посещение', icon: 'checkmark-done-circle'},
+        {id: 2, title: 'Столовая', icon: 'cafe-sharp'},
     ]
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <ScrollView>
-                <ListContainer>
-                    {educatorMenu.map(item => (
-                        <TouchableOpacity key={item.id + item.title} onPress={() => navigation.navigate(item.title)}>
-                            <ListItem key={item.id}>
-                                <Text>{item.title}</Text>
-                            </ListItem>
-                        </TouchableOpacity>
-                    ))}
-                </ListContainer>
-            </ScrollView>
+            <View style={styles.container}>
+                {educatorMenu.map(item => (
+                    <MenuItem 
+                        key={item.id} 
+                        title={item.title}
+                        iconName={item.icon}
+                        onPress={() => navigation.navigate(item.title)}
+                    />
+                ))}
+            </View>
         </SafeAreaView>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+    },
+})
 
 export default Educator

@@ -66,7 +66,13 @@ const Visit = ({userData, day, pickDay, navigation}) => {
                                 <View style={{ paddingLeft: 15 }}>
                                     <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
                                         <TouchableOpacity 
-                                            style={{ borderWidth: 2, width: 40, height: 40 }}
+                                            style={{
+                                                // borderWidth: 2, 
+                                                borderRadius: 50,
+                                                width: 40, 
+                                                height: 40,
+                                                backgroundColor: isAll ? '#F8EEDF' : '#fff'
+                                            }}
                                             onPress={() => {
                                                 setIsAll(!isAll)
                                                 saveChange(4, Number(!isAll), 1)

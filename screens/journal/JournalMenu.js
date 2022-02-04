@@ -10,11 +10,11 @@ const JournalMenu = ({navigation}) => {
     // const userType = useSelector(state => state.auth.userType);
 
     const menu = [
-        {name: 'Объявления', icon: 'mail-outline', type: [1, 2]},
-        {name: 'Воспитатель', icon: 'print-outline', type: [2]},
+        {name: 'Объявления', icon: 'mail', type: [1, 2]},
+        {name: 'Воспитатель', icon: 'print', type: [2]},
         // {name: 'Настройки', icon: 'contrast', type: [1, 2]},
-        {name: 'Профиль', icon: 'person-outline', type: [1, 2]},
-        {name: 'Выход', icon: 'log-out-outline', type: [1, 2]}
+        {name: 'Профиль', icon: 'person', type: [1, 2]},
+        {name: 'Выход', icon: 'log-out', type: [1, 2]}
     ];
 
     const Item = ({name, icon}) => ( 
@@ -28,14 +28,14 @@ const JournalMenu = ({navigation}) => {
     };
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: '#F8EEDF' }}>
             <ImageBackground source={require('../../assets/AM-app.png')} resizeMode="cover" style={styles.image}>
                 <View style={{ flex: .8, justifyContent: 'space-between' }}>
                     <Links col='#000' navigation={navigation} />
                     <View style={styles.container}>
                         {
                             menu.map(item => (
-                                <MenuItem 
+                                <MenuItem  
                                     key={item.name} 
                                     title={item.name} 
                                     iconName={item.icon} 

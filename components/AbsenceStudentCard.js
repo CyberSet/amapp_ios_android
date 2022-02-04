@@ -12,16 +12,26 @@ const AbsenceStudentCard = ({student, saveChange}) => {
     const [isDropdownExpanded, setDropdownExpanded] = useState(false)
     const [absenceReason, setAbsenceReason] = useState('')
     const [isDistantStudent, setDistantStudent] = useState('')
-    const [textValue, setTextvalue] = useState('')
-    let timeout
+    const [textValue, setTextvalue] = useState(student.absence_array.reason)
+    const [changedValue, setChangedValue] = useState(textValue)
+    const [isTyping, setIsTyping] = useState(false)
 
     useEffect(() => {
-        timeout = setTimeout(() => {
-            console.log(textValue)
-        }, 1200)
+        if (changedValue !== textValue) {
+            setChangedValue(textValue)
+        }
+    }, [textValue])
+
+    useEffect(() => {
+        let timeout
+        if (isTyping) {
+            timeout = setTimeout(() => {
+                saveChange(2, changedValue, student.student_id)
+            }, 1200)
+        }
 
         return () => clearTimeout(timeout)
-    }, [textValue])
+    }, [changedValue])
 
     useEffect(() => {
         const value = Number(student.absence_array.value)
@@ -51,7 +61,14 @@ const AbsenceStudentCard = ({student, saveChange}) => {
             <View style={{ paddingLeft: 15 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'flex-end', marginBottom: 15 }}>
                     <TouchableOpacity 
-                        style={{ borderWidth: 2, width: 35, height: 35 }}
+                        style={{
+                            // borderWidth: 2, 
+                            borderColor: '#F7AF48', 
+                            width: 35, 
+                            height: 35, 
+                            borderRadius: 50,
+                            backgroundColor: isDistantStudent ? '#F8EEDF' : '#fff'
+                        }}
                         onPress={() => {
                             setDistantStudent(!isDistantStudent)
                             saveChange(3, Number(!isDistantStudent), student.student_id)
@@ -74,6 +91,7 @@ const AbsenceStudentCard = ({student, saveChange}) => {
                 <View>
                     {absenceReasons.map(reason =>
                         <AbsenceReasonsCard 
+                            key={reason.reason_id}
                             saveChange={saveChange}
                             reason={reason} 
                             student_id={student.student_id}
@@ -87,6 +105,7 @@ const AbsenceStudentCard = ({student, saveChange}) => {
                     value={textValue} 
                     onChangeText={text => {
                         setTextvalue(text)
+                        setIsTyping(true)
                     }} 
                 /> : <></>
             }
