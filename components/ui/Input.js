@@ -6,11 +6,12 @@ const InputField = ({color='#000', ...props}) => {
         <View style={{ ...styles.container, marginVertical: 15 }}>
             {props.title ? <Text style={styles.title}>{props.title}</Text> : <></>}
             <TextInput 
+                {...props}
                 multiline
                 style={{ fontSize: 20, color: color }}
             />
         </View>
-    );
+    ); 
 };
 
 const styles = StyleSheet.create({

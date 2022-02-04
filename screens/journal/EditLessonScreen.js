@@ -204,7 +204,7 @@ const EditLesson = (props) => {
                                 onPress={() => navigation.navigate('Замечания')} 
                             /> :
                             <InputField
-                                key={field.title} 
+                                key={field.title}  
                                 title={field.title}
                                 value={objectLesson[field.value]}
                                 onChangeText={text => {

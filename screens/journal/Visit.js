@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { SafeAreaView, ScrollView, Text, View, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/Ionicons'
 
-import { styles } from "../../components/Style";
+import { styles } from '../../components/Style'
 import { pickDay } from '../../store/actions/actions'
 import ListContainer from '../../components/ui/ListContainer'
 import ListItem from '../../components/ui/ListItem'
 import ExpandedCalendar from '../../components/Calendar'
 import JournalButton from '../../components/ui/Button'
-import AbsenceStudentCard from '../../components/AbsenceStudentCard';
+import AbsenceStudentCard from '../../components/AbsenceStudentCard'
 
 const Visit = ({userData, day, pickDay, navigation}) => {
     const [stat, setStat] = useState(null)
@@ -39,7 +39,7 @@ const Visit = ({userData, day, pickDay, navigation}) => {
     }, [day])
 
     const saveChange = (type, value, student_id) => {
-        const url = `https://diary.alma-mater-spb.ru/e-journal/api/save_student_absence.php?clue=${userData.clue}&user_id=${userData.user_id}&date=${day}&type=${type}&argument=${value}&student_id=${student_id}`;
+        const url = `https://diary.alma-mater-spb.ru/e-journal/api/save_student_absence.php?clue=${userData.clue}&user_id=${userData.user_id}&date=${day}&type=${type}&argument=${value}&student_id=${student_id}`
         console.log(url)
         fetch(url)
             .then(res => res.json())

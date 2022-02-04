@@ -1,16 +1,27 @@
 import React, { useEffect, useState } from 'react'
 import { Text, View, TouchableOpacity } from 'react-native'
-import Icon from 'react-native-vector-icons/Ionicons';
-import AbsenceReasonsCard from './AbsenceReasonsCard';
+import Icon from 'react-native-vector-icons/Ionicons'
+import AbsenceReasonsCard from './AbsenceReasonsCard'
 
 import { styles } from "./Style";
 import JournalButton from './ui/Button'
+import InputField from './ui/Input';
 import ListItem from './ui/ListItem'
 
 const AbsenceStudentCard = ({student, saveChange}) => {
     const [isDropdownExpanded, setDropdownExpanded] = useState(false)
     const [absenceReason, setAbsenceReason] = useState('')
     const [isDistantStudent, setDistantStudent] = useState('')
+    const [textValue, setTextvalue] = useState('')
+    let timeout
+
+    useEffect(() => {
+        timeout = setTimeout(() => {
+            console.log(textValue)
+        }, 1200)
+
+        return () => clearTimeout(timeout)
+    }, [textValue])
 
     useEffect(() => {
         const value = Number(student.absence_array.value)
@@ -64,7 +75,6 @@ const AbsenceStudentCard = ({student, saveChange}) => {
                     {absenceReasons.map(reason =>
                         <AbsenceReasonsCard 
                             saveChange={saveChange}
-                            saveChange={saveChange}
                             reason={reason} 
                             student_id={student.student_id}
                             setDropdownExpanded={setDropdownExpanded} 
@@ -72,7 +82,13 @@ const AbsenceStudentCard = ({student, saveChange}) => {
                             setAbsenceReason={setAbsenceReason} 
                         />
                     )}
-                </View> : <></>   
+                </View> : absenceReason === absenceReasons[6].title ?
+                <InputField 
+                    value={textValue} 
+                    onChangeText={text => {
+                        setTextvalue(text)
+                    }} 
+                /> : <></>
             }
         </ListItem>
     )
