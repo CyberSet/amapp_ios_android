@@ -1,36 +1,49 @@
 import React, { useEffect, useState } from 'react'
-import { Text } from 'react-native'
+import { Text, Alert } from 'react-native'
 import CanteenOptionsCard from './CanteenOptionsCard';
 
 import ListItem from './ui/ListItem'
 
-const CanteenStudentCard = ({student, saveChange}) => {
+const CanteenStudentCard = ({student, saveChange, day, timeBorder}) => {
     const [isBreakfast, setIsBreakfast] = useState(false)
     const [isDinner, setIsDinner] = useState(false)
-
     const options = [
-        {title: 'Завтрак', option: isBreakfast, func: () => setIsBreakfast(!isBreakfast)},
-        {title: 'Обед', option: isDinner, func: () => setIsDinner(!isDinner)}
+        {title: 'Завтрак', option: isBreakfast, func: () => save(1)},
+        {title: 'Обед', option: isDinner, func: () => save(2)}
     ]
 
-    // useEffect(() => {
-    //     isDinner ? 
-    //     saveChange(student.student_id, 2) :
-    //     saveChange(student.student_id, 1)
-    // }, [isDinner, isBreakfast])
+    useEffect(() => {
+        setIsBreakfast(Boolean(Number(student.menu_array[0])))
+        setIsDinner(Boolean(Number(student.menu_array[1])))
+    }, [student])
+
+    const save = (type) => {
+        if (
+                new Date().getHours() < 14 
+                && new Date().getDate() !== new Date(day).getDate()
+                && new Date().getDay() !== 0
+                && new Date().getDay() !== 6
+            ) {
+            saveChange(student.student_id, type)
+            type === 1
+            ? setIsBreakfast(!isBreakfast)
+            : setIsDinner(!isDinner)
+        } else {
+            Alert.alert(`Можно редактировать только меню следующего дня, до ${timeBorder}`)
+        }
+    }
 
     return (
         <ListItem>
-            <Text style={{ fontSize: 20, padding: 10, fontWeight: 'bold' }}>{student.surname} {student.name}</Text>
+            <Text style={{ fontSize: 20, padding: 10, fontWeight: 'bold' }}>
+                {student.surname} {student.name}
+            </Text>
                 {options.map(option =>
                     <CanteenOptionsCard 
                         key={option.title} 
                         title={option.title} 
                         option={option.option} 
-                        onPress={() => {
-                            saveChange(student.student_id, 2)
-                            option.func
-                        }} 
+                        onPress={option.func} 
                     />    
                 )}
         </ListItem>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Alert, SafeAreaView, ScrollView, Text, View } from 'react-native'
+import { SafeAreaView, ScrollView, Text, View } from 'react-native'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
@@ -25,34 +25,25 @@ const Canteen = ({userData, day, navigation}) => {
     useEffect(() => {
         setStudents(null)
         const url = `https://diary.alma-mater-spb.ru/e-journal/api/open_menu.php?clue=${userData.clue}&user_id=${userData.user_id}&date=${day}`
-        console.log(url)
         fetch(url)
             .then(res => res.json())
             .then(res => {
-                console.log(res)
                 if (res.status === 3) {
                     setIsEducator(false)
                 }
                 setTimeBorder(res.time)
                 setStudents(res.array_students_menu)
-                res.array_students_menu.map(student => {
-                    console.log(student.menu_array)
-                })
             })
             .catch(err => console.log(err))
     }, [day])
 
-    const saveChange = ({student_id, type}) => {
+    const saveChange = (student_id, type) => {
         const url = `https://diary.alma-mater-spb.ru/e-journal/api/save_menu.php?clue=${userData.clue}&user_id=${userData.user_id}&date=${day}&student_id=${student_id}&type=${type}`
 
-        if (new Date().getHours() < 14 || new Date().getDate() !== new Date(day).getDate()) {
-            fetch(url)
-                .then(res => res.json())
-                .then(res => console.log(res))
-                .catch(err => console.log(err))
-        } else {
-            Alert.alert('Редактирование запрещено')
-        }
+        fetch(url)
+            .then(res => res.json())
+            .then(res => console.log(res))
+            .catch(err => console.log(err))
     }
 
     return (
@@ -80,7 +71,13 @@ const Canteen = ({userData, day, navigation}) => {
                                 </Text>
                             </ListItem>
                             {students?.map(student => (
-                                <CanteenStudentCard key={student.student_id} student={student} saveChange={saveChange} />
+                                <CanteenStudentCard 
+                                    key={student.student_id} 
+                                    day={day}
+                                    timeBorder={timeBorder}
+                                    student={student} 
+                                    saveChange={saveChange} 
+                                />
                             ))}
                         </View>
                     }
@@ -94,7 +91,7 @@ const Canteen = ({userData, day, navigation}) => {
                         fontWeight: 'bold',
                         textAlign: 'center'
                     }}>
-                        Редактирование до {timeBorder}
+                        Редактирование завершено
                     </Text>
                 </View> : <></>
             }
