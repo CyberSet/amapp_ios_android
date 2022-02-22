@@ -1,33 +1,46 @@
-import React, { useEffect } from 'react';
-import { StyleSheet, Text, View, Image, FlatList } from 'react-native';
-import { Card } from 'react-native-paper';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react'
+import { StyleSheet, Text, View, Image, FlatList } from 'react-native'
+import { Card } from 'react-native-paper'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { fetchContent } from '../../store/asyncActions/getContent';
-import UserPanel from './UserPanel';
-import { ip } from './RegForm';
+import { fetchContent } from '../../store/asyncActions/getContent'
+import UserPanel from './UserPanel'
+import { ip } from './RegForm'
 
 const Home = (props) => {
-    const data = useSelector(state => state.gym.data);
-    const cl = useSelector(state => state.gym.catList);
+    const data = useSelector(state => state.gym.data)
+    const cl = useSelector(state => state.gym.catList)
+    const [page, setPage] = useState(1)
+    const [isLoading, setIsLoadig] = useState(false)
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch()
 
-    const loadList = (payload) => dispatch({type: 'LOAD_CATEGORY_LIST', payload});
-
-    useEffect(() => {
-        loadList('');
-    }, []);
+    const loadList = (payload) => dispatch({type: 'LOAD_CATEGORY_LIST', payload})
 
     useEffect(() => {
-        dispatch(fetchContent());
-    }, []);
+        setIsLoadig(true)
+        loadList('')
+    }, [])
 
-    const clickedItem = (title) => {
-        props.navigation.navigate("Details", {title: title});
+    useEffect(() => {
+        fetchData()
+    }, [])
+
+    const fetchData = () => {
+        dispatch(fetchContent())
+        setIsLoadig(false)
     }
 
-    const renderData = (item) => {
+    const clickedItem = (title) => {
+        props.navigation.navigate("Details", {title: title})
+    }
+
+    // const loadMore = () => {
+    //     setPage(page + 1)
+    //     dispatch(fetchContent())
+    // }
+
+    const renderData = ({item}) => {
 
         return (
             <Card style={styles.cardStyle} onPress = {() => clickedItem(item.title)}>
@@ -65,15 +78,16 @@ const Home = (props) => {
     return (
             <View style={{flex: 1}}>
                 <FlatList 
+                    refreshing={isLoading}
+                    onRefresh={fetchData}
                     data = {cl.length > 0 ? cl : data}
-                    renderItem = {({item}) => {
-                        return renderData(item)
-                    }}
-                    keyExtractor = {item => `${item.id}`}
+                    renderItem = {renderData}
+                    keyExtractor = {item => item.id}
+                    // onEndReached={loadMore}
                 />
             </View>
     )
-};
+}
 
 export const styles = StyleSheet.create({
     cardStyle: {
@@ -94,8 +108,8 @@ export const styles = StyleSheet.create({
         borderRadius: 8,
         padding: 25,
         marginBottom: 15,
-        fontSize: 18
+        fontSize: 18,
     }
 })
 
-export default Home;
+export default Home

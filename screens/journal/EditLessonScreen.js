@@ -11,6 +11,7 @@ import ListItem from '../../components/ui/ListItem'
 const EditLesson = (props) => {
     const {navigation, userData, day, pickDay, objectLesson, setObjectLesson, lessonTypes, setLessonTypes} = props
     const {date, lesson_id, pk, class_id, group} = props.route.params
+    const [answers, setAnswers] = useState([])
     const buttons = [
         {title: 'Удалить'},
     ]
@@ -26,8 +27,9 @@ const EditLesson = (props) => {
         {title: 'Ответ ученика', value: 'list_of_files_students'},
     ]
     const [calendarOpened, setCalendarOpened] = useState(false)
-    const [selectedDay, setSelectedDay] = useState('')
-    const [comments, setComments] = useState('')
+    const [selectedDay, setSelectedDay] = useState(null)
+    const [comments, setComments] = useState(null)
+    const [indFiles, setIndFiles] = useState(0)
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -46,17 +48,25 @@ const EditLesson = (props) => {
     }, [navigation])
 
     useEffect(() => {
-        fetch(`https://diary.alma-mater-spb.ru/e-journal/api/open_lesson_edit.php?clue=${userData.clue}&user_id=${userData.user_id}&lesson_id=${lesson_id}`)
+        const url = `https://diary.alma-mater-spb.ru/e-journal/api/open_lesson_edit.php?clue=${userData.clue}&user_id=${userData.user_id}&lesson_id=${lesson_id}`
+        console.log(url)
+        fetch(url)
             .then(res => res.json())
             .then(res => {
                 console.log(res)
                 setObjectLesson(res.lessons_array)
                 console.log(res.lessons_array.list_of_files_ind)
-                // res.lessons_array.list_of_files_students.map(file => console.log(file.files_array))
+                res.lessons_array.list_of_files_ind.map(item => {
+                    console.log(item.files_array)
+                        if (item.files_array.length !== 0) {
+                            setIndFiles(indFiles + 1)
+                        }
+                })
             })
             .catch(err => console.log(err))
     }, [])
 
+    // lesson types
     useEffect(() => {
         fetch(`https://diary.alma-mater-spb.ru/e-journal/api/open_types_lesson.php?clue=${userData.clue}&user_id=${userData.user_id}&class_id=${class_id}&subject_id=${pk}`)
             .then(res => res.json())
@@ -67,6 +77,7 @@ const EditLesson = (props) => {
             .catch(err => console.log(err))
     }, [])
 
+    // comments
     useEffect(() => {
         let arr = []
         objectLesson?.list_of_comments.map(item => {
@@ -76,6 +87,27 @@ const EditLesson = (props) => {
         })
         setComments(arr.length)
     }, [objectLesson])
+
+    // ind files
+    useEffect(() => {
+        setAnswers(null)
+        const url = `https://diary.alma-mater-spb.ru/e-journal/api/open_student_answer.php?clue=${userData.clue}&user_id=${userData.user_id}&lesson_id=${lesson_id}`
+        console.log(url)
+        fetch(url)
+            .then(res => res.json())
+            .then(res => {
+                console.log(res)
+                console.log(res.students_answer_array)
+                let answerArr = [];
+                res.students_answer_array.map(item => {
+                    if (item.answer_array.length !== 0) {
+                        answerArr.push(item)
+                    }
+                })
+                setAnswers(answerArr)
+            })
+            .catch(err => console.log(err))
+    }, [])
 
     const makeURL = (...args) => {
         const start = `https://diary.alma-mater-spb.ru/e-journal/api/save_lesson.php?clue=${userData.clue}&user_id=${userData.user_id}&class_id=${class_id}&subject_id=${pk}&class_group=${group}`
@@ -194,7 +226,7 @@ const EditLesson = (props) => {
                             objectLesson[field.value].length > 0 ?
                             <JournalButton 
                                 key={field.title} 
-                                title={field.title + ' (' + objectLesson[field.value].length + ')'} 
+                                title={field.title + '(' + objectLesson[field.value].length + ')'} 
                                 onPress={() => navigation.navigate('Ответ ученика')} 
                             /> :
                             <></> : field.value === 'list_of_comments' ?
@@ -202,6 +234,11 @@ const EditLesson = (props) => {
                                 key={field.title} 
                                 title={field.title + ' (' + comments + ')'} 
                                 onPress={() => navigation.navigate('Замечания')} 
+                            /> : field.value === 'files' ?
+                            <JournalButton 
+                                key={field.title} 
+                                title={field.title + ' (' + answers?.length + ')'} 
+                                onPress={() => navigation.navigate('Индивидуальные файлы', {answers})} 
                             /> :
                             <InputField
                                 key={field.title}  

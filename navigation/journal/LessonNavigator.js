@@ -7,6 +7,7 @@ import EditLesson from '../../screens/journal/EditLessonScreen';
 import TypesOfLesson from '../../screens/journal/TypesOfLesson';
 import StudentFiles from '../../screens/journal/StudentFiles';
 import CommentsScreen from '../../screens/journal/CommentsScreen';
+import IndFiles from '../../components/IndFiles';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,5 +20,6 @@ export const LessonNavigator = () => (
         <Stack.Screen name='Типы уроков' component={TypesOfLesson} />
         <Stack.Screen name='Ответ ученика' component={StudentFiles} />
         <Stack.Screen name='Замечания' component={CommentsScreen} />
+        <Stack.Screen name='Индивидуальные файлы' component={IndFiles} />
     </Stack.Navigator>
 );

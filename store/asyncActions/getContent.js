@@ -1,5 +1,5 @@
-import { loadData } from "../reducers/GymReducer";
-import { ip } from "../../screens/gimnazist/RegForm";
+import { loadData } from "../reducers/GymReducer"
+import { ip } from "../../screens/gimnazist/RegForm"
 
 export const fetchContent = () => {
     return dispatch => {
@@ -7,9 +7,10 @@ export const fetchContent = () => {
             method: 'GET'
         })
         .then(response => response.json())
-        .then(response =>
+        .then(response => {
             dispatch(loadData(response))
-        )
-        .catch(error => console.log(error));
-    };
-};
+            console.log(response)
+        })
+        .catch(error => console.log(error))
+    }
+}

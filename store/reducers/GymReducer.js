@@ -30,8 +30,8 @@ export const GymReducer = (state=initialState, action) => {
 
 
         case 'LOAD_CATEGORY_LIST':
-            const list = state.data.filter(item => item.category === action.payload);
-            const name = action.payload === '' ? 'Все материалы' : action.payload
+            const list = state.data?.filter(item => item.category === action.payload);
+            const name = action.payload === '' ? 'Все материалы' : action.payload;
 
             return {
                 ...state,

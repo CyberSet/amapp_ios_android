@@ -14,7 +14,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {styles} from '../components/Style';
 import Links from '../components/Links';
 
-
 const AuthScreen = ({navigation}) => {
     const dispatch = useDispatch();
     const log_in = (students, user, user_type, user_data) => dispatch({type: 'LOG_IN', students, user, user_type, user_data});

@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import JournalButton from "../../components/ui/Button";
 import { styles } from "../../components/Style";
 import { journalLessonsStyle } from './JournalLessons';
+import StudentFilesCart from "../../components/ui/StudentFilesCart";
 
 const StudentFiles = (props) => {
     const { objectLesson } = props;
@@ -22,24 +23,9 @@ const StudentFiles = (props) => {
                     } 
                 />
                 {objectLesson?.list_of_files_students.map((item, i) => (
-                        <View key={item} style={journalLessonsStyle.listItem}>
-                            <Text key={item.student_id} style={{ fontSize: 20, fontWeight: 'bold' }}>
-                                {item.surname} {item.name}
-                            </Text>
-                            <View key={i} style={{ paddingLeft: 15 }}>
-                                {
-                                    item.files_array.map(file => (
-                                        <Text 
-                                            key={file.filename}
-                                            style={{ ...styles.lessonInfo, color: '#0080ff' }} 
-                                            onPress={() => handleLink(file.file_path)}
-                                        >
-                                            {file.file_name}
-                                        </Text>
-                                    ))
-                                }
-                            </View>
-                        </View>
+                        item.files_array.map(file => (
+                            <StudentFilesCart key={i} item={item} file={file} onPress={handleLink} />
+                        ))
                     ))
                 }
             </ScrollView>
