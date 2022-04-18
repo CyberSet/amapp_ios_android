@@ -41,10 +41,11 @@ const VoteScreen = (props) => {
     async function handleUpdate(tempTeam) {
         if(userType === 1){
             await dispatch(fetchVoters());
-            if(voters.find((item) => {if(item.user_id === user.student_id) return 1;}))
+            if(voters.find((item) => {if(item.user_id === user.student_id) return 1;})){
                 alert(`${user.name} ${user.surname} уже проголосовал(а)`);
-            else if(tempTeam.form === Number(user.number)) {
                 setIsVoted(true)
+            }
+            else if(tempTeam.form === Number(user.number)) {
                 alert(`Вы не можете голосовать за свою параллель`);
             }
             else {
