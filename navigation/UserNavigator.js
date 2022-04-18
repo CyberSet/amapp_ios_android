@@ -12,6 +12,7 @@ import AccountScreen from '../screens/Account';
 import LogOutScreen from '../screens/LogOut';
 import AuthScreen from '../screens/AuthScreen';
 import ActsScreen from "../screens/Acts";
+import VoteScreen from '../screens/VoteScreen';
 import { HomeToDetailsNav } from './Navs';
 import { ip } from '../screens/gimnazist/RegForm';
 
@@ -149,6 +150,13 @@ export const UserNavigator = () => {
                     name='Настройки'
                     component={SettingsScreen}
                 /> */}
+                <Stack.Screen
+                    name='Голосование'
+                    component={VoteScreen}
+                    options={{
+                        headerShown: true
+                    }}
+                />
                 <Stack.Screen
                     name='Профиль'
                     component={AccountScreen}

@@ -11,6 +11,7 @@ import { loadsReducer } from "./reducers/loadsReducer";
 import { timetableReducer } from "./reducers/timetableReducer";
 import { notificationsReducer } from './reducers/notificationsReducer';
 import { GymReducer } from './reducers/GymReducer';
+import { VoteReducer } from './reducers/voteReducer';
 
 const rootReducer = combineReducers({
     auth: authReducer, 
@@ -22,7 +23,8 @@ const rootReducer = combineReducers({
     loads: loadsReducer,
     tt: timetableReducer,
     note: notificationsReducer,
-    gym: GymReducer
+    gym: GymReducer,
+    vote: VoteReducer
 });
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));

@@ -14,7 +14,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {styles} from '../components/Style';
 import Links from '../components/Links';
 
-
 const AuthScreen = ({navigation}) => {
     const dispatch = useDispatch();
     const log_in = (students, user, user_type, user_data) => dispatch({type: 'LOG_IN', students, user, user_type, user_data});
@@ -30,6 +29,17 @@ const AuthScreen = ({navigation}) => {
             }
             log_in(data.student, data.student[0], data.type, obj)
             console.log(data.student, data.student[0], data.type, obj)
+        }
+    };
+
+    const getTeacherAuthorized = (data) => {
+        if (data != null) {
+            let obj = {
+                'clue': data.clue,
+                'user_id': data.user_id
+            }
+            log_in(data.teacher_name, data.teacher_name[0], data.type, obj)
+            console.log(data.teacher_name, data.teacher_name[0], data.type, obj)
         }
     };
 
@@ -57,18 +67,22 @@ const AuthScreen = ({navigation}) => {
     }, [])
   
     const sendCredentials = () => {
-        fetch(`https://diary.alma-mater-spb.ru/e-journal/api/check_login.php?username=${login}&password=${password}&token=alma831&push_token=${pushToken}`, {
+        fetch(`https://diary.alma-mater-spb.ru/e-journal/api/check_login_js.php?username=${login}&password=${password}&token=alma831&push_token=${pushToken}`, {
             method: 'GET'
         })
         .then(response => response.json())
         .then(response => {
-            if (response.status === 0) {
+            if (response.status === 0 && response.type != 3) {
                 storeData(response);
                 getAuthorized(response);
                 console.log(response);
+                console.log('TYPE = ', response.type)
                 console.log(pushToken);
             } else if (login === '' || password === '') {
                 Alert.alert('Введите логин и пароль');
+            }   else if (response.status === 0 && response.type === 3) {
+                getTeacherAuthorized(response);
+                storeData(response);
             } else {
                 Alert.alert('Вы ввели неверный логин или пароль');
             }

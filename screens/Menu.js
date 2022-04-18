@@ -14,6 +14,7 @@ const MenuScreen = ({navigation}) => {
     const menu = [
         {name: 'Объявления', icon: 'mail-outline', type: [1, 2]},
         {name: 'Акты', icon: 'print-outline', type: [2]},
+        {name: 'Голосование', icon: 'list-outline', type:[1,2]},
         // {name: 'Настройки', icon: 'contrast', type: [1, 2]},
         {name: 'Профиль', icon: 'person-outline', type: [1, 2]},
         {name: 'Выход', icon: 'log-out-outline', type: [1, 2]}

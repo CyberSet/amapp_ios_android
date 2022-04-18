@@ -15,11 +15,11 @@ const LoadFile = () => {
     const name = useSelector(state => state.loads.subjectName);
     const lesson = useSelector(state => state.loads.selectedLesson);
 
-    const _handleLink = (url) => {
+    const handleLink = (url) => {
         Linking.openURL(url);
     };
 
-    const _refreshLesson = async () => {
+    const refreshLesson = async () => {
         await fetch(`https://diary.alma-mater-spb.ru/e-journal/api/update_lesson.php?clue=${userData.clue}&user_id=${userData.user_id}&student_id=${user.student_id}&lesson_id=${lesson.lesson_id}`, {
             method: 'GET'
         })
@@ -34,7 +34,7 @@ const LoadFile = () => {
 
     let data = new FormData();
 
-    const _uploadFile = async () => {
+    const uploadFile = async () => {
 
         await fetch(`https://diary.alma-mater-spb.ru/e-journal/api/upload_file.php?clue=${userData.clue}&user_id=${userData.user_id}&student_id=${user.student_id}&lesson_id=${lesson.lesson_id}`, {
             method: 'POST',
@@ -49,7 +49,7 @@ const LoadFile = () => {
             if (response.status === 0) {
 
                 Alert.alert('Файл успешно загружен');
-                _refreshLesson();
+                refreshLesson();
 
             } else if (response.status === 2) {
                 Alert.alert('Чего-то не хватает');
@@ -63,7 +63,7 @@ const LoadFile = () => {
         });
     }
 
-    const _pickFiles = async () => {
+    const pickFiles = async () => {
         try {
             const results = await DocumentPicker.pick({
                 type: [DocumentPicker.types.allFiles],
@@ -74,9 +74,8 @@ const LoadFile = () => {
                     type: res.type,
                     uri: res.uri
                 });
-                console.log(res.name, res.type, res.uri);
             }
-            _uploadFile()
+            uploadFile()
         } catch (err) {
             if (DocumentPicker.isCancel(err)) {
                 Alert.alert('Загрузка отменена')
@@ -86,13 +85,13 @@ const LoadFile = () => {
         }
     };
 
-    const _deleteFile = async (fileID) => {
+    const deleteFile = async (fileID) => {
         await fetch(`https://diary.alma-mater-spb.ru/e-journal/api/delete_file.php?clue=${userData.clue}&user_id=${userData.user_id}&file_id=${fileID}`, {
             method: 'DELETE'
         })
             .then(response => response.json())
             .then(() => {
-                _refreshLesson();
+                refreshLesson();
                 Alert.alert('Файл удалён');
             })
             .catch(error => {
@@ -114,12 +113,12 @@ const LoadFile = () => {
                             borderBottomColor: 'gray'
                         }
                     }
-                    onPress={() => _handleLink(item.url)}
+                    onPress={() => handleLink(item.url)}
                 >
                     {item.title}
                 </Text>
                 <Button
-                    onPress={() => _deleteFile(item.file_id)}
+                    onPress={() => deleteFile(item.file_id)}
                 >
                     <Icon
                         name='close-outline'
@@ -162,7 +161,7 @@ const LoadFile = () => {
                             borderBottomColor: 'gray'
                         }
                     }
-                    onPress={() => _pickFiles()}
+                    onPress={() => pickFiles()}
                 >
                     + Добавить файл
                 </Text>

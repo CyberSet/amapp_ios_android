@@ -3,7 +3,7 @@ const initialState = {
     lessons: [],
     lesson: {},
     homework: '',
-    link: ''
+    links: []
 };
 
 export const lessonReducer = (state=initialState, action) => {
@@ -12,16 +12,17 @@ export const lessonReducer = (state=initialState, action) => {
             let arr = [];
             let links = [];
             action.lesson.homework.split(' ').map(item => {
-                item.startsWith('https')
+                item.startsWith('https') || item.startsWith('http')
                 ? links.push(item)
                 : arr.push(item)
-            })
+            });
+
             return {
                 ...state,
                 openLesson: !state.openLesson,
                 lesson: action.lesson,
                 homework: arr.join(' '),
-                link: links.join()
+                links: links
             }
 
         case 'CHANGE_LESSON':

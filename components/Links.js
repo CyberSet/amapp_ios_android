@@ -6,10 +6,10 @@ const Links = ({col, navigation}) => {
 
     const socialMedia = [
         {icon: 'logo-vk', color: '#3e49cb', url: 'https://vk.com/almamater_spb'},
-        //{icon: 'logo-facebook', color: '#3e49cb', url: 'https://www.facebook.com/almamaterspb'},
+        // {icon: 'logo-facebook', color: '#3e49cb', url: 'https://www.facebook.com/almamaterspb'},
         {icon: 'logo-youtube', color: '#ff0000', url: 'https://www.youtube.com/user/almamaterspb'},
+        // {icon: 'logo-instagram', color: '#840c5b', url: 'https://www.instagram.com/almamaterspb/'},
         {icon: 'navigate-circle-outline', color: '#0088cc', url: 'https://t.me/almamaterspb'},
-        //{icon: 'logo-instagram', color: '#840c5b', url: 'https://www.instagram.com/almamaterspb/'},
         {icon: 'pencil-outline', color: '#3e49cb', url: 'https://gimnazist.spb.ru/'},
         // {icon: 'images-outline', color: '#3e49cb', url: 'https://diary.alma-mater-spb.ru/gallery/#'}
     ];
