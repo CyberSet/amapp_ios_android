@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { View, Image, Text, Button, FlatList, StyleSheet } from 'react-native';
+import React, { useEffect, useReducer, useState } from 'react';
+import { View, Image, Text, Button, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch} from 'react-redux';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { Card } from 'react-native-paper';
 import { fetchTeams } from '../store/asyncActions/getTeams';
 import { fetchParents } from '../store/asyncActions/getParents';
@@ -9,7 +10,9 @@ import { fetchVoters } from '../store/asyncActions/getVoters';
 
 const VoteScreen = (props) => {
 
-    [isVoted, setIsVoted] = useState(false)
+    const [isVoted, setIsVoted] = useState(false)
+    const [membersVisible, setMemberVisible] = useState([])
+    const [, forceUpdate] = useReducer(x => x + 1, 0)
 
     let parents = useSelector(state => state.vote.parents)
     let voters = useSelector(state => state.vote.voters)
@@ -24,7 +27,8 @@ const VoteScreen = (props) => {
         dispatch(fetchTeams());
         dispatch(fetchParents());
         dispatch(fetchVoters());
-        if(voters.find((item) => {if(item.user_id === user.student_id) return 1;}) || Number(user.number) < 4) setIsVoted(true);
+        if(voters.find((item) => {if(item.user_id === user.student_id) return 1;})) setIsVoted(true);
+        if(Number(user.number) < 4) setIsVoted(true);
     }, []);
 
     async function PostData(url='', data={}) {
@@ -41,11 +45,10 @@ const VoteScreen = (props) => {
     async function handleUpdate(tempTeam) {
         if(userType === 1){
             await dispatch(fetchVoters());
-            if(voters.find((item) => {if(item.user_id === user.student_id) return 1;})){
+            if(voters.find((item) => {if(item.user_id === user.student_id) return 1;}))
                 alert(`${user.name} ${user.surname} уже проголосовал(а)`);
-                setIsVoted(true)
-            }
             else if(tempTeam.form === Number(user.number)) {
+                setIsVoted(true)
                 alert(`Вы не можете голосовать за свою параллель`);
             }
             else {
@@ -90,7 +93,20 @@ const VoteScreen = (props) => {
                 <Image style={{width: 200, height: 200, alignSelf:'center'}} source={{uri:team.item.image}}/>
                 <Button style={styles.submitButton} onPress={() => handleUpdate(team.item)} title='Голосовать за команду!'/>
                 <Text style={{color: '#000', fontSize: 22, fontWeight: 'bold', textAlign: 'center', margin: 5}}>Капитан: {team.item.leader}</Text>
-                <Text style={{color: '#000', fontSize: 18, fontStyle: 'italic',  textAlign: 'center'}}>Команда {team.item.form === 12 ? 'экстерната' :  `${team.item.form} класса`}</Text>
+                <TouchableOpacity style={{display: 'flex', flexDirection:'row', alignSelf: 'center'}} onPress={() => {
+                    setMemberVisible(() => {
+                        const newArr = membersVisible;
+                        newArr[team.index] = !newArr[team.index]
+                        return newArr
+                    })
+                    forceUpdate();
+                }}>
+                    <Text style={{color: '#000', fontSize: 18, fontStyle: 'italic',  textAlign: 'center'}}>Команда {team.item.form === 12 ? 'экстерната ' :  `${team.item.form} класса `}</Text>
+                    <Icon name='information-circle-outline' size={22} color='#000'></Icon>
+                </TouchableOpacity>
+                {membersVisible[team.index] && 
+                    <Text style={{marginTop:5, borderWidth:2, borderRadius: 15, borderColor:'#bdc3c7', color: '#000', fontSize: 18, fontStyle: 'italic',  textAlign: 'center'}}>{team.item.members}</Text>
+                }
             </Card>
         )
     }
@@ -98,7 +114,7 @@ const VoteScreen = (props) => {
     return (
         <View style={{flex: 1}}>
             {isVoted ? <Text style={{color: 'black', fontSize: 32, fontWeight: 'bold', textAlign: 'center'}}>Ваш голос учтен</Text> : <FlatList 
-                    data = {teams}
+                    data = {userType === 1 ? teams.filter(team => team.form !== Number(user.number)) : teams}
                     renderItem = {team => {
                         return renderTeams(team)
                     }}

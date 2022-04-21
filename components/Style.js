@@ -63,7 +63,7 @@ export const styles = StyleSheet.create({
         // paddingVertical: 5,
         flexDirection: 'row',
         borderBottomColor: 'gray',
-        borderBottomWidth: 1
+        borderBottomWidth: 1,
     },
     modalPanel: {
         flexDirection: 'row',
@@ -123,6 +123,14 @@ export const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         textAlign: 'center'
+    },
+    voteButton: {
+        borderRadius: 15,
+        borderWidth: 2,
+        borderColor: '#008080',
+        color: '#008080',
+        margin: 5,
+        padding: 5
     }
   });
 

@@ -16,7 +16,7 @@ export const months = [
     'октября', 
     'ноября', 
     'декабря'
-]
+];
 
 export const days = [
     'воскресенье',
@@ -26,7 +26,7 @@ export const days = [
     'четверг',
     'пятница',
     'суббота'
-]
+];
 
 let d;
 let m;
@@ -39,7 +39,7 @@ const get_month = () => {
     }
 
     return m;
-}
+};
 
 const get_day = () => {
     for (let i=0; i<7; i++) {
@@ -49,13 +49,13 @@ const get_day = () => {
     }
 
     return d;
-}
+};
 
 const getNextMonth = () => {
     let i=months.indexOf(m);
     date = 1;
     m === months[11] ? m = months[0] : m = months[i + 1];
-}
+};
 
 const getNextDate = () => {
     if (m === months[0]
@@ -74,4 +74,4 @@ const getNextDate = () => {
     }
 
     d === days[6] ? d = days[0] : d = days[days.indexOf(d) + 1];
-}
+};
