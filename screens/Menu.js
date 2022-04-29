@@ -50,7 +50,7 @@ const MenuScreen = ({navigation}) => {
                 renderItem={renderItem}
                 keyExtractor={item => item.name}
             />
-            <TouchableOpacity 
+            {/* <TouchableOpacity 
             style={styles.voteButton}
             onPress={() =>
                 navigation.navigate("Голосование")
@@ -62,8 +62,8 @@ const MenuScreen = ({navigation}) => {
             />
                 <Text
             style={{color: '#008080', fontSize: 22, fontWeight: 'bold', textAlign: 'center', margin: 5}}
-            >Голосование</Text>
-            </View></TouchableOpacity>
+            >Голосование </Text>
+            </View></TouchableOpacity> */}
             <Links col='#000' navigation={navigation} />
             
         </SafeAreaView>

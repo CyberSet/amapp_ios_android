@@ -25,8 +25,8 @@ const VoteScreen = (props) => {
 
     useEffect(() => {
         dispatch(fetchTeams());
-        dispatch(fetchParents());
-        dispatch(fetchVoters());
+        callParents();
+        callVoters();
         if(voters.find((item) => {if(item.user_id === user.student_id) return 1;})) setIsVoted(true);
         if(Number(user.number) < 4) setIsVoted(true);
     }, []);
@@ -42,13 +42,22 @@ const VoteScreen = (props) => {
         return response.json();
     }
 
+    const callVoters = async () => {
+        dispatch(fetchVoters());
+    }
+
+    const callParents = async () => {
+        dispatch(fetchParents());
+    }
+
     async function handleUpdate(tempTeam) {
         if(userType === 1){
-            await dispatch(fetchVoters());
-            if(voters.find((item) => {if(item.user_id === user.student_id) return 1;}))
-                alert(`${user.name} ${user.surname} уже проголосовал(а)`);
-            else if(tempTeam.form === Number(user.number)) {
+            await callVoters();
+            if(voters.find((item) => {if(item.user_id === user.student_id) return 1;})){
+                alert(`${user.name}, Вы уже проголосовали`);
                 setIsVoted(true)
+            }
+            else if(tempTeam.form === Number(user.number)) {
                 alert(`Вы не можете голосовать за свою параллель`);
             }
             else {
@@ -66,7 +75,7 @@ const VoteScreen = (props) => {
             dispatch(fetchVoters());
         }
         else if (userType === 2){
-            dispatch(fetchParents());
+            await callParents();
             if(parents.find((item) => {if(item.user_id === user.student_id) return 1;})){
                 setIsVoted(true)
                 alert(`Вы уже проголосовали`);
@@ -80,8 +89,8 @@ const VoteScreen = (props) => {
                         'surname': `${user.surname}`,
                         'choice': `${tempTeam.name}`
                     })
-                    setIsVoted(true)
-                }
+                setIsVoted(true)
+        }
         }
         else alert('Вы не учавствуете в голосовании')
     }
