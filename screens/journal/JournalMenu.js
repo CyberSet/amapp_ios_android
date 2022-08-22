@@ -11,7 +11,7 @@ const JournalMenu = ({navigation}) => {
 
     const menu = [
         {name: 'Объявления', icon: 'mail', type: [1, 2]},
-        {name: 'Воспитатель', icon: 'print', type: [2]},
+        {name: 'Воспитатель', icon: 'people', type: [2]},
         // {name: 'Настройки', icon: 'contrast', type: [1, 2]},
         {name: 'Профиль', icon: 'person', type: [1, 2]},
         {name: 'Выход', icon: 'log-out', type: [1, 2]}

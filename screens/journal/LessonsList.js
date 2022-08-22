@@ -12,7 +12,12 @@ const LessonsList = (props) => {
     const [list, setList] = useState('');
     const [value, setValue] = useState('');
     const buttons = [
-        {title: 'Открыть журнал', screen: 'Журнал', params: {}},
+        {title: 'Открыть журнал', screen: 'Журнал', params: {
+            pk: pk,
+            class_id: class_id,
+            group: group,
+            term: term
+        }},
         {
             title: '+ Добавить урок', 
             screen: 'Редактирование урока', 
@@ -101,7 +106,7 @@ const LessonsList = (props) => {
     return(
         <SafeAreaView style={{ flex: 1 }}>
             <ListContainer>
-                {list ?
+                {list ? 
                     <FlatList 
                         ListHeaderComponent={Header}
                         data={list}

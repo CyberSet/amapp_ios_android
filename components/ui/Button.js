@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
     button: {
         padding: 10,
         marginVertical: 8,
+        marginHorizontal: 2,
         borderRadius: 15,
         shadowOpacity: .4
     },

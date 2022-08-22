@@ -7,7 +7,7 @@ import ListItem from "../../components/ui/ListItem";
 import PeriodHeader from "../../components/PeriodHeader";
 
 const Replacements = (props) => {
-    const {userData} = props;
+    const { userData } = props;
     const [lessons, setLessons] = useState([]);
     const [start, setStart] = useState('');
     const [end, setEnd] = useState('');
@@ -18,6 +18,7 @@ const Replacements = (props) => {
             .then(res => res.json())
             .then(res => {
                 console.log(res);
+                console.log(`https://diary.alma-mater-spb.ru/e-journal/api/open_replacement.php?clue=${userData.clue}&user_id=${userData.user_id}&week=${week}`);
                 setLessons(res.replacement_array);
                 res.replacement_array.map(lesson => {
                     console.log(lesson.replacement);
@@ -47,58 +48,58 @@ const Replacements = (props) => {
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            {
-                lessons ?
-                <ScrollView>
-                    <ListContainer>
-                        <PeriodHeader 
-                            handleBackChevron={() => setWeek(week + 1)} 
-                            handleForwardChevron={() => setWeek(week - 1)} 
-                            period={`${start} - ${end}`} 
-                        />
-                        {
-                            lessons.map(lesson => (
-                                lesson.replacement.map(repl => (
-                                    repl.type === 1 ?
+            <PeriodHeader
+                handleBackChevron={() => setWeek(week + 1)}
+                handleForwardChevron={() => setWeek(week - 1)}
+                period={`${start} - ${end}`}
+            />
+            <ScrollView>
+                <ListContainer>
+                    {lessons.reduce((partialSum, a) => partialSum + a.replacement.length, 0) != 0 ?
+                        lessons.map(lesson => (
+                            lesson.replacement.map(repl => (
+                                repl.type === 1 ?
                                     <ListItem>
                                         <View>
-                                            <Text style={{ paddingVertical: 10 }}>date</Text>
+                                            <Text style={{ paddingVertical: 10 }}>{lesson.currentData}</Text>
                                         </View>
                                         <View style={replStyles.replInfoContainer}>
                                             <Text style={replStyles.lessonInfo}>
-                                                {repl.sub_name}, 
-                                                {repl.class_name}/{repl.group_id}, 
-                                                {repl.number_lesson} урок, 
-                                                {repl.reason}
+                                                {repl.number_lesson} урок
+                                            </Text>
+                                            <Text style={replStyles.lessonInfo}>
+                                                {repl.sub_name},
+                                                {' ' + repl.class_name}/{repl.group_id},
+                                                {' ' + repl.reason}
                                             </Text>
                                             <Text style={replStyles.replInfo}>
-                                                {repl.user_replacement ? repl.user_replacement : ''}, 
+                                                {repl.user_replacement ? repl.user_replacement + ', ' : ''}
                                                 {repl.sub_replacement}
                                             </Text>
                                         </View>
                                     </ListItem> :
                                     <ListItem>
                                         <View>
-                                            <Text style={{ paddingVertical: 10 }}>date</Text>
+                                            <Text style={{ paddingVertical: 10 }}>{lesson.currentData}</Text>
                                         </View>
                                         <View style={replStyles.replInfoContainer}>
                                             <Text style={replStyles.lessonInfo}>
-                                                {repl.class_name}, 
-                                                {repl.reason}
+                                                Замена воспитателя
+                                                {' ' + repl.class_name},
+                                                {' ' + repl.reason}
                                             </Text>
                                             <Text style={replStyles.replInfo}>
-                                                {repl.user_replacement}, 
-                                                {repl.add_field}
+                                                {repl.user_replacement}
+                                                {repl.add_field ? ', ' + repl.add_field : ''}
                                             </Text>
                                         </View>
                                     </ListItem>
-                                ))
                             ))
-                        }
-                    </ListContainer>
-                </ScrollView>
-                : <Text>Нет замен</Text>
-            }
+                        ))
+                        : <Text style={{ textAlign: "center", ...replStyles.replInfo }} >Нет замен</Text>
+                    }
+                </ListContainer>
+            </ScrollView>
         </SafeAreaView>
     );
 };
@@ -106,7 +107,7 @@ const Replacements = (props) => {
 const replStyles = StyleSheet.create({
     lessonInfo: {
         fontSize: 18,
-        lineHeight: 30
+        lineHeight: 30,
     },
     replInfo: {
         fontSize: 18,

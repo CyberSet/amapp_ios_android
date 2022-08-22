@@ -58,7 +58,10 @@ const LogOutScreen = ({navigation}) => {
                     mode={'text'}
                     color='red'
                     onPress={
-                        () => navigation.navigate('Меню')
+                        () => {
+                            if(userData.type === 3) navigation.navigate('MenuJournal')
+                            else navigation.navigate('Меню')
+                        }
                     }
                 >
                     НЕТ

@@ -6,7 +6,7 @@ import ListContainer from '../../components/ui/ListContainer'
 import PeriodHeader from '../../components/PeriodHeader'
 
 const Report = (props) => {
-    const {month, userData} = props
+    const { month, userData } = props
     const [currentMonth, setCurrentMonth] = useState(month)
     const [students, setStudents] = useState(null)
     const [names, setNames] = useState([])
@@ -33,14 +33,14 @@ const Report = (props) => {
         title: 'Факт',
         rows: fact
     }
-    
-    const Column = ({column}) => (
+
+    const Column = ({ column }) => (
         <View style={{ flexDirection: 'column' }}>
             <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 6 }}>{column.title}</Text>
             {
                 column.rows ? column.rows.map((row, i) => (
                     <View key={i}>
-                        <Text key={row} style={{ fontSize: 16, marginBottom: 6 }} key={i}>{row}</Text>
+                        <Text key={row} style={{ fontSize: 16, marginBottom: 6 }} /*key={i}*/>{row}</Text>
                     </View>
                 )) : <></>
             }
@@ -53,12 +53,12 @@ const Report = (props) => {
 
     useEffect(() => {
         fetch(`https://diary.alma-mater-spb.ru/e-journal/api/open_report_ind.php?clue=${userData.clue}&user_id=${userData.user_id}&month_id=${currentMonth + 1}`)
-        .then(res => res.json())
-        .then(res => {
-            console.log(res)
-            setStudents(res.result_students)
-        })
-        .catch(err => console.log(err))
+            .then(res => res.json())
+            .then(res => {
+                console.log(res)
+                setStudents(res.result_students)
+            })
+            .catch(err => console.log(err))
     }, [currentMonth])
 
     const filterData = () => {
@@ -99,54 +99,54 @@ const Report = (props) => {
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
+            <PeriodHeader
+                handleBackChevron={() => prevMonth()}
+                handleForwardChevron={() => nextMonth()}
+                period={get_month(currentMonth)}
+            />
             <ScrollView>
                 <ListContainer>
-                <PeriodHeader
-                    handleBackChevron={() => prevMonth()} 
-                    handleForwardChevron={() => nextMonth()} 
-                    period={get_month(currentMonth)}
-                />
                     {
                         students ?
-                        <>
+                            <>
+                                <View style={{
+                                    justifyContent: 'space-between',
+                                    flexDirection: 'row',
+                                    padding: 15,
+                                    margin: 5,
+                                    backgroundColor: '#eff5f7',
+                                    borderRadius: 15,
+                                    shadowOpacity: .4
+                                }}>
+                                    <Column column={studentsColumn} />
+                                    <Column column={classesColumn} />
+                                    <Column column={subjectsColumn} />
+                                    <Column column={factColumn} />
+                                </View>
+                                <View style={{
+                                    justifyContent: 'space-between',
+                                    flexDirection: 'row',
+                                    padding: 20,
+                                    margin: 5,
+                                    backgroundColor: '#eff5f7',
+                                    borderRadius: 15,
+                                    shadowOpacity: .4
+                                }}>
+                                    <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Итого:</Text>
+                                    <Text style={{ fontSize: 18 }}>{students[0].fact_view}</Text>
+                                </View>
+                            </> :
                             <View style={{
-                                justifyContent: 'space-between', 
-                                flexDirection: 'row', 
+                                justifyContent: 'space-between',
+                                flexDirection: 'row',
                                 padding: 15,
                                 margin: 5,
-                                backgroundColor: '#F8EEDF',
+                                backgroundColor: '#eff5f7',
                                 borderRadius: 15,
                                 shadowOpacity: .4
                             }}>
-                                <Column column={studentsColumn} />
-                                <Column column={classesColumn} />
-                                <Column column={subjectsColumn} />
-                                <Column column={factColumn} />
-                            </View> 
-                            <View style={{
-                                justifyContent: 'space-between', 
-                                flexDirection: 'row', 
-                                padding: 20,
-                                margin: 5,
-                                backgroundColor: '#F8EEDF',
-                                borderRadius: 15,
-                                shadowOpacity: .4
-                            }}>
-                                <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Итого:</Text>
-                                <Text style={{ fontSize: 18 }}>{students[0].fact_view}</Text>
+                                <Text style={{ fontSize: 18 }}>Пока что нет уроков</Text>
                             </View>
-                        </> :
-                        <View style={{
-                            justifyContent: 'space-between', 
-                            flexDirection: 'row', 
-                            padding: 15,
-                            margin: 5,
-                            backgroundColor: '#F8EEDF',
-                            borderRadius: 15,
-                            shadowOpacity: .4
-                        }}>
-                            <Text style={{ fontSize: 18 }}>Пока что нет уроков</Text>
-                        </View>
                     }
                 </ListContainer>
             </ScrollView>

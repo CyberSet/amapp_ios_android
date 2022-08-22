@@ -13,7 +13,7 @@ const styles = ({
     listItem: {
         padding: 15,
         margin: 5,
-        backgroundColor: '#F8EEDF',
+        backgroundColor: '#eff5f7',
         borderRadius: 15,
         shadowOpacity: .4
     }
