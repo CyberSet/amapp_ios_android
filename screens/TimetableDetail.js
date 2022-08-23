@@ -17,7 +17,7 @@ const TimetableDetail = ({navigation}) => {
 
     const setChange = (item) => {
         changeLesson(item);
-
+        console.log(`https://diary.alma-mater-spb.ru/e-journal/api/edit_schedule.php?clue=${userData.clue}&user_id=${userData.user_id}&student_id=${user.student_id}&week_day=${lesson.week_day}&subject=${item}&number_lesson=${lesson.number_lesson}`)
         fetch(`https://diary.alma-mater-spb.ru/e-journal/api/edit_schedule.php?clue=${userData.clue}&user_id=${userData.user_id}&student_id=${user.student_id}&week_day=${lesson.week_day}&subject=${item}&number_lesson=${lesson.number_lesson}`, {
             method: 'POST'
         })

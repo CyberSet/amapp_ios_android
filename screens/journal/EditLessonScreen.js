@@ -14,6 +14,7 @@ const EditLesson = (props) => {
     const [answers, setAnswers] = useState([])
     const buttons = [
         {title: 'Удалить'},
+        {title: 'Сохранить изменения'}
     ]
     const fields = [
         {title: 'Дата', value: 'data_lesson'}, 
@@ -141,16 +142,15 @@ const EditLesson = (props) => {
 
     const addLesson = async (...args) => {
         const url = makeURL(...args)
-        // await fetch(url, {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     }
-        // })
-        // .then(res => res.json())
-        // .then(res => console.log(res))
-        // .catch(err => console.log(err))
-
+        await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(res => res.json())
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
         // navigation.navigate('Список уроков', {pk, class_id, group, numclass, ind, lesson})
     }
 

@@ -5,6 +5,7 @@ import JournalAds from '../../screens/journal/JournalAds';
 import { EducatorNavigator } from './EducatorNavigator';
 import AccountScreen from '../../screens/Account';
 import LogOutScreen from '../../screens/LogOut';
+import Home from '../../screens/gimnazist/Home';
 
 const Stack = createNativeStackNavigator();
 
@@ -18,6 +19,7 @@ export const JournalUserNavigator = () => (
         </Stack.Group>
         <Stack.Group screenOptions={{presentation: 'modal'}}>
             <Stack.Screen name='Выход' component={LogOutScreen}/>    
+            <Stack.Screen name='Гимназист' component={Home}/>
         </Stack.Group>       
     </Stack.Navigator>
 );

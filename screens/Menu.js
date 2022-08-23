@@ -16,7 +16,7 @@ const MenuScreen = ({navigation}) => {
         {name: 'Акты', icon: 'print-outline', type: [2]},
         // {name: 'Настройки', icon: 'contrast', type: [1, 2]},
         {name: 'Профиль', icon: 'person-outline', type: [1, 2, 3]},
-        {name: 'Гимназист', icon: 'pencil-outline', type: [1, 2, 3]},
+        // {name: 'Гимназист', icon: 'pencil-outline', type: [1, 2, 3]},
         {name: 'Выход', icon: 'log-out-outline', type: [1, 2, 3]},
     ];
 
