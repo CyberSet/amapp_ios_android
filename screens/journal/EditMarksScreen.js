@@ -125,7 +125,7 @@ const EditMarksScreen = (props) => {
                 coefficient =>
                     <View style={{ marginTop: 10 }}>
                         <TouchableOpacity onPress={e => {
-                            if(Array.isArray(mark)){
+                            if(Array.isArray(student.marks)){
                                 if (mark === 0) {
                                     mark = { value: '', id: coefficient.id };
                                     temp = [...student.marks];

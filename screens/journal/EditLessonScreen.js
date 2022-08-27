@@ -166,7 +166,7 @@ const EditLesson = (props) => {
         buttons.map(button => (
             <JournalButton key={button.title} title={button.title} onPress={() => {
                 button.title === 'Удалить' ? 
-                navigation.goBack() : 
+                navigation.goBack() :
                 addLesson(
                     selectedDay, 
                     objectLesson.name_lesson,
@@ -178,6 +178,7 @@ const EditLesson = (props) => {
                     objectLesson.files,
                     objectLesson.number_of_student_files,
                 )
+                navigation.goBack()
             }} />
         ))
     )
@@ -189,6 +190,7 @@ const EditLesson = (props) => {
                     <ExpandedCalendar onPress={() => {
                         console.log(day)
                         setCalendarOpened(false)
+                        setSelectedDay(day)
                         saveChanges('date_lesson', day)
                     }} /> : <></>
                 }

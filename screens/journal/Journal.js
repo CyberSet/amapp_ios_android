@@ -1,5 +1,5 @@
 import React, { Component, useEffect, useRef, useState } from 'react'
-import { SafeAreaView, ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { SafeAreaView, ScrollView, Text, TouchableOpacity, View, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 import JournalButton from '../../components/ui/Button';
 import ListContainer from '../../components/ui/ListContainer';
@@ -40,27 +40,24 @@ const Journal = (props) => {
     }, [])
 
     const CeilItem = ({ lesson_id, lessonIndex, info, student_id }) => (
-            <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() =>
-                navigation.navigate('Редактирование оценок', { lesson_id, student_id, class_id })
-            }>
-                <ListItem>
-                    {lessonsArray[lessonIndex] ? <Text style={{ fontWeight: 'bold', fontSize: 12, marginBottom: 5 }}>{lessonsArray[lessonIndex].date_format} {lessonsArray[lessonIndex].abbreviation}</Text> : <></>}
-                    {info.delay ? <Text>О</Text> : <></>}
-                    {info.absence ? <Text>Н</Text> : <></>}
-                    <View style={{ width: 15 }}>
-                        {info.marks.map(
-                            mark => (
-                                <Text style={mark.coefficient == 1 ? { color: marksColor[0] } :
-                                    mark.coefficient == 2 ? { color: marksColor[1] } :
-                                        mark.coefficient == 3 ? { color: marksColor[2] } :
-                                            mark.coefficient == 4 ? { color: marksColor[3] } :
-                                                { color: marksColor[4] }}
-                                >{mark.value}</Text>
-                            )
-                        )}
-                    </View>
-                </ListItem>
-            </TouchableOpacity>
+        <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() =>
+            navigation.navigate('Редактирование оценок', { lesson_id, student_id, class_id })
+        }>
+            <ListItem>
+                {lessonsArray[lessonIndex] ? <View style={{flexDirection: 'row'}}>
+                    <Text style={styles.lessonTitle}>{lessonsArray[lessonIndex].date_format} </Text>
+                    <Text style={{ ...styles.lessonTitle, color: marksColor[lessonsArray[lessonIndex].coefficient - 1] }}>{lessonsArray[lessonIndex].abbreviation}</Text></View> : <></>}
+                {info.delay ? <Text>О</Text> : <></>}
+                {info.absence ? <Text>Н</Text> : <></>}
+                <View style={{ width: 15 }}>
+                    {info.marks.map(
+                        mark => (
+                            <Text style={{ color: marksColor[mark.coefficient - 1] }}>{mark.value}</Text>
+                        )
+                    )}
+                </View>
+            </ListItem>
+        </TouchableOpacity>
     )
 
 
@@ -112,3 +109,11 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(Journal)
+
+const styles = StyleSheet.create({
+    lessonTitle: {
+        fontWeight: 'bold',
+        fontSize: 12,
+        marginBottom: 5
+    }
+});
