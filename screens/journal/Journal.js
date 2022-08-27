@@ -1,3 +1,4 @@
+import { useIsFocused } from '@react-navigation/native';
 import React, { Component, useEffect, useRef, useState } from 'react'
 import { SafeAreaView, ScrollView, Text, TouchableOpacity, View, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
@@ -11,6 +12,8 @@ const Journal = (props) => {
 
     const [studentsMarksArray, setStudentsMarksArray] = useState(null);
     const [lessonsArray, setLessonsArray] = useState([]);
+
+    const isFocused = useIsFocused();
     console.log(pk, class_id, group)
 
     const marksColor = [
@@ -20,6 +23,7 @@ const Journal = (props) => {
         "#0000FF",
         "#FF4E33"
     ]
+
 
     //`https://diary.alma-mater-spb.ru/e-journal/api/open_journal.php?clue=${props.userData.clue}&user_id=${props.userData.user_id}&subject_id=${pk}&class_id=${class_id}&class_group=${group}&period=${term}`
     useEffect(() => {
@@ -37,7 +41,7 @@ const Journal = (props) => {
                 setLessonsArray(res.lessons)
             })
             .catch(err => console.log(res))
-    }, [])
+    }, [isFocused])
 
     const CeilItem = ({ lesson_id, lessonIndex, info, student_id }) => (
         <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() =>

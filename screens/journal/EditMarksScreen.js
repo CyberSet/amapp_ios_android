@@ -67,7 +67,7 @@ const EditMarksScreen = (props) => {
             .catch(err => console.log(err))
     }
 
-    const saveChanges = () => {
+    const saveChanges = async () => {
         respond.clue = userData.clue;
         respond.user_id = userData.user_id;
         respond.lesson_id = lesson_id;
@@ -84,7 +84,7 @@ const EditMarksScreen = (props) => {
                 else temp.push({ value: cur.marks.value, id: cur.marks.id })
                 cur.marks = [...temp]
         }
-        sendToServer(convertJSONtoURL(respond))
+        await sendToServer(convertJSONtoURL(respond))
         navigation.goBack()
     }
 
