@@ -56,7 +56,9 @@ const AuthScreen = ({ navigation }) => {
         try {
             const jsonValue = await AsyncStorage.getItem('@storage_Key')
             const data = jsonValue != null ? JSON.parse(jsonValue) : null
-            getAuthorized(data);
+            console.log(data.type)
+            if(data.type === 3) getTeacherAuthorized(data);
+            else getAuthorized(data);
         } catch (e) {
             console.log(e)
         }
@@ -83,6 +85,7 @@ const AuthScreen = ({ navigation }) => {
                 } else if (response.status === 0 && response.type === 3) {
                     storeData(response);
                     getTeacherAuthorized(response);
+                    console.log(response);
                 } else {
                     Alert.alert('Вы ввели неверный логин или пароль');
                 }
