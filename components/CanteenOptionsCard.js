@@ -26,7 +26,7 @@ const CanteenOptionsCard = ({title, option, onPress}) => {
                     /> : <></>
                 }
             </TouchableOpacity>
-            <Text style={{ ...styles.lessonInfo, paddingLeft: 15 }}>{title}</Text>
+            <Text style={{ ...styles.lessonInfo, paddingLeft: 15, paddingRight: 45}}>{title}</Text>
         </View>
     )
 }
