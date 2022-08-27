@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
     TextInput,
     Text,
@@ -8,15 +8,15 @@ import {
     Alert,
     KeyboardAvoidingView
 } from 'react-native';
-import {Button} from 'react-native-paper';
+import { Button } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import {styles} from '../components/Style';
+import { styles } from '../components/Style';
 import Links from '../components/Links';
 
-const AuthScreen = ({navigation}) => {
+const AuthScreen = ({ navigation }) => {
     const dispatch = useDispatch();
-    const log_in = (students, user, user_type, user_data) => dispatch({type: 'LOG_IN', students, user, user_type, user_data});
+    const log_in = (students, user, user_type, user_data) => dispatch({ type: 'LOG_IN', students, user, user_type, user_data });
     const [login, onChangeLogin] = useState('');
     const [password, onChangePassword] = useState('');
     const pushToken = useSelector(state => state.note.pushToken);
@@ -57,7 +57,7 @@ const AuthScreen = ({navigation}) => {
             const jsonValue = await AsyncStorage.getItem('@storage_Key')
             const data = jsonValue != null ? JSON.parse(jsonValue) : null
             getAuthorized(data);
-        } catch(e) {
+        } catch (e) {
             console.log(e)
         }
     };
@@ -65,67 +65,65 @@ const AuthScreen = ({navigation}) => {
     useEffect(() => {
         getData();
     }, [])
-  
+
     const sendCredentials = () => {
         fetch(`https://diary.alma-mater-spb.ru/e-journal/api/check_login.php?username=${login}&password=${password}&token=alma831&push_token=${pushToken}`, {
             method: 'GET'
         })
-        .then(response => response.json())
-        .then(response => {
-            if (response.status === 0 && response.type != 3) {
-                storeData(response);
-                getAuthorized(response);
-                console.log(response);
-                console.log('TYPE = ', response.type)
-                console.log(pushToken);
-            } else if (login === '' || password === '') {
-                Alert.alert('Введите логин и пароль');
-            }   else if (response.status === 0 && response.type === 3) {
-                getTeacherAuthorized(response);
-                storeData(response);
-            } else {
-                Alert.alert('Вы ввели неверный логин или пароль');
-            }
-        })
-        .catch(error => console.log(error));
+            .then(response => response.json())
+            .then(response => {
+                if (response.status === 0 && response.type != 3) {
+                    storeData(response);
+                    getAuthorized(response);
+                    console.log(response);
+                    console.log('TYPE = ', response.type)
+                    console.log(pushToken);
+                } else if (login === '' || password === '') {
+                    Alert.alert('Введите логин и пароль');
+                } else if (response.status === 0 && response.type === 3) {
+                    storeData(response);
+                    getTeacherAuthorized(response);
+                } else {
+                    Alert.alert('Вы ввели неверный логин или пароль');
+                }
+            })
+            .catch(error => console.log(error));
     };
 
     return (
-        <KeyboardAvoidingView style={{...styles.container, backgroundColor: '#00656d'}}>
-                <View style={{ flexDirection: 'row', marginBottom: 15 }}>
-                    <Text style={styles.logoText}>Гимназия «Альма Матер»</Text>
-                    <Image
-                        style={styles.logo}
-                        source={require('../assets/alma.png')}
-                    />
-                </View>
-                <Text style={styles.greeting}>Добро пожаловать!</Text>
-                <View>
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={login => onChangeLogin(login)}
-                        value={login}
-                        placeholder='Введите логин'
-                        autoCapitalize='none'
-                    />
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={password => onChangePassword(password)}
-                        value={password}
-                        placeholder='Введите пароль'
-                        secureTextEntry={true}
-                        autoCapitalize='none'
-                    />
-                </View>
-                <Button
-                    onPress={sendCredentials}
-                    color='#fff'
-                    uppercase={false}
-                    style={{ padding: 10 }}
-                    labelStyle={{ fontSize: 25 }}
-                >
-                    Вход
-                </Button>
+        <KeyboardAvoidingView style={{ ...styles.container, backgroundColor: '#00656d' }}>
+            <Image
+                style={styles.logo}
+                source={require('../assets/alma.png')}
+            />
+            <Text style={{ ...styles.logoText, textAlign: 'center', marginVertical: 15 }}>Санкт-Петербургская гимназия «Альма-Матер»</Text>
+            <Text style={styles.greeting}>Добро пожаловать!</Text>
+            <View>
+                <TextInput
+                    style={styles.input}
+                    onChangeText={login => onChangeLogin(login)}
+                    value={login}
+                    placeholder='Введите логин'
+                    autoCapitalize='none'
+                />
+                <TextInput
+                    style={styles.input}
+                    onChangeText={password => onChangePassword(password)}
+                    value={password}
+                    placeholder='Введите пароль'
+                    secureTextEntry={true}
+                    autoCapitalize='none'
+                />
+            </View>
+            <Button
+                onPress={sendCredentials}
+                color='#fff'
+                uppercase={false}
+                style={{ padding: 10 }}
+                labelStyle={{ fontSize: 25 }}
+            >
+                Вход
+            </Button>
 
             <Links col='#fff' navigation={navigation} />
         </KeyboardAvoidingView>
