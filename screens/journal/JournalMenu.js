@@ -7,7 +7,7 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const JournalMenu = ({navigation}) => {
-    // const userType = useSelector(state => state.auth.userType);
+    // const isSignedIn = useSelector(state => state.auth.isSignedIn);
 
     const menu = [
         {name: 'Объявления', icon: 'mail', type: [1, 2]},
@@ -39,7 +39,7 @@ const JournalMenu = ({navigation}) => {
                                     key={item.name} 
                                     title={item.name} 
                                     iconName={item.icon} 
-                                    onPress={() => navigation.navigate(item.name)} 
+                                    onPress={() => {navigation.navigate(item.name)}} 
                                 />
                             ))
                         }

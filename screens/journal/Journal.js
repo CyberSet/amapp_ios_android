@@ -9,7 +9,7 @@ const Journal = (props) => {
     const { navigation, userData } = props;
     const { pk, class_id, group, term } = props.route.params;
 
-    const [studentsMarksArray, setStudentsMarksArray] = useState([]);
+    const [studentsMarksArray, setStudentsMarksArray] = useState(null);
     const [lessonsArray, setLessonsArray] = useState([]);
     console.log(pk, class_id, group)
 
@@ -44,7 +44,7 @@ const Journal = (props) => {
             navigation.navigate('Редактирование оценок', { lesson_id, student_id, class_id })
         }>
             <ListItem>
-                {lessonsArray[lessonIndex] ? <View style={{flexDirection: 'row'}}>
+                {lessonsArray[lessonIndex] ? <View style={{ flexDirection: 'row' }}>
                     <Text style={styles.lessonTitle}>{lessonsArray[lessonIndex].date_format} </Text>
                     <Text style={{ ...styles.lessonTitle, color: marksColor[lessonsArray[lessonIndex].coefficient - 1] }}>{lessonsArray[lessonIndex].abbreviation}</Text></View> : <></>}
                 {info.delay ? <Text>О</Text> : <></>}
@@ -94,7 +94,9 @@ const Journal = (props) => {
                         }
                     )
                         :
-                        <Text>Загрузка...</Text>
+                        <ListItem>
+                            <Text style={{ textAlign: 'center' }}>Загрузка...</Text>
+                        </ListItem>
                     }
                 </ListContainer>
             </ScrollView>
