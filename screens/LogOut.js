@@ -10,6 +10,7 @@ const LogOutScreen = ({navigation}) => {
     const dispatch = useDispatch();
     const log_out = () => dispatch({type: 'LOG_OUT'});
     const userData = useSelector(state => state.auth.userData);
+    const userType = useSelector(state => state.auth.userType);
     // const setDate = (date) => dispatch({type: 'SET_DATE', date});
 
     const storeData = async (value) => {
@@ -59,7 +60,7 @@ const LogOutScreen = ({navigation}) => {
                     color='red'
                     onPress={
                         () => {
-                            if(userData.type === 3) navigation.navigate('MenuJournal')
+                            if(userType === 3) navigation.navigate("JournalMenu")
                             else navigation.navigate('Меню')
                         }
                     }
