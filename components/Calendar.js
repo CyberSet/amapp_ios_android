@@ -42,6 +42,7 @@ const ExpandedCalendar = (props) => {
                 onDayPress={day => {
                     pickDay(day.dateString)
                 }}
+                firstDay={1}
             />
             <JournalButton key={day} title={'Выбрать день'} onPress={props.onPress} />
         </View>
