@@ -83,7 +83,7 @@ const Canteen = ({userData, day, navigation}) => {
                     }
                 </ListContainer>
             </ScrollView>
-            {new Date().getHours() > 14 || new Date().getDate() === new Date(day).getDate() ? 
+            {new Date().getHours() > 14 || new Date() >= new Date(day) ? 
                 <View style={{ backgroundColor: 'red', padding: 5 }}>
                     <Text style={{
                         color: '#fff', 
