@@ -119,7 +119,7 @@ export default connect(mapStateToProps)(Journal)
 const styles = StyleSheet.create({
     lessonTitle: {
         fontWeight: 'bold',
-        fontSize: 12,
+        fontSize: 13,
         marginBottom: 5
     }
 });

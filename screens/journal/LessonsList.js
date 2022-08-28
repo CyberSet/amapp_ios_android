@@ -5,12 +5,15 @@ import JournalButton from '../../components/ui/Button';
 import QuartersHeader from '../../components/QuartersHeader';
 import ListItem from '../../components/ui/ListItem';
 import ListContainer from '../../components/ui/ListContainer';
+import { useIsFocused } from '@react-navigation/native';
 
 const LessonsList = (props) => {
     const {navigation, userData, term} = props;
     const {pk, class_id, group, numclass, ind, lesson} = props.route.params;
     const [list, setList] = useState('');
     const [value, setValue] = useState('');
+    const isFocused = useIsFocused();
+
     const buttons = [
         {title: 'Открыть журнал', screen: 'Журнал', params: {
             pk: pk,
@@ -55,7 +58,7 @@ const LessonsList = (props) => {
             setList(res.lessons_array);
         })
         .catch(err => console.log(err));
-    }, [term, navigation]);
+    }, [term, navigation, isFocused]);
 
     const Item = ({date, lesson, lesson_id, pk, class_id, group, numclass, ind}) => (
         <TouchableOpacity 
