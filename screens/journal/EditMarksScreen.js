@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { SafeAreaView, View, ScrollView, Text, TouchableOpacity, TextInput } from "react-native"
+import { SafeAreaView, View, ScrollView, Text, TouchableOpacity, TextInput, Alert } from "react-native"
 import Icon from 'react-native-vector-icons/Ionicons'
 import { connect } from 'react-redux'
 import JournalButton from "../../components/ui/Button";
@@ -28,7 +28,7 @@ const EditMarksScreen = (props) => {
                 setIsDropedDown([false, false, false]);
                 setCoefficients(res.coefficients);
                 setDisabled(res.disabled);
-                for (cur of res.students_marks) if (cur.student_id === student_id) {setIsAbsence(cur.absence); setIsDelay(cur.delay); setStudent(cur); }
+                for (cur of res.students_marks) if (cur.student_id === student_id) { setIsAbsence(cur.absence); setIsDelay(cur.delay); setStudent(cur); }
             })
             .catch(err => console.log(res))
     }, [])
@@ -48,8 +48,8 @@ const EditMarksScreen = (props) => {
         temp += `marks[0][absence]=${data.marks[0].absence}&`
         temp += `marks[0][delay]=${data.marks[0].delay}&`
         temp += `marks[0][student_id]=${data.marks[0].student_id}`
-        for(let i = 0; i < data.marks[0].marks.length; i++)
-            if(data.marks[0].marks[i] === 0) temp += `&marks[0][marks][${i}]=0`
+        for (let i = 0; i < data.marks[0].marks.length; i++)
+            if (data.marks[0].marks[i] === 0) temp += `&marks[0][marks][${i}]=0`
             else temp += `&marks[0][marks][${i}][id]=${data.marks[0].marks[i].id}&marks[0][marks][${i}][value]=${data.marks[0].marks[i].value}`
         return temp
     }
@@ -73,16 +73,20 @@ const EditMarksScreen = (props) => {
         respond.lesson_id = lesson_id;
         respond.marks = [student];
         for (cur of respond.marks) {
-                cur.absence = Number(isAbsence);
-                cur.delay = Number(isDelay);
-                temp = [];
-                if (Array.isArray(student.marks))
-                    for (mark of student.marks) {
-                        if (mark === 0 || mark.value === '' || mark.id === '') temp.push(0);
-                        else temp.push({ value: mark.value, id: mark.id })
+            cur.absence = Number(isAbsence);
+            cur.delay = Number(isDelay);
+            temp = [];
+            if (Array.isArray(student.marks))
+                for (mark of student.marks) {
+                    if (mark === 0 || mark.value === '' || mark.id === '') {
+                        temp.push(0);
+                        if(mark.value === '') Alert.alert("Не указана оценка");
+                        else if (mark.id === '') Alert.alert("Не указан коэффициент");
                     }
-                else temp.push({ value: cur.marks.value, id: cur.marks.id })
-                cur.marks = [...temp]
+                    else temp.push({ value: mark.value, id: mark.id })
+                }
+            else temp.push({ value: cur.marks.value, id: cur.marks.id })
+            cur.marks = [...temp]
         }
         await sendToServer(convertJSONtoURL(respond))
         navigation.goBack()
@@ -125,7 +129,7 @@ const EditMarksScreen = (props) => {
                 coefficient =>
                     <View style={{ marginTop: 10 }}>
                         <TouchableOpacity onPress={e => {
-                            if(Array.isArray(student.marks)){
+                            if (Array.isArray(student.marks)) {
                                 if (mark === 0) {
                                     mark = { value: '', id: coefficient.id };
                                     temp = [...student.marks];
@@ -156,10 +160,10 @@ const EditMarksScreen = (props) => {
                 placeholder='Введите оценку'
                 value={mark === 0 ? '' : mark.value}
                 onChangeText={e => {
-                    if(Array.isArray(student.marks)) {
+                    if (Array.isArray(student.marks)) {
                         temp = [...student.marks];
                         if (mark === 0) {
-                            mark = { value: e, id: ''};
+                            mark = { value: e, id: '' };
                             temp[itemIndex] = mark;
                         }
                         else temp[itemIndex].value = e;
@@ -167,15 +171,15 @@ const EditMarksScreen = (props) => {
                     }
                     else {
                         console.log(mark)
-                        temp = {value: student.marks.value, id: student.marks.id}
+                        temp = { value: student.marks.value, id: student.marks.id }
                         if (mark === 0) {
-                            mark = { value: e, id: ''};
+                            mark = { value: e, id: '' };
                             temp = mark;
                         }
                         else temp.value = e;
                         setStudent({ ...student, marks: temp })
                     }
-                    
+
                 }}
             ></TextInput>
         </View>
