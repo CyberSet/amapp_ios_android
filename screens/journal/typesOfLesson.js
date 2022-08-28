@@ -8,7 +8,7 @@ import { setObjectLesson } from '../../store/actions/actions';
 
 const TypesOfLesson = (props) => {
     const {navigation, userData, setObjectLesson, objectLesson, lessonTypes} = props;
-    const {class_id, pk} = props.route.params;
+    const {class_id, pk, saveChanges} = props.route.params;
 
     const selectType = (type) => {
         setObjectLesson({ ...objectLesson, ['type_of_lesson']: type });
@@ -20,7 +20,7 @@ const TypesOfLesson = (props) => {
         <ScrollView style={styles.list}>
             {
                 lessonTypes ? lessonTypes.map(type => (
-                    <JournalButton key={type.id} title={type.title} onPress={() => selectType(type.id)} />
+                    <JournalButton key={type.id} title={type.title} onPress={() => {selectType(type.id); saveChanges('type_of_lesson', type.id)}} />
                 )) : 
                 <View>
                     <Text>Loading...</Text>

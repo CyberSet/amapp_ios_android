@@ -30,7 +30,8 @@ const LessonsList = (props) => {
                 group: group,
                 numclass: numclass,
                 ind: ind,
-                lesson: lesson
+                lesson: lesson,
+                isNew: true
             }
         },
     ];

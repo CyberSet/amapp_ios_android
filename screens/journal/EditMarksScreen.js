@@ -80,12 +80,15 @@ const EditMarksScreen = (props) => {
                 for (mark of student.marks) {
                     if (mark === 0 || mark.value === '' || mark.id === '') {
                         temp.push(0);
-                        if(mark.value === '') Alert.alert("Не указана оценка");
+                        if (mark.value === '') Alert.alert("Не указана оценка");
                         else if (mark.id === '') Alert.alert("Не указан коэффициент");
                     }
                     else temp.push({ value: mark.value, id: mark.id })
                 }
-            else temp.push({ value: cur.marks.value, id: cur.marks.id })
+            else {
+                if(cur.marks.id === '') Alert.alert("Не указан коэффициент");
+                temp.push({ value: cur.marks.value, id: cur.marks.id })
+            }
             cur.marks = [...temp]
         }
         await sendToServer(convertJSONtoURL(respond))
