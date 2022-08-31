@@ -5,7 +5,7 @@ import JournalButton from '../../components/ui/Button'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { pickDay, setObjectLesson, setLessonTypes } from '../../store/actions/actions'
-import ExpandedCalendar from '../../components/Calendar'
+import ExpandedCalendar from '../../components/AcceptCalendar'
 import ListItem from '../../components/ui/ListItem'
 
 const EditLesson = (props) => {
@@ -200,11 +200,11 @@ const EditLesson = (props) => {
         <SafeAreaView style={{ margin: 5 }}>
             <ScrollView>
                 {calendarOpened ?
-                    <ExpandedCalendar onPress={() => {
+                    <ExpandedCalendar onPress={(day) => {
                         console.log(day)
+                        setSelectedDay(day)
                         saveChanges('date_lesson', day)
                         setCalendarOpened(false)
-                        setSelectedDay(day)
                     }} /> : <></>
                 }
                 {objectLesson ?
